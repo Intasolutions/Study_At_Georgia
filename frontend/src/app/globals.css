@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #1a237e; /* Deep Blue */
+  --color-brand-gold: #cfb53b; /* Premium Gold */
+  --color-brand-crimson: #9b1c31; /* Crimson Red */
+  
+  --color-brand-background: #FAFAFA; /* Light Background */
+  --color-brand-foreground: #0f172a; /* Dark Text */
+  
+  --color-brand-muted: #64748b; /* Slate 500 */
+  --color-brand-surface: #ffffff; /* White Surface */
+  
+  --font-heading: var(--font-plus-jakarta-sans);
+  --font-body: var(--font-inter);
+}
+
+:root {
+  --background: #FAFAFA;
+  --foreground: #0f172a;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), sans-serif;
+  background-image: radial-gradient(circle at 50% -20%, #ffffff 0%, #FAFAFA 80%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), sans-serif;
+}
+
+/* Glassmorphism Utilities - Premium Light Theme */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7); /* translucent white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(26, 35, 126, 0.05); /* very subtle blue border */
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(207, 181, 59, 0.4); /* gold border on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px 0 rgba(207, 181, 59, 0.15); /* gold shadow */
+  transition: all 0.3s ease;
+}
