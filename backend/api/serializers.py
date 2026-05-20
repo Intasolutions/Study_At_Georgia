@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (
-    University, ContactLead, SiteContent, 
+    University, UniversityImage, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter
 )
@@ -10,10 +10,17 @@ class SiteContentSerializer(serializers.ModelSerializer):
         model = SiteContent
         fields = '__all__'
 
+class UniversityImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UniversityImage
+        fields = ['id', 'image', 'caption', 'order']
+
 class UniversitySerializer(serializers.ModelSerializer):
+    gallery_images = UniversityImageSerializer(many=True, read_only=True)
+
     class Meta:
         model = University
-        fields = '__all__'
+        fields = ['id', 'name', 'location', 'university_type', 'description', 'color_theme', 'image', 'is_active', 'created_at', 'gallery_images']
 
 class TestimonialSerializer(serializers.ModelSerializer):
     class Meta:

@@ -25,6 +25,18 @@ class University(models.Model):
     def __str__(self):
         return f"{self.name} - {self.location}"
 
+class UniversityImage(models.Model):
+    university = models.ForeignKey(University, related_name='gallery_images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='universities/gallery/')
+    caption = models.CharField(max_length=255, blank=True, null=True)
+    order = models.IntegerField(default=0)
+    
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"Image for {self.university.name} - {self.order}"
+
 class Testimonial(models.Model):
     student_name = models.CharField(max_length=100)
     university_name = models.CharField(max_length=255)

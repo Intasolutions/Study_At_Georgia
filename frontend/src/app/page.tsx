@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import StatsCounters from "@/components/StatsCounters";
 import JourneyTimeline from "@/components/JourneyTimeline";
 import FaqAccordion from "@/components/FaqAccordion";
+import UniversityShowcase from "@/components/UniversityShowcase";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <StatsCounters/>
+      <UniversityShowcase />
       <ServicesBento />
       <JourneyTimeline/>
       <Testimonials />

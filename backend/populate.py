@@ -113,6 +113,24 @@ def populate():
     StatCounter.objects.update_or_create(label="Placement Assurance", defaults={'number_value': 100, 'suffix': '%', 'order': 1})
     StatCounter.objects.update_or_create(label="Contact Hours", defaults={'number_value': 4700, 'suffix': '+', 'order': 2})
 
+    # University
+    from api.models import University, UniversityImage
+    grigol_uni, created = University.objects.update_or_create(
+        name="Grigol Robakidze University",
+        defaults={
+            'location': "Tbilisi, Georgia",
+            'university_type': "Medical & Nursing",
+            'description': "Grigol Robakidze University offers a world-class educational experience. Recognized for academic rigor, global relevance, and industry integration, our programs provide a solid foundation in theoretical knowledge and clinical practice.\n\n**MBBS/MD Program**\nOur flagship medical program is designed to produce top-tier medical professionals. With high FMGE pass-out ratios and comprehensive coaching, students are fully prepared for global medical practice.\n\n**B.Sc. Nursing (4 Years)**\nShape your future in healthcare with our industry-integrated nursing program. Gain hands-on clinical experience starting from the second semester at PINEO Hospital, our exclusive training facility.",
+            'color_theme': "bg-brand-accent/20 text-brand-accent",
+            'is_active': True
+        }
+    )
+
+    # Initialize blank gallery slots if they don't exist
+    if not UniversityImage.objects.filter(university=grigol_uni).exists():
+        for i in range(3):
+            UniversityImage.objects.create(university=grigol_uni, caption=f"Campus View {i+1}", order=i)
+
     print("Successfully populated the database with Grigol Robakidze University content!")
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    University, ContactLead, SiteContent, 
+    University, UniversityImage, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter
 )
@@ -10,11 +10,16 @@ class SiteContentAdmin(admin.ModelAdmin):
     list_display = ('identifier', 'text_value', 'image_value')
     search_fields = ('identifier',)
 
+class UniversityImageInline(admin.TabularInline):
+    model = UniversityImage
+    extra = 1
+
 @admin.register(University)
 class UniversityAdmin(admin.ModelAdmin):
     list_display = ('name', 'location', 'university_type', 'is_active')
     list_filter = ('is_active', 'university_type')
     search_fields = ('name', 'location')
+    inlines = [UniversityImageInline]
 
 @admin.register(Testimonial)
 class TestimonialAdmin(admin.ModelAdmin):
