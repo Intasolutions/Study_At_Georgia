@@ -7,7 +7,7 @@ import { CheckCircle2, X } from "lucide-react";
 export default function ConsultationBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", qualification: "" });
-  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string; qualification?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState({ name: "", email: "", phone: "", qualification: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [content, setContent] = useState<Record<string, string>>({});
 
@@ -48,31 +48,39 @@ export default function ConsultationBanner() {
     localStorage.setItem("consultation_banner_closed", "true");
   };
 
-  const validate = () => {
-    const newErrors: { name?: string; email?: string; phone?: string; qualification?: string } = {};
-    if (!formData.name.trim()) newErrors.name = "Name is required.";
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Enter a valid email.";
-    }
-    if (!formData.phone.trim()) {
-      newErrors.phone = "Phone number is required.";
-    } else if (!/^[+\d\s\-()]{7,15}$/.test(formData.phone)) {
-      newErrors.phone = "Enter a valid phone number.";
-    }
-    if (!formData.qualification) newErrors.qualification = "Please select your qualification.";
-    return newErrors;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
+
+    // Field Validation
+    let isValid = true;
+    const errors = { name: "", email: "", phone: "", qualification: "" };
+
+    if (!formData.name.trim()) {
+      errors.name = "Name is required";
+      isValid = false;
     }
-    setErrors({});
+    
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+    
+    if (!formData.phone.trim()) {
+      errors.phone = "Phone number is required";
+      isValid = false;
+    }
+    
+    if (!formData.qualification) {
+      errors.qualification = "Please select a qualification";
+      isValid = false;
+    }
+
+    setFieldErrors(errors);
+    if (!isValid) return;
+
     setStatus("submitting");
 
     try {
@@ -91,7 +99,11 @@ export default function ConsultationBanner() {
       if (res.ok) {
         setStatus("success");
         setFormData({ name: "", email: "", phone: "", qualification: "" });
-        setTimeout(() => { handleClose(); }, 3000);
+        setFieldErrors({ name: "", email: "", phone: "", qualification: "" });
+        // Automatically close after a short delay
+        setTimeout(() => {
+          handleClose();
+        }, 3000);
       } else {
         setStatus("error");
       }
@@ -141,39 +153,55 @@ export default function ConsultationBanner() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <input 
+                      required 
                       type="text" 
                       placeholder="Your Name" 
                       value={formData.name}
-                      onChange={(e) => { setFormData({...formData, name: e.target.value}); if (errors.name) setErrors({...errors, name: undefined}); }}
-                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.name ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                      onChange={(e) => {
+                        setFormData({...formData, name: e.target.value});
+                        if (fieldErrors.name) setFieldErrors({...fieldErrors, name: ""});
+                      }}
+                      className="w-full bg-brand-background border border-slate-200 rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors"
                     />
-                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+                    {fieldErrors.name && <p className="text-red-500 text-xs mt-1">{fieldErrors.name}</p>}
                   </div>
                   <div>
                     <input 
+                      required 
                       type="email" 
                       placeholder="Your Email" 
                       value={formData.email}
-                      onChange={(e) => { setFormData({...formData, email: e.target.value}); if (errors.email) setErrors({...errors, email: undefined}); }}
-                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                      onChange={(e) => {
+                        setFormData({...formData, email: e.target.value});
+                        if (fieldErrors.email) setFieldErrors({...fieldErrors, email: ""});
+                      }}
+                      className="w-full bg-brand-background border border-slate-200 rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors"
                     />
-                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
+                    {fieldErrors.email && <p className="text-red-500 text-xs mt-1">{fieldErrors.email}</p>}
                   </div>
                   <div>
                     <input 
+                      required 
                       type="tel" 
                       placeholder="Phone Number" 
                       value={formData.phone}
-                      onChange={(e) => { setFormData({...formData, phone: e.target.value}); if (errors.phone) setErrors({...errors, phone: undefined}); }}
-                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.phone ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                      onChange={(e) => {
+                        setFormData({...formData, phone: e.target.value});
+                        if (fieldErrors.phone) setFieldErrors({...fieldErrors, phone: ""});
+                      }}
+                      className="w-full bg-brand-background border border-slate-200 rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors"
                     />
-                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+                    {fieldErrors.phone && <p className="text-red-500 text-xs mt-1">{fieldErrors.phone}</p>}
                   </div>
                   <div>
                     <select 
+                      required 
                       value={formData.qualification}
-                      onChange={(e) => { setFormData({...formData, qualification: e.target.value}); if (errors.qualification) setErrors({...errors, qualification: undefined}); }}
-                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.qualification ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                      onChange={(e) => {
+                        setFormData({...formData, qualification: e.target.value});
+                        if (fieldErrors.qualification) setFieldErrors({...fieldErrors, qualification: ""});
+                      }}
+                      className="w-full bg-brand-background border border-slate-200 rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors"
                     >
                       <option value="" disabled>Current Qualification</option>
                       <option value="High School / 12th Grade">High School / 12th Grade</option>
@@ -181,7 +209,7 @@ export default function ConsultationBanner() {
                       <option value="Master's Degree">Master's Degree</option>
                       <option value="Other">Other</option>
                     </select>
-                    {errors.qualification && <p className="text-red-500 text-xs mt-1">{errors.qualification}</p>}
+                    {fieldErrors.qualification && <p className="text-red-500 text-xs mt-1">{fieldErrors.qualification}</p>}
                   </div>
                   <button
                     type="submit"

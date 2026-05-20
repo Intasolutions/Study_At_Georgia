@@ -9,7 +9,6 @@ import { Mail, Phone, MapPin, ArrowRight, CheckCircle2, AlertCircle } from "luci
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [errors, setErrors] = useState<{ name?: string; email?: string; message?: string }>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [content, setContent] = useState<Record<string, string>>({});
 
@@ -26,34 +25,8 @@ export default function ContactPage() {
       .catch(console.error);
   }, []);
 
-  const validate = () => {
-    const newErrors: { name?: string; email?: string; message?: string } = {};
-    if (!formData.name.trim()) {
-      newErrors.name = "Full name is required.";
-    } else if (formData.name.trim().length < 2) {
-      newErrors.name = "Name must be at least 2 characters.";
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = "Email address is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-    if (!formData.message.trim()) {
-      newErrors.message = "Please tell us about your inquiry.";
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters.";
-    }
-    return newErrors;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors = validate();
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    setErrors({});
     setStatus("submitting");
     
     try {
@@ -129,7 +102,7 @@ export default function ContactPage() {
                   <div>
                     <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Electronic Mail</span>
                     <a href={`mailto:${content.contact_email || "hello@gatewaytogeorgia.com"}`} className="text-white text-lg font-medium hover:text-[#cfb53b] transition-colors">
-                      {content.contact_email || "hello@gatewaytogeorgia.com"}
+                      {content.contact_email || "info@studyatgeorgia.com"}
                     </a>
                   </div>
                 </div>
@@ -141,7 +114,7 @@ export default function ContactPage() {
                   <div>
                     <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Global Desk</span>
                     <a href={`tel:${content.contact_phone || "+15551234567"}`} className="text-white text-lg font-medium hover:text-[#cfb53b] transition-colors">
-                      {content.contact_phone || "+1 (555) 123-4567"}
+                      {content.contact_phone || "+91 85909 64594"}
                     </a>
                   </div>
                 </div>
@@ -153,7 +126,7 @@ export default function ContactPage() {
                   <div>
                     <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Headquarters</span>
                     <span className="text-white text-lg font-medium leading-snug block whitespace-pre-line">
-                      {content.contact_address || "123 Global Way, Suite 400\nBusiness District"}
+                      {content.contact_address || "StudyAtGeorgia Agency Headquarters\nPulpally,Wayanad,Kerala, India"}
                     </span>
                   </div>
                 </div>
@@ -177,26 +150,26 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
                   <input 
+                    required 
                     type="text" 
                     value={formData.name} 
-                    onChange={e => { setFormData({...formData, name: e.target.value}); if (errors.name) setErrors({...errors, name: undefined}); }} 
-                    className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${errors.name ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                    onChange={e => setFormData({...formData, name: e.target.value})} 
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all" 
                     placeholder="John Doe" 
                   />
-                  {errors.name && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.name}</p>}
                 </div>
                 
                 {/* Email Field */}
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
                   <input 
+                    required 
                     type="email" 
                     value={formData.email} 
-                    onChange={e => { setFormData({...formData, email: e.target.value}); if (errors.email) setErrors({...errors, email: undefined}); }} 
-                    className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                    onChange={e => setFormData({...formData, email: e.target.value})} 
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all" 
                     placeholder="john@example.com" 
                   />
-                  {errors.email && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email}</p>}
                 </div>
               </div>
 
@@ -204,13 +177,13 @@ export default function ContactPage() {
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Inquiry Details</label>
                 <textarea 
+                  required 
                   rows={5} 
                   value={formData.message} 
-                  onChange={e => { setFormData({...formData, message: e.target.value}); if (errors.message) setErrors({...errors, message: undefined}); }} 
-                  className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all resize-none ${errors.message ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
+                  onChange={e => setFormData({...formData, message: e.target.value})} 
+                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all resize-none" 
                   placeholder="Tell us about your academic goals..."
                 ></textarea>
-                {errors.message && <p className="text-red-500 text-xs mt-1 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.message}</p>}
               </div>
 
               {/* Submit Button */}
