@@ -2,20 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CheckCircle2, X, AlertCircle } from "lucide-react";
-
-interface FormErrors {
-  name?: string;
-  email?: string;
-  phone?: string;
-  qualification?: string;
-}
+import { CheckCircle2, X } from "lucide-react";
 
 export default function ConsultationBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", qualification: "" });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [errors, setErrors] = useState<{ name?: string; email?: string; phone?: string; qualification?: string }>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [content, setContent] = useState<Record<string, string>>({});
 
@@ -33,11 +25,18 @@ export default function ConsultationBanner() {
   useEffect(() => {
     const handleOpenEvent = () => setIsVisible(true);
     window.addEventListener("open-consultation", handleOpenEvent);
+
+    // Check if the banner has been dismissed previously
     const hasClosed = localStorage.getItem("consultation_banner_closed");
     let timer: NodeJS.Timeout;
+
     if (!hasClosed) {
-      timer = setTimeout(() => setIsVisible(true), 60000);
+      // 1 minute delay = 60,000 milliseconds
+      timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 60000);
     }
+
     return () => {
       if (timer) clearTimeout(timer);
       window.removeEventListener("open-consultation", handleOpenEvent);
@@ -49,68 +48,50 @@ export default function ConsultationBanner() {
     localStorage.setItem("consultation_banner_closed", "true");
   };
 
-  const validate = (data: typeof formData): FormErrors => {
-    const errs: FormErrors = {};
-    if (!data.name.trim()) {
-      errs.name = "Full name is required.";
-    } else if (data.name.trim().length < 2) {
-      errs.name = "Name must be at least 2 characters.";
+  const validate = () => {
+    const newErrors: { name?: string; email?: string; phone?: string; qualification?: string } = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required.";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Enter a valid email.";
     }
-    if (!data.email.trim()) {
-      errs.email = "Email address is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
-      errs.email = "Please enter a valid email address.";
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required.";
+    } else if (!/^[+\d\s\-()]{7,15}$/.test(formData.phone)) {
+      newErrors.phone = "Enter a valid phone number.";
     }
-    if (!data.phone.trim()) {
-      errs.phone = "Phone number is required.";
-    } else if (!/^[+\d\s\-()]{7,15}$/.test(data.phone.trim())) {
-      errs.phone = "Please enter a valid phone number.";
-    }
-    if (!data.qualification) {
-      errs.qualification = "Please select your qualification.";
-    }
-    return errs;
-  };
-
-  const handleBlur = (field: string) => {
-    setTouched(prev => ({ ...prev, [field]: true }));
-    setErrors(validate(formData));
-  };
-
-  const handleChange = (field: string, value: string) => {
-    const updated = { ...formData, [field]: value };
-    setFormData(updated);
-    if (touched[field]) {
-      setErrors(validate(updated));
-    }
+    if (!formData.qualification) newErrors.qualification = "Please select your qualification.";
+    return newErrors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mark all fields as touched
-    setTouched({ name: true, email: true, phone: true, qualification: true });
-    const errs = validate(formData);
-    setErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+    setErrors({});
     setStatus("submitting");
+
     try {
       const payload = {
         name: formData.name,
         email: formData.email,
         message: `Phone: ${formData.phone}\nQualification: ${formData.qualification}\n\nI would like to register for a free consultation.`
       };
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/contact/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
+
       if (res.ok) {
         setStatus("success");
         setFormData({ name: "", email: "", phone: "", qualification: "" });
-        setErrors({});
-        setTouched({});
-        setTimeout(() => handleClose(), 3000);
+        setTimeout(() => { handleClose(); }, 3000);
       } else {
         setStatus("error");
       }
@@ -119,13 +100,6 @@ export default function ConsultationBanner() {
       setStatus("error");
     }
   };
-
-  const fieldClass = (field: keyof FormErrors) =>
-    `w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none transition-colors ${
-      touched[field] && errors[field]
-        ? "border-red-400 focus:border-red-500 bg-red-50/50"
-        : "border-slate-200 focus:border-brand-primary"
-    }`;
 
   return (
     <AnimatePresence>
@@ -144,7 +118,11 @@ export default function ConsultationBanner() {
                 <h3 className="text-lg font-bold text-brand-foreground mb-1">{content.popup_banner_title || "Free Consultation"}</h3>
                 <p className="text-sm text-slate-500 font-light">{content.popup_banner_description || "Start your journey today! Register for a free profile assessment."}</p>
               </div>
-              <button onClick={handleClose} className="text-slate-400 hover:text-slate-600 transition-colors p-1" aria-label="Close">
+              <button 
+                onClick={handleClose}
+                className="text-slate-400 hover:text-slate-600 transition-colors p-1"
+                aria-label="Close"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -160,79 +138,51 @@ export default function ConsultationBanner() {
                   <p className="text-sm text-slate-500">{content.popup_banner_success_message || "Registration successful! We will contact you shortly."}</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-                  {/* Name */}
+                <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <input
-                      type="text"
-                      placeholder="Your Name *"
+                    <input 
+                      type="text" 
+                      placeholder="Your Name" 
                       value={formData.name}
-                      onChange={(e) => handleChange("name", e.target.value)}
-                      onBlur={() => handleBlur("name")}
-                      className={fieldClass("name")}
+                      onChange={(e) => { setFormData({...formData, name: e.target.value}); if (errors.name) setErrors({...errors, name: undefined}); }}
+                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.name ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
                     />
-                    {touched.name && errors.name && (
-                      <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.name}
-                      </p>
-                    )}
+                    {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                   </div>
-
-                  {/* Email */}
                   <div>
-                    <input
-                      type="email"
-                      placeholder="Your Email *"
+                    <input 
+                      type="email" 
+                      placeholder="Your Email" 
                       value={formData.email}
-                      onChange={(e) => handleChange("email", e.target.value)}
-                      onBlur={() => handleBlur("email")}
-                      className={fieldClass("email")}
+                      onChange={(e) => { setFormData({...formData, email: e.target.value}); if (errors.email) setErrors({...errors, email: undefined}); }}
+                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.email ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
                     />
-                    {touched.email && errors.email && (
-                      <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.email}
-                      </p>
-                    )}
+                    {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                   </div>
-
-                  {/* Phone */}
                   <div>
-                    <input
-                      type="tel"
-                      placeholder="Phone Number *"
+                    <input 
+                      type="tel" 
+                      placeholder="Phone Number" 
                       value={formData.phone}
-                      onChange={(e) => handleChange("phone", e.target.value)}
-                      onBlur={() => handleBlur("phone")}
-                      className={fieldClass("phone")}
+                      onChange={(e) => { setFormData({...formData, phone: e.target.value}); if (errors.phone) setErrors({...errors, phone: undefined}); }}
+                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.phone ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
                     />
-                    {touched.phone && errors.phone && (
-                      <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.phone}
-                      </p>
-                    )}
+                    {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                   </div>
-
-                  {/* Qualification */}
                   <div>
-                    <select
+                    <select 
                       value={formData.qualification}
-                      onChange={(e) => handleChange("qualification", e.target.value)}
-                      onBlur={() => handleBlur("qualification")}
-                      className={fieldClass("qualification")}
+                      onChange={(e) => { setFormData({...formData, qualification: e.target.value}); if (errors.qualification) setErrors({...errors, qualification: undefined}); }}
+                      className={`w-full bg-brand-background border rounded-lg px-4 py-2.5 text-brand-foreground text-sm focus:outline-none focus:border-brand-primary transition-colors ${errors.qualification ? 'border-red-400 bg-red-50' : 'border-slate-200'}`}
                     >
-                      <option value="" disabled>Current Qualification *</option>
+                      <option value="" disabled>Current Qualification</option>
                       <option value="High School / 12th Grade">High School / 12th Grade</option>
                       <option value="Bachelor's Degree">Bachelor&apos;s Degree</option>
-                      <option value="Master's Degree">Master&apos;s Degree</option>
+                      <option value="Master's Degree">Master's Degree</option>
                       <option value="Other">Other</option>
                     </select>
-                    {touched.qualification && errors.qualification && (
-                      <p className="mt-1 text-xs text-red-500 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3 shrink-0" /> {errors.qualification}
-                      </p>
-                    )}
+                    {errors.qualification && <p className="text-red-500 text-xs mt-1">{errors.qualification}</p>}
                   </div>
-
                   <button
                     type="submit"
                     disabled={status === "submitting"}
@@ -244,11 +194,9 @@ export default function ConsultationBanner() {
                       content.popup_banner_button_text || "Claim Free Consultation"
                     )}
                   </button>
-
+                  
                   {status === "error" && (
-                    <p className="text-red-500 text-xs text-center flex items-center justify-center gap-1">
-                      <AlertCircle className="w-3 h-3" /> Submission failed. Please check your connection and try again.
-                    </p>
+                    <p className="text-red-500 text-xs text-center">Failed to submit. Please try again.</p>
                   )}
                 </form>
               )}
