@@ -215,12 +215,12 @@ export default function UniversityShowcase() {
           )}
         </div>
 
-        <div className="max-w-[95%] mx-auto">
+        <div className="max-w-7xl mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative h-[500px] md:h-[700px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border border-slate-200"
+            className="relative h-[400px] md:h-[500px] w-full rounded-[2rem] overflow-hidden shadow-2xl bg-white border border-slate-200"
           >
             {images.length > 0 ? (
               <AnimatePresence mode="wait">
