@@ -19,6 +19,7 @@ interface University {
   university_type: string;
   description: string;
   color_theme: string;
+  image?: string;
   is_active: boolean;
   gallery_images: UniversityImage[];
 }
