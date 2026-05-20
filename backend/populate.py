@@ -24,13 +24,13 @@ def populate():
     # Hero
     SiteContent.objects.update_or_create(identifier='home_hero_title1', defaults={'text_value': 'CHART YOUR'})
     SiteContent.objects.update_or_create(identifier='home_hero_title2', defaults={'text_value': 'CAREER.'})
-    SiteContent.objects.update_or_create(identifier='home_hero_subtitle', defaults={'text_value': 'Recent results show that Indian Students prefer Georgia over other abroad destinations. 85% of Foreign Students in Georgia study health related courses such as Medicine, Dentistry, Nursing, and Pharmacy.'})
+    SiteContent.objects.update_or_create(identifier='home_hero_subtitle', defaults={'text_value': "We are Kerala's premier educational consultants. Recent results show Indian Students prefer Georgia. 85% study health related courses such as Medicine, Dentistry, Nursing, and Pharmacy."})
     SiteContent.objects.get_or_create(identifier='home_hero_image')
     SiteContent.objects.update_or_create(identifier='hero_small_badge_text', defaults={'text_value': 'Study MBBS / MD'})
     SiteContent.objects.update_or_create(identifier='hero_primary_button_text', defaults={'text_value': 'Book Consultation'})
     SiteContent.objects.update_or_create(identifier='hero_secondary_button_text', defaults={'text_value': 'Explore University'})
     SiteContent.objects.update_or_create(identifier='hero_secondary_button_link', defaults={'text_value': '#services'})
-    SiteContent.objects.update_or_create(identifier='hero_trusted_partners_text', defaults={'text_value': 'Our Exclusive Partner University'})
+    SiteContent.objects.update_or_create(identifier='hero_trusted_partners_text', defaults={'text_value': 'We are the Exclusive Partner for'})
     SiteContent.objects.update_or_create(identifier='hero_university_names', defaults={'text_value': 'GRIGOL ROBAKIDZE UNIVERSITY, TBILISI'})
     SiteContent.objects.update_or_create(identifier='hero_statistic_1_value', defaults={'text_value': '85%'})
     SiteContent.objects.update_or_create(identifier='hero_statistic_1_label', defaults={'text_value': 'Study Health Courses'})
@@ -40,9 +40,9 @@ def populate():
 
     # Services (Used for BSc Nursing and University Info)
     SiteContent.objects.update_or_create(identifier='services_section_subtitle', defaults={'text_value': 'B.Sc. Nursing (4 Years)'})
-    SiteContent.objects.update_or_create(identifier='services_main_title_part1', defaults={'text_value': 'Grigol Robakidze'})
-    SiteContent.objects.update_or_create(identifier='services_main_title_part2', defaults={'text_value': 'University.'})
-    SiteContent.objects.update_or_create(identifier='services_section_description', defaults={'text_value': 'Offers a world-class program designed to shape future-ready nursing professionals. Factors which 60,000+ International Students Considered and YOU too should consider in selecting Georgia.'})
+    SiteContent.objects.update_or_create(identifier='services_main_title_part1', defaults={'text_value': 'Your Gateway to'})
+    SiteContent.objects.update_or_create(identifier='services_main_title_part2', defaults={'text_value': 'Grigol Robakidze.'})
+    SiteContent.objects.update_or_create(identifier='services_section_description', defaults={'text_value': 'We facilitate admissions to world-class programs designed to shape future-ready nursing professionals. Factors which 60,000+ International Students Considered and YOU too should consider in selecting Georgia.'})
 
     # Journey
     SiteContent.objects.update_or_create(identifier='journey_section_subtitle', defaults={'text_value': 'Your Pathway to Success'})
@@ -60,8 +60,8 @@ def populate():
 
     # FAQ & About
     SiteContent.objects.update_or_create(identifier='faq_section_title', defaults={'text_value': 'Frequently Asked Questions'})
-    SiteContent.objects.update_or_create(identifier='about_mission', defaults={'text_value': 'Recognized for academic rigor, global relevance, and industry integration, our 4-year nursing course provides a solid foundation in theoretical knowledge, clinical practice, and language skills needed for an international career.'})
-    SiteContent.objects.update_or_create(identifier='about_vision', defaults={'text_value': 'Grigol Robakidze University provides special coachings to students after 3rd year to prepare and crack the FMGE examination.'})
+    SiteContent.objects.update_or_create(identifier='about_mission', defaults={'text_value': "As Kerala's most trusted study abroad agency, our mission is to provide you with a seamless transition to Grigol Robakidze University's world-class nursing and medical programs."})
+    SiteContent.objects.update_or_create(identifier='about_vision', defaults={'text_value': 'We ensure our students receive special FMGE coaching after their 3rd year to prepare and crack the examination, securing their future as medical professionals.'})
 
     # Consultation Banner
     SiteContent.objects.update_or_create(identifier='popup_banner_title', defaults={'text_value': 'Start Your Medical Journey'})
@@ -77,7 +77,7 @@ def populate():
     # Contact Page Info
     SiteContent.objects.update_or_create(identifier='contact_email', defaults={'text_value': 'admissions@studyatgeorgia.in'})
     SiteContent.objects.update_or_create(identifier='contact_phone', defaults={'text_value': '+91 98765 43210'})
-    SiteContent.objects.update_or_create(identifier='contact_address', defaults={'text_value': 'StudyAtGeorgia Headquarters\nNew Delhi, India'})
+    SiteContent.objects.update_or_create(identifier='contact_address', defaults={'text_value': 'StudyAtGeorgia Agency Headquarters\nKerala, India'})
 
     # Testimonials
     Testimonial.objects.all().delete()
@@ -86,15 +86,15 @@ def populate():
 
     # FaqItem
     FaqItem.objects.all().delete()
-    FaqItem.objects.update_or_create(question="Is the tuition fee affordable?", defaults={'answer': "Yes! We offer an affordable tuition fee that can be paid conveniently in semesters.", 'order': 0})
-    FaqItem.objects.update_or_create(question="What about clinical training?", defaults={'answer': "Students get clinical experience from the second semester at PINEO Hospital, our own University Hospital.", 'order': 1})
-    FaqItem.objects.update_or_create(question="Do you provide FMGE coaching?", defaults={'answer': "Yes, Grigol Robakidze University provides special coachings to students after 3rd year to prepare and crack the examination.", 'order': 2})
+    FaqItem.objects.update_or_create(question="Is the tuition fee affordable?", defaults={'answer': "Yes! We secure an affordable tuition fee for our students that can be paid conveniently in semesters.", 'order': 0})
+    FaqItem.objects.update_or_create(question="What about clinical training?", defaults={'answer': "Our students get clinical experience from the second semester at PINEO Hospital, the university's exclusive training hospital.", 'order': 1})
+    FaqItem.objects.update_or_create(question="Do you provide FMGE coaching?", defaults={'answer': "Yes, we ensure that Grigol Robakidze University provides special coaching to our students after the 3rd year to prepare and crack the examination.", 'order': 2})
     FaqItem.objects.update_or_create(question="Is it safe and what is the climate like?", defaults={'answer': "Georgia offers safety, an affordable cost of living and food, and a pleasant climate that is very similar to India.", 'order': 3})
 
     # JourneyStep
     JourneyStep.objects.all().delete()
-    JourneyStep.objects.update_or_create(title="Counseling & Selection", defaults={'description': "Understand the benefits of Grigol Robakidze University and choose between MBBS/MD or BSc Nursing.", 'icon_text': "1", 'order': 0})
-    JourneyStep.objects.update_or_create(title="Easy Visa Process", defaults={'description': "We handle the favourable regulations and ensure an easy visa process for you.", 'icon_text': "2", 'order': 1})
+    JourneyStep.objects.update_or_create(title="Counseling & Selection", defaults={'description': "We help you understand the benefits of Grigol Robakidze University and choose between MBBS/MD or BSc Nursing.", 'icon_text': "1", 'order': 0})
+    JourneyStep.objects.update_or_create(title="Easy Visa Process", defaults={'description': "Our agency handles the favourable regulations and ensures a 100% easy visa process for you.", 'icon_text': "2", 'order': 1})
     JourneyStep.objects.update_or_create(title="Theoretical Foundation", defaults={'description': "Begin your world-class education with medium of instruction entirely in English.", 'icon_text': "3", 'order': 2})
     JourneyStep.objects.update_or_create(title="Clinical Practice", defaults={'description': "Start clinical experience from the second semester at PINEO Hospital.", 'icon_text': "4", 'order': 3})
     JourneyStep.objects.update_or_create(title="FMGE Coaching", defaults={'description': "Receive special coaching after the 3rd year to prepare and crack the FMGE.", 'icon_text': "5", 'order': 4})
@@ -102,7 +102,7 @@ def populate():
     # ServicePackage (Used as Highlights in the Bento Grid)
     ServicePackage.objects.all().delete()
     ServicePackage.objects.update_or_create(name="Affordable Education", defaults={'description': "Affordable Tuition Fee paid in semesters with low cost of living and food.", 'is_popular': True, 'order': 0})
-    ServicePackage.objects.update_or_create(name="PINEO Hospital", defaults={'description': "Our Own University Hospital. Clinical experience starting from the second semester.", 'is_popular': True, 'order': 1})
+    ServicePackage.objects.update_or_create(name="PINEO Hospital", defaults={'description': "Access to PINEO Hospital, the university's own hospital. Clinical experience starting from the second semester.", 'is_popular': True, 'order': 1})
     ServicePackage.objects.update_or_create(name="100% Placement", defaults={'description': "Placement Assurance along with IELTS/OET Training (4700 Contact Hours).", 'is_popular': False, 'order': 2})
     ServicePackage.objects.update_or_create(name="Globally Recognized", defaults={'description': "Recognized Educational System with the highest FMGE passout ratio.", 'is_popular': False, 'order': 3})
     ServicePackage.objects.update_or_create(name="Favourable Visa", defaults={'description': "Easy Visa Process & Favourable Regulations in a safe country with a pleasant climate similar to India.", 'is_popular': False, 'order': 4})
