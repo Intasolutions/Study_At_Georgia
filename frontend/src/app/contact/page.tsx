@@ -8,7 +8,8 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [fieldErrors, setFieldErrors] = useState({ name: "", email: "", phone: "", message: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [content, setContent] = useState<Record<string, string>>({});
 
@@ -17,9 +18,7 @@ export default function ContactPage() {
       .then(res => res.json())
       .then((data: { identifier: string; text_value: string }[]) => {
         const dict: Record<string, string> = {};
-        data.forEach(item => {
-          dict[item.identifier] = item.text_value || "";
-        });
+        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
         setContent(dict);
       })
       .catch(console.error);
@@ -27,18 +26,54 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Field Validation
+    let isValid = true;
+    const errors = { name: "", email: "", phone: "", message: "" };
+
+    if (!formData.name.trim()) {
+      errors.name = "Name is required";
+      isValid = false;
+    }
+
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      errors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    if (!formData.phone.trim()) {
+      errors.phone = "Phone number is required";
+      isValid = false;
+    }
+
+    if (!formData.message.trim()) {
+      errors.message = "Please tell us about your inquiry";
+      isValid = false;
+    }
+
+    setFieldErrors(errors);
+    if (!isValid) return;
+
     setStatus("submitting");
-    
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/contact/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: `Phone: ${formData.phone}\n\n${formData.message}`
+        })
       });
-      
+
       if (res.ok) {
         setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", phone: "", message: "" });
+        setFieldErrors({ name: "", email: "", phone: "", message: "" });
       } else {
         setStatus("error");
       }
@@ -66,13 +101,13 @@ export default function ContactPage() {
         >
           <p className="text-[#cfb53b] text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
             <span className="w-8 h-[2px] bg-[#cfb53b]"></span>
-            Private Advisory
+            Get In Touch
           </p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#0f172a] leading-tight">
-            Initiate <span className="text-[#1a237e] font-serif italic font-light">Dialogue.</span>
+            Contact <span className="text-[#1a237e] font-serif italic font-light">Us.</span>
           </h1>
           <p className="text-slate-500 mt-6 max-w-2xl text-lg font-light leading-relaxed">
-            Secure your future with elite academic guidance. Connect with our senior consultants to architect your personalized transition to global excellence.
+            Have questions? Our consultants are here to help you chart the perfect academic journey to Georgia.
           </p>
         </motion.div>
 
@@ -92,7 +127,7 @@ export default function ContactPage() {
 
             <div className="relative z-10">
               <h2 className="text-3xl font-serif text-white mb-2">Direct Access</h2>
-              <p className="text-slate-300 font-light mb-12">Our concierge team operates with complete confidentiality and precision.</p>
+              <p className="text-slate-300 font-light mb-12">Our team operates with complete confidentiality and precision.</p>
 
               <div className="space-y-8">
                 <div className="flex items-start gap-5 group">
@@ -100,8 +135,8 @@ export default function ContactPage() {
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Electronic Mail</span>
-                    <a href={`mailto:${content.contact_email || "hello@gatewaytogeorgia.com"}`} className="text-white text-lg font-medium hover:text-[#cfb53b] transition-colors">
+                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Email</span>
+                    <a href={`mailto:${content.contact_email || "info@studyatgeorgia.com"}`} className="text-white text-lg font-medium hover:text-[#cfb53b] transition-colors">
                       {content.contact_email || "info@studyatgeorgia.com"}
                     </a>
                   </div>
@@ -112,8 +147,8 @@ export default function ContactPage() {
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Global Desk</span>
-                    <a href={`tel:${content.contact_phone || "+15551234567"}`} className="text-white text-lg font-medium hover:text-[#cfb53b] transition-colors">
+                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Phone</span>
+                    <a href={`tel:${content.contact_phone || "+918590964594"}`} className="text-white text-lg font-medium hover:text-[#cfb53b] transition-colors">
                       {content.contact_phone || "+91 85909 64594"}
                     </a>
                   </div>
@@ -124,25 +159,19 @@ export default function ContactPage() {
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Headquarters</span>
+                    <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Address</span>
                     <span className="text-white text-lg font-medium leading-snug block whitespace-pre-line">
-                      {content.contact_address || "StudyAtGeorgia Agency Headquarters\nPulpally,Wayanad,Kerala, India"}
+                      {content.contact_address || "StudyAtGeorgia Agency Headquarters\nPulpally, Wayanad, Kerala, India"}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div className="relative z-10 mt-16 pt-8 border-t border-white/10">
-              <p className="text-slate-400 text-sm font-serif italic">
-                &quot;Scientia et Veritas&quot; — Established 1992
-              </p>
-            </div>
           </div>
           
-          {/* Right Panel: Interactive Form (Anchored Right) */}
+          {/* Right Panel: Interactive Form */}
           <div className="lg:w-7/12 p-10 lg:p-14 bg-white">
-            <h3 className="text-2xl font-bold text-[#0f172a] mb-8">Schedule a Consultation</h3>
+            <h3 className="text-2xl font-bold text-[#0f172a] mb-8">Send a Message</h3>
             
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -150,40 +179,65 @@ export default function ContactPage() {
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
                   <input 
-                    required 
                     type="text" 
                     value={formData.name} 
-                    onChange={e => setFormData({...formData, name: e.target.value})} 
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all" 
-                    placeholder="John Doe" 
+                    onChange={e => {
+                      setFormData({...formData, name: e.target.value});
+                      if (fieldErrors.name) setFieldErrors({...fieldErrors, name: ""});
+                    }}
+                    className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors.name ? "border-red-400" : "border-slate-200"}`}
+                    placeholder="Your full name" 
                   />
+                  {fieldErrors.name && <p className="text-red-500 text-xs">{fieldErrors.name}</p>}
                 </div>
                 
                 {/* Email Field */}
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
                   <input 
-                    required 
                     type="email" 
                     value={formData.email} 
-                    onChange={e => setFormData({...formData, email: e.target.value})} 
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all" 
-                    placeholder="john@example.com" 
+                    onChange={e => {
+                      setFormData({...formData, email: e.target.value});
+                      if (fieldErrors.email) setFieldErrors({...fieldErrors, email: ""});
+                    }}
+                    className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors.email ? "border-red-400" : "border-slate-200"}`}
+                    placeholder="your@email.com" 
                   />
+                  {fieldErrors.email && <p className="text-red-500 text-xs">{fieldErrors.email}</p>}
                 </div>
+              </div>
+
+              {/* Phone Field */}
+              <div className="space-y-2">
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Phone Number</label>
+                <input 
+                  type="tel" 
+                  value={formData.phone} 
+                  onChange={e => {
+                    setFormData({...formData, phone: e.target.value});
+                    if (fieldErrors.phone) setFieldErrors({...fieldErrors, phone: ""});
+                  }}
+                  className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors.phone ? "border-red-400" : "border-slate-200"}`}
+                  placeholder="+91 XXXXX XXXXX" 
+                />
+                {fieldErrors.phone && <p className="text-red-500 text-xs">{fieldErrors.phone}</p>}
               </div>
 
               {/* Message Field */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Inquiry Details</label>
+                <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Your Message</label>
                 <textarea 
-                  required 
                   rows={5} 
                   value={formData.message} 
-                  onChange={e => setFormData({...formData, message: e.target.value})} 
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all resize-none" 
+                  onChange={e => {
+                    setFormData({...formData, message: e.target.value});
+                    if (fieldErrors.message) setFieldErrors({...fieldErrors, message: ""});
+                  }}
+                  className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all resize-none ${fieldErrors.message ? "border-red-400" : "border-slate-200"}`}
                   placeholder="Tell us about your academic goals..."
                 ></textarea>
+                {fieldErrors.message && <p className="text-red-500 text-xs">{fieldErrors.message}</p>}
               </div>
 
               {/* Submit Button */}
@@ -192,7 +246,7 @@ export default function ContactPage() {
                 type="submit" 
                 className="w-full md:w-auto px-10 py-4 bg-[#1a237e] hover:bg-[#111859] text-white font-bold rounded-lg transition-all disabled:opacity-70 flex items-center justify-center gap-3 shadow-[0_10px_20px_-10px_rgba(26,35,126,0.5)] hover:shadow-lg hover:-translate-y-0.5"
               >
-                {status === "submitting" ? "Transmitting..." : "Submit Inquiry"}
+                {status === "submitting" ? "Sending..." : "Send Message"}
                 {status !== "submitting" && <ArrowRight className="w-5 h-5" />}
               </button>
 
@@ -202,8 +256,8 @@ export default function ContactPage() {
                   initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                   className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-lg flex items-center gap-3 text-emerald-800"
                 >
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-                  <p className="text-sm font-medium">Inquiry received successfully. Our team will contact you shortly.</p>
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <p className="text-sm font-medium">Message received! Our team will get back to you shortly.</p>
                 </motion.div>
               )}
               
@@ -212,8 +266,8 @@ export default function ContactPage() {
                   initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                   className="mt-6 p-4 bg-red-50 border border-red-100 rounded-lg flex items-center gap-3 text-red-800"
                 >
-                  <AlertCircle className="w-5 h-5 text-red-600" />
-                  <p className="text-sm font-medium">Transmission failed. Please check your connection and try again.</p>
+                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                  <p className="text-sm font-medium">Something went wrong. Please try again or contact us directly.</p>
                 </motion.div>
               )}
             </form>
@@ -221,7 +275,7 @@ export default function ContactPage() {
         </motion.div>
         
         {/* FAQ Section */}
-        <div className="mt-32">
+        <div className="mt-16">
           <FaqAccordion />
         </div>
       </div>
