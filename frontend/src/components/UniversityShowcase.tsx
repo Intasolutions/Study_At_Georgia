@@ -62,6 +62,12 @@ export default function UniversityShowcase() {
     }
   };
 
+  const getImageUrl = (url: string) => {
+    if (!url) return '';
+    if (url.startsWith('http')) return url;
+    return `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${url.startsWith('/') ? '' : '/'}${url}`;
+  };
+
   // Helper to choose the right icon based on course title
   const getCourseIcon = (title: string) => {
     if (title.toLowerCase().includes('nursing')) return <Stethoscope className="w-6 h-6" />;
@@ -69,8 +75,8 @@ export default function UniversityShowcase() {
     return <GraduationCap className="w-6 h-6" />;
   };
 
-  // Parse description into intro text and course cards
-  const paragraphs = university.description.split('\n\n');
+  // Parse description into intro text and course cards, handling Windows \r\n
+  const paragraphs = university.description.split(/\r?\n\s*\r?\n/).map(p => p.trim()).filter(Boolean);
   const introParagraphs = paragraphs.filter(p => !p.startsWith('**') || p.includes('**GRIGOL ROBAKIDZE'));
   const courseParagraphs = paragraphs.filter(p => p.startsWith('**') && !p.includes('**GRIGOL ROBAKIDZE'));
 
@@ -204,7 +210,7 @@ export default function UniversityShowcase() {
                   className="absolute inset-0 w-full h-full"
                 >
                   <Image
-                    src={images[currentImageIndex].image}
+                    src={getImageUrl(images[currentImageIndex].image)}
                     alt={images[currentImageIndex].caption || `Campus Image ${currentImageIndex + 1}`}
                     fill
                     className="object-cover"
