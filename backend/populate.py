@@ -24,7 +24,7 @@ def populate():
     # Hero
     SiteContent.objects.update_or_create(identifier='home_hero_title1', defaults={'text_value': 'CHART YOUR'})
     SiteContent.objects.update_or_create(identifier='home_hero_title2', defaults={'text_value': 'CAREER.'})
-    SiteContent.objects.update_or_create(identifier='home_hero_subtitle', defaults={'text_value': "We are Kerala's premier educational consultants. Recent results show Indian Students prefer Georgia. 85% study health related courses such as Medicine, Dentistry, Nursing, and Pharmacy."})
+    SiteContent.objects.update_or_create(identifier='home_hero_subtitle', defaults={'text_value': "We are India's premier educational consultants. Recent results show Indian Students prefer Georgia. 85% study health related courses such as Medicine, Dentistry, Nursing, and Pharmacy."})
     SiteContent.objects.get_or_create(identifier='home_hero_image')
     SiteContent.objects.update_or_create(identifier='hero_small_badge_text', defaults={'text_value': 'Study MBBS / MD'})
     SiteContent.objects.update_or_create(identifier='hero_primary_button_text', defaults={'text_value': 'Book Consultation'})
@@ -60,7 +60,7 @@ def populate():
 
     # FAQ & About
     SiteContent.objects.update_or_create(identifier='faq_section_title', defaults={'text_value': 'Frequently Asked Questions'})
-    SiteContent.objects.update_or_create(identifier='about_mission', defaults={'text_value': "As Kerala's most trusted study abroad agency, our mission is to provide you with a seamless transition to Grigol Robakidze University's world-class nursing and medical programs."})
+    SiteContent.objects.update_or_create(identifier='about_mission', defaults={'text_value': "As a premier and highly trusted study abroad agency, our mission is to provide you with a seamless transition to Grigol Robakidze University's world-class nursing and medical programs."})
     SiteContent.objects.update_or_create(identifier='about_vision', defaults={'text_value': 'We ensure our students receive special FMGE coaching after their 3rd year to prepare and crack the examination, securing their future as medical professionals.'})
 
     # Consultation Banner
@@ -77,7 +77,7 @@ def populate():
     # Contact Page Info
     SiteContent.objects.update_or_create(identifier='contact_email', defaults={'text_value': 'admissions@studyatgeorgia.in'})
     SiteContent.objects.update_or_create(identifier='contact_phone', defaults={'text_value': '+91 98765 43210'})
-    SiteContent.objects.update_or_create(identifier='contact_address', defaults={'text_value': 'StudyAtGeorgia Agency Headquarters\nKerala, India'})
+    SiteContent.objects.update_or_create(identifier='contact_address', defaults={'text_value': 'StudyAtGeorgia Agency Headquarters\nIndia'})
 
     # Testimonials
     Testimonial.objects.all().delete()
