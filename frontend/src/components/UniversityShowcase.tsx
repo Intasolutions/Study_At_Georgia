@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, GraduationCap, Stethoscope, ChevronRightSquare } from "lucide-react";
+import { ChevronLeft, ChevronRight, GraduationCap, Stethoscope, Briefcase, ChevronRightSquare, ShieldCheck, MapPin } from "lucide-react";
 import Image from "next/image";
 
 interface UniversityImage {
@@ -32,7 +32,6 @@ export default function UniversityShowcase() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/universities/`)
       .then((res) => res.json())
       .then((data: University[]) => {
-        // Find Grigol Robakidze or just pick the first active one
         const targetUni = data.find(u => u.name.includes("Grigol Robakidze")) || data.find(u => u.is_active);
         if (targetUni) {
           setUniversity(targetUni);
@@ -46,7 +45,7 @@ export default function UniversityShowcase() {
   }, []);
 
   if (loading || !university) {
-    return null; // Silent fail/loading for seamless UX
+    return <div className="min-h-screen bg-[#0f172a]" />; // Placeholder while loading
   }
 
   const images = university.gallery_images?.filter(img => img.image) || [];
@@ -63,158 +62,192 @@ export default function UniversityShowcase() {
     }
   };
 
+  // Helper to choose the right icon based on course title
+  const getCourseIcon = (title: string) => {
+    if (title.toLowerCase().includes('nursing')) return <Stethoscope className="w-6 h-6" />;
+    if (title.toLowerCase().includes('bba') || title.toLowerCase().includes('mba') || title.toLowerCase().includes('business')) return <Briefcase className="w-6 h-6" />;
+    return <GraduationCap className="w-6 h-6" />;
+  };
+
+  // Parse description into intro text and course cards
+  const paragraphs = university.description.split('\n\n');
+  const introParagraphs = paragraphs.filter(p => !p.startsWith('**') || p.includes('**GRIGOL ROBAKIDZE'));
+  const courseParagraphs = paragraphs.filter(p => p.startsWith('**') && !p.includes('**GRIGOL ROBAKIDZE'));
+
   return (
-    <section id="university-showcase" className="py-24 bg-brand-surface relative overflow-hidden">
-      {/* Ambient backgrounds */}
-      <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-brand-primary/5 to-transparent pointer-events-none" />
-      <div className="absolute -right-64 top-20 w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="w-full bg-[#fafafa]">
+      
+      {/* 1. IMMERSIVE HERO SECTION (DARK MODE) */}
+      <section className="relative w-full pt-32 pb-24 lg:pt-40 lg:pb-32 bg-[#0f172a] overflow-hidden flex flex-col items-center justify-center text-center px-6">
+        {/* Background Gradients */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-[#1a237e]/40 blur-[120px]" />
+          <div className="absolute bottom-[10%] -left-[10%] w-[500px] h-[500px] rounded-full bg-[#cfb53b]/20 blur-[120px]" />
+        </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10 max-w-4xl mx-auto"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent/10 text-brand-accent text-sm font-semibold mb-6">
-            <GraduationCap className="w-4 h-4" />
-            <span>Exclusive Partner University</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-brand-foreground mb-4">
-            {university.name}
-          </h2>
-          <p className="text-brand-muted max-w-2xl mx-auto text-lg">
-            Located in the heart of {university.location}. Recognized for academic rigor, global relevance, and industry integration.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          
-          {/* Left Column: Details & Courses */}
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="space-y-8"
-          >
-            {/* Split description safely by assuming Markdown-like format from API */}
-            <div className="prose prose-slate prose-lg text-brand-muted">
-              {university.description.split('\n\n').map((paragraph, idx) => {
-                // If paragraph is a course header (starts with **)
-                if (paragraph.startsWith('**')) {
-                  const titleMatch = paragraph.match(/\*\*(.*?)\*\*/);
-                  const title = titleMatch ? titleMatch[1] : '';
-                  const content = paragraph.replace(/\*\*.*?\*\*/, '').trim();
-                  
-                  return (
-                    <div key={idx} className="bg-white rounded-2xl p-6 shadow-sm border border-brand-primary/10 mt-6 relative overflow-hidden group hover:shadow-md transition-shadow">
-                      <div className="absolute top-0 left-0 w-1 h-full bg-brand-accent" />
-                      <div className="flex items-center gap-3 mb-3">
-                        <div className="w-10 h-10 rounded-full bg-brand-primary/10 text-brand-primary flex items-center justify-center">
-                          {title.includes('Nursing') ? <Stethoscope className="w-5 h-5" /> : <GraduationCap className="w-5 h-5" />}
-                        </div>
-                        <h3 className="text-xl font-bold text-brand-foreground m-0">{title}</h3>
-                      </div>
-                      <p className="m-0 text-brand-muted/90 text-base">{content}</p>
-                    </div>
-                  );
-                }
-                
-                return <p key={idx}>{paragraph}</p>;
-              })}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium">
+              <ShieldCheck className="w-4 h-4 text-[#cfb53b]" />
+              <span>Premium Partner University</span>
             </div>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium">
+              <MapPin className="w-4 h-4 text-emerald-400" />
+              <span>{university.location}</span>
+            </div>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-6 leading-tight">
+            {university.name}
+          </h1>
+          
+          <div className="text-slate-300 text-lg md:text-xl font-light max-w-3xl mx-auto space-y-4">
+            {introParagraphs.map((p, idx) => (
+              <p key={idx}>{p.replace(/\*\*(.*?)\*\*/g, '$1')}</p>
+            ))}
+          </div>
+        </motion.div>
+      </section>
 
-            <button 
-              onClick={() => window.dispatchEvent(new Event("open-consultation"))}
-              className="inline-flex items-center gap-2 bg-brand-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-brand-primary/90 transition-colors shadow-lg shadow-brand-primary/20"
-            >
-              Apply for this University
-              <ChevronRightSquare className="w-5 h-5" />
-            </button>
-          </motion.div>
+      {/* 2. BENTO GRID COURSES SECTION */}
+      <section className="py-24 max-w-7xl mx-auto px-6 relative z-20 -mt-10">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold text-[#0f172a]">Academic Excellence</h2>
+          <p className="text-slate-500 mt-2">World-class programs designed for global success.</p>
+        </div>
 
-          {/* Right Column: Image Gallery Carousel */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {courseParagraphs.map((paragraph, idx) => {
+            const titleMatch = paragraph.match(/\*\*(.*?)\*\*/);
+            const title = titleMatch ? titleMatch[1] : '';
+            const content = paragraph.replace(/\*\*.*?\*\*/, '').trim();
+            
+            // Extract highlights if they exist (lines starting with 'Highlights:' or 'Program Highlights:')
+            const contentParts = content.split(/(Highlights:|Program Highlights:|Program Structure:)/);
+            const mainDescription = contentParts[0];
+            const highlights = contentParts.length > 1 ? contentParts.slice(1).join('') : '';
+
+            return (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="group relative bg-white rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-300 overflow-hidden flex flex-col h-full"
+              >
+                {/* Decorative Accent */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#1a237e]/5 to-transparent rounded-bl-full -z-10 group-hover:scale-150 transition-transform duration-700" />
+                
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#1a237e]/5 text-[#1a237e] flex items-center justify-center group-hover:bg-[#1a237e] group-hover:text-white transition-colors duration-300 shadow-sm border border-[#1a237e]/10">
+                    {getCourseIcon(title)}
+                  </div>
+                  <h3 className="text-2xl font-extrabold text-[#0f172a] tracking-tight">{title}</h3>
+                </div>
+                
+                <p className="text-slate-600 leading-relaxed mb-6 flex-grow">{mainDescription}</p>
+                
+                {highlights && (
+                  <div className="mt-auto pt-6 border-t border-slate-100">
+                    <p className="text-sm font-semibold text-[#1a237e] uppercase tracking-wider mb-3">Key Highlights</p>
+                    <p className="text-slate-500 text-sm leading-relaxed bg-slate-50 p-4 rounded-xl">
+                      {highlights.replace(/:\s*/, '')}
+                    </p>
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 3. CINEMATIC IMAGE GALLERY */}
+      <section className="py-12 pb-32">
+        <div className="max-w-7xl mx-auto px-6 mb-8 flex justify-between items-end">
+          <div>
+            <h2 className="text-3xl font-bold text-[#0f172a]">Campus Life</h2>
+            <p className="text-slate-500 mt-2">Experience Grigol Robakidze University.</p>
+          </div>
+          {images.length > 1 && (
+            <div className="flex gap-2">
+              <button onClick={prevImage} className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-colors">
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button onClick={nextImage} className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-colors">
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="max-w-[95%] mx-auto">
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="sticky top-24 relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-slate-100 border border-slate-200 flex items-center justify-center group"
+            className="relative h-[500px] md:h-[700px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-[#0f172a]"
           >
             {images.length > 0 ? (
-              <>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentImageIndex}
-                    initial={{ opacity: 0, scale: 1.05 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="absolute inset-0 w-full h-full"
-                  >
-                    <Image
-                      src={images[currentImageIndex].image}
-                      alt={images[currentImageIndex].caption || `University Image ${currentImageIndex + 1}`}
-                      fill
-                      className="object-cover"
-                      priority
-                      unoptimized
-                    />
-                    
-                    {/* Caption Overlay */}
-                    {images[currentImageIndex].caption && (
-                      <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-                        <p className="text-white font-medium text-lg drop-shadow-md">
-                          {images[currentImageIndex].caption}
-                        </p>
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Controls */}
-                {images.length > 1 && (
-                  <>
-                    <button
-                      onClick={prevImage}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white hover:bg-white/40 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <ChevronLeft className="w-6 h-6" />
-                    </button>
-                    <button
-                      onClick={nextImage}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white hover:bg-white/40 transition-colors opacity-0 group-hover:opacity-100"
-                    >
-                      <ChevronRight className="w-6 h-6" />
-                    </button>
-
-                    {/* Indicators */}
-                    <div className="absolute bottom-6 right-6 flex items-center gap-2">
-                      {images.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setCurrentImageIndex(idx)}
-                          className={`w-2 h-2 rounded-full transition-all ${idx === currentImageIndex ? "w-6 bg-brand-accent" : "bg-white/60 hover:bg-white"}`}
-                        />
-                      ))}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.7 }}
+                  className="absolute inset-0 w-full h-full"
+                >
+                  <Image
+                    src={images[currentImageIndex].image}
+                    alt={images[currentImageIndex].caption || `Campus Image ${currentImageIndex + 1}`}
+                    fill
+                    className="object-cover"
+                    priority
+                    unoptimized
+                  />
+                  {/* Subtle Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 via-transparent to-transparent pointer-events-none" />
+                  
+                  {images[currentImageIndex].caption && (
+                    <div className="absolute bottom-0 left-0 w-full p-10 md:p-16">
+                      <p className="text-white font-medium text-xl md:text-3xl max-w-3xl drop-shadow-lg">
+                        {images[currentImageIndex].caption}
+                      </p>
                     </div>
-                  </>
-                )}
-              </>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             ) : (
-              <div className="text-center p-8">
-                <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 text-brand-primary">
-                  <GraduationCap className="w-8 h-8" />
-                </div>
-                <p className="text-brand-muted font-medium">Campus gallery images pending upload.</p>
-                <p className="text-sm text-brand-muted/70 mt-1">Add images in the Django Admin Panel.</p>
+              <div className="flex flex-col items-center justify-center h-full text-center p-8">
+                <GraduationCap className="w-16 h-16 text-white/20 mb-4" />
+                <p className="text-white/60 text-lg">Campus gallery images pending upload in Django Admin.</p>
               </div>
             )}
           </motion.div>
-
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* 4. STICKY FLOATING ACTION BUTTON */}
+      <motion.div 
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
+      >
+        <button 
+          onClick={() => window.dispatchEvent(new Event("open-consultation"))}
+          className="flex items-center gap-3 px-8 py-4 bg-[#1a237e] text-white rounded-full font-bold shadow-[0_10px_40px_rgba(26,35,126,0.5)] hover:bg-[#111859] hover:scale-105 transition-all border border-white/10"
+        >
+          Secure Your Admission
+          <ChevronRightSquare className="w-5 h-5 text-[#cfb53b]" />
+        </button>
+      </motion.div>
+    </div>
   );
 }
