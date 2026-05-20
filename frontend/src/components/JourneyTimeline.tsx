@@ -11,12 +11,23 @@ type Step = {
 };
 
 export default function JourneyTimeline() {
-  const [steps, setSteps] = useState<Step[]>([]);
+  const [activeStep, setActiveStep] = useState(0);
+  const [steps, setSteps] = useState<{ id: number; title: string; description: string; icon_text: string }[]>([]);
+  const [content, setContent] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/journey-steps/`)
       .then(res => res.json())
       .then(data => setSteps(data))
+      .catch(console.error);
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+      .then(res => res.json())
+      .then((data: { identifier: string; text_value: string }[]) => {
+        const dict: Record<string, string> = {};
+        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+        setContent(dict);
+      })
       .catch(console.error);
   }, []);
 
@@ -30,15 +41,20 @@ export default function JourneyTimeline() {
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         
-        <div className="text-center mb-24">
-          <p className="text-[#cfb53b] text-sm font-bold uppercase tracking-widest mb-4 flex items-center justify-center gap-2">
-            <span className="w-8 h-[2px] bg-[#cfb53b]"></span>
-            The Master Plan
-            <span className="w-8 h-[2px] bg-[#cfb53b]"></span>
-          </p>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-[#0f172a] leading-tight mb-6">
-            Your Journey <span className="text-[#1a237e] font-serif italic font-light">Simplified.</span>
-          </h2>
+        <div className="text-center max-w-2xl mx-auto mb-20 md:mb-32">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-[#cfb53b] text-sm font-bold uppercase tracking-widest mb-4">
+              {content.journey_section_subtitle || "The Master Plan"}
+            </p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0f172a] leading-tight">
+              {content.journey_main_title_part1 || "Your Journey"} <br />
+              <span className="text-[#1a237e] font-serif italic font-light">{content.journey_main_title_part2 || "Simplified."}</span>
+            </h2>
+          </motion.div>
         </div>
         
         <div className="relative">
@@ -102,7 +118,7 @@ export default function JourneyTimeline() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.6, ease: "easeOut" }}
-                        className="bg-white p-8 rounded-2xl border border-slate-200 hover:border-[#1a237e]/30 shadow-sm hover:shadow-lg transition-all text-left relative"
+                        className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 hover:border-[#1a237e]/30 shadow-sm hover:shadow-lg transition-all text-left relative"
                       >
                          <div className="text-4xl font-serif text-slate-100 absolute -top-4 -left-4 md:-left-8 font-bold select-none pointer-events-none">
                           0{index + 1}

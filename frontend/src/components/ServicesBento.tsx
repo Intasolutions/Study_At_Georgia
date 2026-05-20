@@ -7,11 +7,21 @@ import { useState, useEffect } from "react";
 export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [services, setServices] = useState<{ id: number; name: string; description: string }[]>([]);
+  const [content, setContent] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/service-packages/`)
       .then(res => res.json())
       .then(data => setServices(data))
+      .catch(console.error);
+      
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+      .then(res => res.json())
+      .then((data: { identifier: string; text_value: string }[]) => {
+        const dict: Record<string, string> = {};
+        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+        setContent(dict);
+      })
       .catch(console.error);
   }, []);
 
@@ -27,7 +37,7 @@ export default function Services() {
   return (
     <section id="services" className="py-32 bg-white relative font-sans border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           
           {/* Left Column: Sticky Header & Georgian Animation */}
           <div className="lg:col-span-5 relative">
@@ -39,19 +49,19 @@ export default function Services() {
               >
                 <p className="text-brand-gold text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                   <span className="w-8 h-[2px] bg-brand-gold"></span>
-                  Pillars of Excellence
+                  {content.services_section_subtitle || "Pillars of Excellence"}
                 </p>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-brand-foreground leading-tight mb-6">
-                  Comprehensive <br />
-                  <span className="text-brand-primary">Consulting.</span>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-brand-foreground leading-tight mb-6">
+                  {content.services_main_title_part1 || "Comprehensive"} <br />
+                  <span className="text-brand-primary">{content.services_main_title_part2 || "Consulting."}</span>
                 </h2>
-                <p className="text-slate-500 text-lg leading-relaxed max-w-md">
-                  A frictionless ecosystem designed to transition you globally without the traditional administrative chaos. Experience absolute clarity at every step.
+                <p className="text-base sm:text-lg text-slate-500 leading-relaxed max-w-md">
+                  {content.services_section_description || "A frictionless ecosystem designed to transition you globally without the traditional administrative chaos. Experience absolute clarity at every step."}
                 </p>
               </motion.div>
 
               {/* Custom "Georgia Touch" Animation: The Academic Astrolabe */}
-              <div className="mt-16 relative w-64 h-64 hidden md:flex items-center justify-center">
+              <div className="mt-16 relative w-64 h-64 hidden lg:flex items-center justify-center">
                 
                 {/* Background Glow */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-brand-primary/5 to-brand-crimson/5 rounded-full blur-2xl" />
@@ -131,19 +141,19 @@ export default function Services() {
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  className="group relative border-b border-slate-200 py-10 cursor-pointer transition-colors duration-300 hover:bg-slate-50 px-6 -mx-6 rounded-xl"
+                  className="group relative border-b border-slate-200 py-8 lg:py-10 cursor-pointer transition-colors duration-300 hover:bg-slate-50 px-4 sm:px-6 -mx-4 sm:-mx-6 rounded-xl"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-start gap-6 lg:gap-10">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6 lg:gap-10">
                     
                     {/* Number Indicator */}
-                    <div className="text-2xl font-light text-slate-300 group-hover:text-brand-gold transition-colors duration-300 font-serif">
+                    <div className="text-xl sm:text-2xl font-light text-slate-300 group-hover:text-brand-gold transition-colors duration-300 font-serif">
                       0{index + 1}
                     </div>
 
                     <div className="flex-1">
                       {/* Title & Icon Header */}
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-2xl font-bold text-brand-foreground group-hover:text-brand-primary transition-colors duration-300 flex items-center gap-4">
+                      <div className="flex items-center justify-between mb-3 sm:mb-4">
+                        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-brand-foreground group-hover:text-brand-primary transition-colors duration-300 flex items-center gap-3 sm:gap-4">
                           <span className="p-2 rounded-lg bg-white shadow-sm border border-slate-100 text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
                             {icons[index % icons.length]}
                           </span>

@@ -45,7 +45,7 @@ export default function StatsCounters() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px)] bg-[size:10rem_10rem] opacity-30 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 border border-slate-200 rounded-2xl bg-brand-background/50 backdrop-blur-sm shadow-sm divide-y md:divide-y-0 md:divide-x divide-slate-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 border border-slate-200 rounded-2xl bg-brand-background/50 backdrop-blur-sm shadow-sm divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-wrap">
           {stats.map((stat, index) => (
             <motion.div 
               key={stat.id}
@@ -53,7 +53,7 @@ export default function StatsCounters() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 * (index + 1), duration: 0.5 }}
-              className="flex flex-col items-start p-8 md:p-12 relative group overflow-hidden"
+              className="flex flex-col items-start p-6 sm:p-8 md:p-12 relative group overflow-hidden"
             >
               {/* Subtle top indicator bar utilizing your brand colors sequentially */}
               <div 

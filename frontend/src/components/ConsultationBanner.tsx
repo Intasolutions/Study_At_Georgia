@@ -2,11 +2,24 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { CheckCircle2, X } from "lucide-react";
 
 export default function ConsultationBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", qualification: "" });
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [content, setContent] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+      .then(res => res.json())
+      .then((data: { identifier: string; text_value: string }[]) => {
+        const dict: Record<string, string> = {};
+        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+        setContent(dict);
+      })
+      .catch(console.error);
+  }, []);
 
   useEffect(() => {
     const handleOpenEvent = () => setIsVisible(true);
@@ -75,39 +88,34 @@ export default function ConsultationBanner() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.95 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="fixed bottom-6 right-6 z-50 w-full max-w-sm"
+          className="fixed bottom-4 sm:bottom-6 right-0 sm:right-6 left-0 sm:left-auto z-50 w-full sm:max-w-sm px-4 sm:px-0"
         >
           <div className="bg-brand-surface border border-slate-200 shadow-2xl rounded-2xl overflow-hidden backdrop-blur-md">
             {/* Header */}
-            <div className="bg-brand-primary p-4 flex items-center justify-between">
-              <h3 className="text-brand-gold font-bold text-lg flex items-center gap-2">
-                <span className="w-4 h-[2px] bg-brand-gold"></span>
-                Free Consultation
-              </h3>
+            <div className="p-5 sm:p-6 pb-4 border-b border-slate-100 bg-slate-50 flex justify-between items-start">
+              <div>
+                <h3 className="text-lg font-bold text-brand-foreground mb-1">{content.popup_banner_title || "Free Consultation"}</h3>
+                <p className="text-sm text-slate-500 font-light">{content.popup_banner_description || "Start your journey today! Register for a free profile assessment."}</p>
+              </div>
               <button 
                 onClick={handleClose}
-                className="text-white hover:text-brand-gold transition-colors p-1"
+                className="text-slate-400 hover:text-slate-600 transition-colors p-1"
                 aria-label="Close"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Content */}
             <div className="p-6">
-              <p className="text-slate-600 text-sm mb-6 leading-relaxed">
-                Start your journey today! Register for a free, no-obligation consultation with our study abroad experts.
-              </p>
-
               {status === "success" ? (
-                <motion.div 
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className="bg-green-50 text-green-700 p-4 rounded-xl border border-green-200 text-center text-sm font-medium"
-                >
-                  Registration successful! We will contact you soon.
-                </motion.div>
+                <div className="p-5 sm:p-6 text-center">
+                  <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-lg font-bold text-brand-foreground mb-2">Success!</h4>
+                  <p className="text-sm text-slate-500">{content.popup_banner_success_message || "Registration successful! We will contact you shortly."}</p>
+                </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
@@ -150,16 +158,20 @@ export default function ConsultationBanner() {
                       <option value="" disabled>Current Qualification</option>
                       <option value="High School / 12th Grade">High School / 12th Grade</option>
                       <option value="Bachelor's Degree">Bachelor&apos;s Degree</option>
-                      <option value="Master's Degree">Master&apos;s Degree</option>
+                      <option value="Master's Degree">Master's Degree</option>
                       <option value="Other">Other</option>
                     </select>
                   </div>
-                  <button 
+                  <button
+                    type="submit"
                     disabled={status === "submitting"}
-                    type="submit" 
-                    className="w-full bg-brand-primary hover:bg-brand-primary/90 text-white font-medium py-3 rounded-lg transition-all shadow-md shadow-brand-primary/20 disabled:opacity-50 text-sm"
+                    className="w-full py-3 px-4 bg-brand-primary text-white font-semibold rounded-lg hover:bg-brand-primary/90 transition-colors disabled:opacity-70 flex items-center justify-center gap-2 shadow-md shadow-brand-primary/20"
                   >
-                    {status === "submitting" ? "Submitting..." : "Claim Free Consultation"}
+                    {status === "submitting" ? (
+                      <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      content.popup_banner_button_text || "Claim Free Consultation"
+                    )}
                   </button>
                   
                   {status === "error" && (

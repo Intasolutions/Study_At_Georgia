@@ -13,12 +13,22 @@ type Testimonial = {
 
 export default function Testimonials() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonials, setTestimonials] = useState<{ student_name: string; university_name: string; quote: string }[]>([]);
+  const [content, setContent] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/testimonials/`)
       .then(res => res.json())
       .then(data => setTestimonials(data))
+      .catch(console.error);
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+      .then(res => res.json())
+      .then((data: { identifier: string; text_value: string }[]) => {
+        const dict: Record<string, string> = {};
+        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+        setContent(dict);
+      })
       .catch(console.error);
   }, []);
 
@@ -30,27 +40,28 @@ export default function Testimonials() {
         
         {/* Section Header */}
         <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 border-b border-slate-200 pb-10">
-          <div>
+          <div className="lg:col-span-4 flex flex-col justify-center">
             <p className="text-brand-gold text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
               <span className="w-8 h-[2px] bg-brand-gold"></span>
-              Voices of Excellence
+              {content.testimonials_section_subtitle || "Voices of Excellence"}
             </p>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-brand-foreground leading-tight">
-              Global <span className="text-brand-primary font-serif italic font-light">Scholars.</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-brand-foreground leading-tight mb-6">
+              {content.testimonials_main_title_part1 || "Global"} <br />
+              <span className="text-brand-primary">{content.testimonials_main_title_part2 || "Scholars."}</span>
             </h2>
+            <p className="text-lg text-slate-500 leading-relaxed font-light mb-8 max-w-sm">
+              {content.testimonials_section_description || "Decades of trust, documented by ambitious students who transitioned from local aspirations to international prestige."}
+            </p>
           </div>
-          <p className="text-slate-500 text-lg leading-relaxed max-w-md">
-            Decades of trust, documented. Hear from the visionaries who successfully transitioned to elite global institutions through our ecosystem.
-          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
           
           {/* Left Column: The Alumni Roster (Interactive List) */}
           <div className="lg:col-span-4 flex flex-col relative">
-            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Featured Alumni</h3>
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">{content.testimonials_sidebar_title || "Featured Alumni"}</h3>
             
-            <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 hide-scrollbar relative">
+            <div className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 hide-scrollbar relative snap-x snap-mandatory">
               {/* Highlight Slider Background (Desktop only for precision) */}
               <motion.div 
                 className="hidden lg:block absolute left-0 w-full h-24 bg-slate-50 border-l-2 border-brand-primary z-0 rounded-r-lg transition-all"
@@ -62,7 +73,7 @@ export default function Testimonials() {
                 <button
                   key={index}
                   onClick={() => setActiveIndex(index)}
-                  className={`relative z-10 text-left min-w-[280px] lg:min-w-0 p-5 rounded-lg lg:rounded-none lg:rounded-r-lg transition-all duration-300 border-l-2 lg:border-l-0 ${
+                  className={`relative z-10 text-left min-w-[280px] lg:min-w-0 p-5 rounded-lg lg:rounded-none lg:rounded-r-lg transition-all duration-300 border-l-2 lg:border-l-0 snap-center ${
                     activeIndex === index 
                       ? "bg-slate-50 lg:bg-transparent border-brand-primary lg:border-transparent shadow-sm lg:shadow-none" 
                       : "border-transparent hover:bg-slate-50/50 opacity-60 hover:opacity-100"
@@ -116,27 +127,22 @@ export default function Testimonials() {
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   className="relative z-10"
                 >
-                  <p className="text-2xl md:text-3xl lg:text-4xl font-serif text-brand-foreground leading-snug mb-12">
+                  <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-brand-foreground leading-snug mb-8 sm:mb-12">
                     &quot;{testimonials[activeIndex]?.quote}&quot;
                   </p>
 
-                  <div className="flex items-center gap-4 border-t border-slate-100 pt-8">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-brand-primary font-bold text-lg">{testimonials[activeIndex]?.student_name}</span>
-                        <CheckCircle2 className="w-4 h-4 text-brand-gold" />
-                      </div>
-                      <div className="text-slate-500 font-medium">
-                        Placed at <span className="text-slate-800 font-bold">{testimonials[activeIndex]?.university_name}</span>
-                      </div>
+                  <div className="flex items-center gap-4 mt-8 pt-8 border-t border-slate-100">
+                    <div className="w-12 h-12 rounded-full bg-brand-primary flex items-center justify-center text-white font-bold text-xl shadow-md">
+                      {testimonials[activeIndex]?.student_name.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="font-bold text-brand-foreground text-lg">{testimonials[activeIndex]?.student_name}</div>
+                      <div className="text-brand-primary text-sm font-medium">{testimonials[activeIndex]?.university_name}</div>
                     </div>
                     
-                    {/* Trust / Success Stamp */}
-                    <div className="hidden sm:flex flex-col items-end border-l border-slate-200 pl-6">
-                      <div className="text-xs font-bold text-brand-gold uppercase tracking-widest mb-1">Status</div>
-                      <div className="text-brand-primary font-serif font-bold bg-brand-primary/5 px-3 py-1 rounded-full text-sm">
-                        Visa Approved
-                      </div>
+                    <div className="ml-auto flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent/10 border border-brand-accent/20">
+                      <div className="w-2 h-2 rounded-full bg-brand-accent animate-pulse" />
+                      <span className="text-xs font-bold text-brand-accent uppercase tracking-wider">{content.testimonials_status_label || "Status"}: <span className="text-brand-foreground">{content.testimonials_status_value || "Visa Approved"}</span></span>
                     </div>
                   </div>
                 </motion.div>

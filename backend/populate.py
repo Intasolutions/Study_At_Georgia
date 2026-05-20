@@ -11,13 +11,67 @@ from api.models import (
 
 def populate():
     # SiteContent
+    # Core settings & Contact
     SiteContent.objects.get_or_create(identifier='whatsapp_number', defaults={'text_value': '1234567890'})
     SiteContent.objects.get_or_create(identifier='whatsapp_message', defaults={'text_value': "Hello! I'm interested in studying in Georgia."})
+    SiteContent.objects.get_or_create(identifier='global_favicon_image')
+    
+    # Navbar
+    SiteContent.objects.get_or_create(identifier='nav_logo')
+    SiteContent.objects.get_or_create(identifier='nav_brand_name', defaults={'text_value': 'Gateway'})
+    SiteContent.objects.get_or_create(identifier='navbar_button_text', defaults={'text_value': 'Book Consultation'})
+
+    # Hero
     SiteContent.objects.get_or_create(identifier='home_hero_title1', defaults={'text_value': 'Your Gateway'})
     SiteContent.objects.get_or_create(identifier='home_hero_title2', defaults={'text_value': 'to Georgia'})
     SiteContent.objects.get_or_create(identifier='home_hero_subtitle', defaults={'text_value': 'Elevate your academic journey. We provide bespoke consulting for elite university placements, flawless visa processing, and premium accommodation.'})
+    SiteContent.objects.get_or_create(identifier='home_hero_image')
+    SiteContent.objects.get_or_create(identifier='hero_small_badge_text', defaults={'text_value': 'Premium Educational Advisory'})
+    SiteContent.objects.get_or_create(identifier='hero_primary_button_text', defaults={'text_value': 'Book Consultation'})
+    SiteContent.objects.get_or_create(identifier='hero_secondary_button_text', defaults={'text_value': 'Explore Destinations'})
+    SiteContent.objects.get_or_create(identifier='hero_secondary_button_link', defaults={'text_value': 'https://share.google/ywHxfnHjIL8mmewcT'})
+    SiteContent.objects.get_or_create(identifier='hero_trusted_partners_text', defaults={'text_value': 'Partnering with excellence globally'})
+    SiteContent.objects.get_or_create(identifier='hero_university_names', defaults={'text_value': 'Cambridge,Oxford,Tbilisi State'})
+    SiteContent.objects.get_or_create(identifier='hero_statistic_1_value', defaults={'text_value': '99%'})
+    SiteContent.objects.get_or_create(identifier='hero_statistic_1_label', defaults={'text_value': 'Visa Success'})
+    SiteContent.objects.get_or_create(identifier='hero_statistic_2_title', defaults={'text_value': 'Est. 1992'})
+    SiteContent.objects.get_or_create(identifier='hero_statistic_2_description', defaults={'text_value': 'Decades of Scientia et Veritas.'})
+    SiteContent.objects.get_or_create(identifier='hero_bento_image_alt_text', defaults={'text_value': 'Premium Campus Photography'})
+
+    # Services
+    SiteContent.objects.get_or_create(identifier='services_section_subtitle', defaults={'text_value': 'Pillars of Excellence'})
+    SiteContent.objects.get_or_create(identifier='services_main_title_part1', defaults={'text_value': 'Comprehensive'})
+    SiteContent.objects.get_or_create(identifier='services_main_title_part2', defaults={'text_value': 'Consulting.'})
+    SiteContent.objects.get_or_create(identifier='services_section_description', defaults={'text_value': 'A frictionless ecosystem designed to transition you globally without the traditional administrative chaos. Experience absolute clarity at every step.'})
+
+    # Journey
+    SiteContent.objects.get_or_create(identifier='journey_section_subtitle', defaults={'text_value': 'The Master Plan'})
+    SiteContent.objects.get_or_create(identifier='journey_main_title_part1', defaults={'text_value': 'Your Journey'})
+    SiteContent.objects.get_or_create(identifier='journey_main_title_part2', defaults={'text_value': 'Simplified.'})
+
+    # Testimonials
+    SiteContent.objects.get_or_create(identifier='testimonials_section_subtitle', defaults={'text_value': 'Voices of Excellence'})
+    SiteContent.objects.get_or_create(identifier='testimonials_main_title_part1', defaults={'text_value': 'Global'})
+    SiteContent.objects.get_or_create(identifier='testimonials_main_title_part2', defaults={'text_value': 'Scholars.'})
+    SiteContent.objects.get_or_create(identifier='testimonials_section_description', defaults={'text_value': 'Decades of trust, documented by ambitious students who transitioned from local aspirations to international prestige.'})
+    SiteContent.objects.get_or_create(identifier='testimonials_sidebar_title', defaults={'text_value': 'Featured Alumni'})
+    SiteContent.objects.get_or_create(identifier='testimonials_status_label', defaults={'text_value': 'Status'})
+    SiteContent.objects.get_or_create(identifier='testimonials_status_value', defaults={'text_value': 'Visa Approved'})
+
+    # FAQ & About
+    SiteContent.objects.get_or_create(identifier='faq_section_title', defaults={'text_value': 'Frequently Asked Questions'})
     SiteContent.objects.get_or_create(identifier='about_mission', defaults={'text_value': 'To simplify the complex landscape of international education, providing ambitious students with transparent, high-end consulting that transforms their dream of studying in Georgia into a seamless reality.'})
     SiteContent.objects.get_or_create(identifier='about_vision', defaults={'text_value': 'To be the undisputed global leader in premium educational placement for Georgian institutions, recognized for our flawless execution, elite partnerships, and unwavering commitment to student success.'})
+
+    # Consultation Banner
+    SiteContent.objects.get_or_create(identifier='popup_banner_title', defaults={'text_value': 'Free Consultation'})
+    SiteContent.objects.get_or_create(identifier='popup_banner_description', defaults={'text_value': 'Start your journey today! Register for a free profile assessment.'})
+    SiteContent.objects.get_or_create(identifier='popup_banner_success_message', defaults={'text_value': 'Registration successful! We will contact you shortly.'})
+    SiteContent.objects.get_or_create(identifier='popup_banner_button_text', defaults={'text_value': 'Claim Free Consultation'})
+
+    # Footer
+    SiteContent.objects.get_or_create(identifier='footer_brand_name', defaults={'text_value': 'Gateway to Georgia'})
+    SiteContent.objects.get_or_create(identifier='footer_copyright', defaults={'text_value': 'Gateway Consulting. All rights reserved.'})
 
     # Testimonials
     Testimonial.objects.get_or_create(student_name="Alex M.", university_name="Tbilisi State Medical University", defaults={'quote': "The meticulous attention to detail during the visa process saved me months of anxiety. An unparalleled level of professionalism.", 'order': 0})

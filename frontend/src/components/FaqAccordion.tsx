@@ -12,11 +12,21 @@ type Faq = {
 export default function FaqAccordion() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [faqs, setFaqs] = useState<Faq[]>([]);
+  const [content, setContent] = useState<Record<string, string>>({});
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/faqs/`)
       .then(res => res.json())
       .then(data => setFaqs(data))
+      .catch(console.error);
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+      .then(res => res.json())
+      .then((data: { identifier: string; text_value: string }[]) => {
+        const dict: Record<string, string> = {};
+        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+        setContent(dict);
+      })
       .catch(console.error);
   }, []);
 
@@ -24,7 +34,7 @@ export default function FaqAccordion() {
 
   return (
     <div className="w-full max-w-3xl mx-auto mt-16">
-      <h2 className="text-3xl font-heading font-bold text-brand-foreground mb-8 text-center">Frequently Asked Questions</h2>
+      <h2 className="text-3xl font-heading font-bold text-brand-foreground mb-8 text-center">{content.faq_section_title || "Frequently Asked Questions"}</h2>
       <div className="space-y-4">
         {faqs.map((faq, index) => {
           const isActive = activeIndex === index;
