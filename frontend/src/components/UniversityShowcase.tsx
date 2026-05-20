@@ -45,7 +45,7 @@ export default function UniversityShowcase() {
   }, []);
 
   if (loading || !university) {
-    return <div className="min-h-screen bg-[#0f172a]" />; // Placeholder while loading
+    return <div className="min-h-screen bg-white" />; // Placeholder while loading
   }
 
   const images = university.gallery_images?.filter(img => img.image) || [];
@@ -83,41 +83,64 @@ export default function UniversityShowcase() {
   return (
     <div className="w-full bg-[#fafafa]">
       
-      {/* 1. IMMERSIVE HERO SECTION (DARK MODE) */}
-      <section className="relative w-full pt-32 pb-24 lg:pt-40 lg:pb-32 bg-[#0f172a] overflow-hidden flex flex-col items-center justify-center text-center px-6">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute -top-[20%] -right-[10%] w-[600px] h-[600px] rounded-full bg-[#1a237e]/40 blur-[120px]" />
-          <div className="absolute bottom-[10%] -left-[10%] w-[500px] h-[500px] rounded-full bg-[#cfb53b]/20 blur-[120px]" />
-        </div>
+      {/* 1. LIGHT MODE HERO SECTION WITH IMAGE */}
+      <section className="relative w-full pt-32 pb-20 lg:pt-40 lg:pb-24 bg-white overflow-hidden border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative z-10"
+          >
+            <div className="flex flex-wrap gap-3 mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1a237e]/10 border border-[#1a237e]/20 text-[#1a237e] text-sm font-semibold">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Premium Partner University</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-semibold">
+                <MapPin className="w-4 h-4" />
+                <span>{university.location}</span>
+              </div>
+            </div>
+            
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#0f172a] tracking-tight mb-6 leading-tight">
+              {university.name}
+            </h1>
+            
+            <div className="text-slate-600 text-lg md:text-xl max-w-2xl space-y-4">
+              {introParagraphs.map((p, idx) => (
+                <p key={idx}>{p.replace(/\*\*(.*?)\*\*/g, '$1')}</p>
+              ))}
+            </div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 max-w-4xl mx-auto"
-        >
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium">
-              <ShieldCheck className="w-4 h-4 text-[#cfb53b]" />
-              <span>Premium Partner University</span>
-            </div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium">
-              <MapPin className="w-4 h-4 text-emerald-400" />
-              <span>{university.location}</span>
-            </div>
-          </div>
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-6 leading-tight">
-            {university.name}
-          </h1>
-          
-          <div className="text-slate-300 text-lg md:text-xl font-light max-w-3xl mx-auto space-y-4">
-            {introParagraphs.map((p, idx) => (
-              <p key={idx}>{p.replace(/\*\*(.*?)\*\*/g, '$1')}</p>
-            ))}
-          </div>
-        </motion.div>
+          {/* Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative w-full aspect-square lg:aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl border border-slate-100"
+          >
+            {university.image ? (
+              <Image 
+                src={getImageUrl(university.image)}
+                alt={university.name}
+                fill
+                className="object-cover"
+                priority
+                unoptimized
+              />
+            ) : (
+              <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center text-slate-400 p-8 text-center">
+                <GraduationCap className="w-16 h-16 mb-4 opacity-50" />
+                <p>Upload the main University Image in Django Admin</p>
+              </div>
+            )}
+          </motion.div>
+
+        </div>
       </section>
 
       {/* 2. BENTO GRID COURSES SECTION */}
