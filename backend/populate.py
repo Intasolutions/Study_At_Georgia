@@ -29,7 +29,7 @@ def populate():
     SiteContent.objects.update_or_create(identifier='hero_small_badge_text', defaults={'text_value': 'Study MBBS / MD'})
     SiteContent.objects.update_or_create(identifier='hero_primary_button_text', defaults={'text_value': 'Book Consultation'})
     SiteContent.objects.update_or_create(identifier='hero_secondary_button_text', defaults={'text_value': 'Explore University'})
-    SiteContent.objects.update_or_create(identifier='hero_secondary_button_link', defaults={'text_value': '#services'})
+    SiteContent.objects.update_or_create(identifier='hero_secondary_button_link', defaults={'text_value': '/universities'})
     SiteContent.objects.update_or_create(identifier='hero_trusted_partners_text', defaults={'text_value': 'We are the Exclusive Partner for'})
     SiteContent.objects.update_or_create(identifier='hero_university_names', defaults={'text_value': 'GRIGOL ROBAKIDZE UNIVERSITY, TBILISI'})
     SiteContent.objects.update_or_create(identifier='hero_statistic_1_value', defaults={'text_value': '85%'})

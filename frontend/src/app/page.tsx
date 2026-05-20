@@ -16,7 +16,6 @@ export default function Home() {
       <Navbar />
       <Hero />
       <StatsCounters/>
-      <UniversityShowcase />
       <ServicesBento />
       <JourneyTimeline/>
       <Testimonials />
