@@ -215,12 +215,12 @@ export default function UniversityShowcase() {
           )}
         </div>
 
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative h-[400px] md:h-[500px] w-full rounded-[2rem] overflow-hidden shadow-2xl bg-white border border-slate-200"
+            className="relative h-[300px] sm:h-[400px] md:h-[500px] w-full rounded-3xl md:rounded-[2rem] overflow-hidden shadow-2xl bg-white border border-slate-200"
           >
             {images.length > 0 ? (
               <AnimatePresence mode="wait">
@@ -270,14 +270,14 @@ export default function UniversityShowcase() {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 1 }}
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
+        className="fixed bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-40 w-[90%] sm:w-auto max-w-md"
       >
         <button 
           onClick={() => window.dispatchEvent(new Event("open-consultation"))}
-          className="flex items-center gap-3 px-8 py-4 bg-[#1a237e] text-white rounded-full font-bold shadow-[0_10px_40px_rgba(26,35,126,0.5)] hover:bg-[#111859] hover:scale-105 transition-all border border-white/10"
+          className="flex items-center justify-center w-full gap-2 sm:gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-[#1a237e] text-white rounded-full font-bold shadow-[0_10px_40px_rgba(26,35,126,0.5)] hover:bg-[#111859] hover:scale-105 transition-all border border-white/10 text-sm sm:text-base"
         >
           Secure Your Admission
-          <ChevronRightSquare className="w-5 h-5 text-[#cfb53b]" />
+          <ChevronRightSquare className="w-4 h-4 sm:w-5 sm:h-5 text-[#cfb53b]" />
         </button>
       </motion.div>
     </div>
