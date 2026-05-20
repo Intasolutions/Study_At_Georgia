@@ -196,8 +196,8 @@ export default function UniversityShowcase() {
         </div>
       </section>
 
-      {/* 3. CINEMATIC IMAGE GALLERY */}
-      <section className="py-12 pb-32">
+      {/* 3. CINEMATIC IMAGE GALLERY (LIGHT MODE) */}
+      <section className="py-12 pb-32 bg-[#fafafa]">
         <div className="max-w-7xl mx-auto px-6 mb-8 flex justify-between items-end">
           <div>
             <h2 className="text-3xl font-bold text-[#0f172a]">Campus Life</h2>
@@ -205,10 +205,10 @@ export default function UniversityShowcase() {
           </div>
           {images.length > 1 && (
             <div className="flex gap-2">
-              <button onClick={prevImage} className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-colors">
+              <button onClick={prevImage} className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-colors shadow-sm">
                 <ChevronLeft className="w-5 h-5" />
               </button>
-              <button onClick={nextImage} className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-colors">
+              <button onClick={nextImage} className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-[#1a237e] hover:text-white hover:border-[#1a237e] transition-colors shadow-sm">
                 <ChevronRight className="w-5 h-5" />
               </button>
             </div>
@@ -220,7 +220,7 @@ export default function UniversityShowcase() {
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="relative h-[500px] md:h-[700px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-[#0f172a]"
+            className="relative h-[500px] md:h-[700px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-white border border-slate-200"
           >
             {images.length > 0 ? (
               <AnimatePresence mode="wait">
@@ -240,12 +240,12 @@ export default function UniversityShowcase() {
                     priority
                     unoptimized
                   />
-                  {/* Subtle Gradient Overlay for Text Readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 via-transparent to-transparent pointer-events-none" />
+                  {/* Light Gradient Overlay for Text Readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent pointer-events-none" />
                   
                   {images[currentImageIndex].caption && (
                     <div className="absolute bottom-0 left-0 w-full p-10 md:p-16">
-                      <p className="text-white font-medium text-xl md:text-3xl max-w-3xl drop-shadow-lg">
+                      <p className="text-[#0f172a] font-black text-xl md:text-3xl max-w-3xl drop-shadow-sm">
                         {images[currentImageIndex].caption}
                       </p>
                     </div>
@@ -253,9 +253,12 @@ export default function UniversityShowcase() {
                 </motion.div>
               </AnimatePresence>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-center p-8">
-                <GraduationCap className="w-16 h-16 text-white/20 mb-4" />
-                <p className="text-white/60 text-lg">Campus gallery images pending upload in Django Admin.</p>
+              <div className="flex flex-col items-center justify-center h-full text-center p-8 bg-slate-50">
+                <div className="w-20 h-20 bg-slate-200/50 rounded-full flex items-center justify-center mb-6">
+                  <GraduationCap className="w-10 h-10 text-slate-400" />
+                </div>
+                <p className="text-[#0f172a] font-bold text-xl mb-2">Campus Gallery</p>
+                <p className="text-slate-500 max-w-md">Upload multiple photos in the "Gallery Images" section at the bottom of the Django Admin panel.</p>
               </div>
             )}
           </motion.div>
