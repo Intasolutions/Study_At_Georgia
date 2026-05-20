@@ -140,7 +140,7 @@ export default function UniversityShowcase() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
-            className="relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl bg-slate-100 border border-slate-200 flex items-center justify-center group"
+            className="sticky top-24 relative h-[400px] md:h-[600px] rounded-3xl overflow-hidden shadow-2xl bg-slate-100 border border-slate-200 flex items-center justify-center group"
           >
             {images.length > 0 ? (
               <>

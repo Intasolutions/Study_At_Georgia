@@ -12,7 +12,7 @@ from api.models import (
 def populate():
     # SiteContent
     # Core settings & Contact
-    SiteContent.objects.update_or_create(identifier='whatsapp_number', defaults={'text_value': '1234567890'})
+    SiteContent.objects.update_or_create(identifier='whatsapp_number', defaults={'text_value': '919876543210'})
     SiteContent.objects.update_or_create(identifier='whatsapp_message', defaults={'text_value': "Hello! I'm interested in studying MBBS/Nursing at Grigol Robakidze University."})
     SiteContent.objects.get_or_create(identifier='global_favicon_image')
     
@@ -115,12 +115,31 @@ def populate():
 
     # University
     from api.models import University, UniversityImage
+    
+    university_description = """**GRIGOL ROBAKIDZE UNIVERSITY**
+Ranked amongst Top 5 European Universities. NMC/MCI Approved. Part of Bologna Process. ECFMG (USMLE) and GMC (PLAB/UKMLA) Approved. Top University in Georgia for Indian Students.
+
+**STUDY MBBS / MD**
+Recent results show that Indian Students prefer Georgia over other abroad destinations. 85% of Foreign Students in Georgia study health related courses. Georgia has the highest FMGE passout ratio compared to other countries. Grigol Robakidze University provides special coachings to students after 3rd year to prepare and crack the examination.
+
+**STUDY BSc. Nursing**
+B.Sc. Nursing (4 Years). Recognized for academic rigor, global relevance, and industry integration, our 4 year nursing course provides a solid foundation in theoretical knowledge, clinical practice and language skills.
+Highlights: Affordable Tuition Fee paid in semesters, PINEO Hospital – Our Own University Hospital, 100% Placement Assurance, IELTS/OET Training, 4700 Contact Hours, Clinical experience from the second semester.
+
+**STUDY BBA**
+The BBA offers a 3-year, 240 ECTS program focused on management, marketing, finance, and entrepreneurship, aligned with EU standards, providing practical skills through projects, case studies, and a blended curriculum.
+Program Structure: 3 years (6 Semesters). Core Areas: Management, Marketing, Finance, Entrepreneurship. Specialization: Options include BBA in Artificial Intelligence & Programming, blending tech with business.
+
+**STUDY MBA**
+An MBA at GRUNI is a 2-year, English-taught program focused on developing global business leaders with practical skills in management, finance, marketing, and innovation.
+Program Highlights: 2 Years (4 Semesters). Medium of Instruction: 100% English. Curriculum: Strategic Management, Finance, Marketing, HR, Entrepreneurship, Data Analytics. Specializations: Finance & Accounting, Marketing, HRM, International Business."""
+
     grigol_uni, created = University.objects.update_or_create(
         name="Grigol Robakidze University",
         defaults={
             'location': "Tbilisi, Georgia",
-            'university_type': "Medical & Nursing",
-            'description': "Grigol Robakidze University offers a world-class educational experience. Recognized for academic rigor, global relevance, and industry integration, our programs provide a solid foundation in theoretical knowledge and clinical practice.\n\n**MBBS/MD Program**\nOur flagship medical program is designed to produce top-tier medical professionals. With high FMGE pass-out ratios and comprehensive coaching, students are fully prepared for global medical practice.\n\n**B.Sc. Nursing (4 Years)**\nShape your future in healthcare with our industry-integrated nursing program. Gain hands-on clinical experience starting from the second semester at PINEO Hospital, our exclusive training facility.",
+            'university_type': "Medical, Nursing, Business",
+            'description': university_description,
             'color_theme': "bg-brand-accent/20 text-brand-accent",
             'is_active': True
         }
