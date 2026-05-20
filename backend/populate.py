@@ -72,6 +72,12 @@ def populate():
     # Footer
     SiteContent.objects.update_or_create(identifier='footer_brand_name', defaults={'text_value': 'StudyAtGeorgia'})
     SiteContent.objects.update_or_create(identifier='footer_copyright', defaults={'text_value': 'StudyAtGeorgia. All rights reserved.'})
+    SiteContent.objects.update_or_create(identifier='footer_developer_tagline', defaults={'text_value': 'Developed and maintained by IN-TA Solutions Pvt Ltd.'})
+
+    # Contact Page Info
+    SiteContent.objects.update_or_create(identifier='contact_email', defaults={'text_value': 'admissions@studyatgeorgia.in'})
+    SiteContent.objects.update_or_create(identifier='contact_phone', defaults={'text_value': '+91 98765 43210'})
+    SiteContent.objects.update_or_create(identifier='contact_address', defaults={'text_value': 'StudyAtGeorgia Headquarters\nNew Delhi, India'})
 
     # Testimonials
     Testimonial.objects.all().delete()

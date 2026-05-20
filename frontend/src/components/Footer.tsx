@@ -31,7 +31,10 @@ export default function Footer() {
             {content.footer_brand_name || "Gateway to Georgia"}
           </span>
         </div>
-        <p>© {new Date().getFullYear()} {content.footer_copyright || "Gateway Consulting. All rights reserved."}</p>
+        <div className="flex flex-col items-center md:items-end gap-1 mt-4 md:mt-0">
+          <p>© {new Date().getFullYear()} {content.footer_copyright || "Gateway Consulting. All rights reserved."}</p>
+          <p className="text-xs opacity-60 font-light">{content.footer_developer_tagline || "Developed and maintained by IN-TA Solutions Pvt Ltd."}</p>
+        </div>
       </div>
     </footer>
   );
