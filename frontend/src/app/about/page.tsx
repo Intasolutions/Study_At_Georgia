@@ -27,7 +27,7 @@ export default function AboutPage() {
     <main className="min-h-screen relative selection:bg-brand-primary/30 selection:text-brand-primary flex flex-col">
       <Navbar />
       
-      <div className="flex-1 max-w-7xl mx-auto px-6 pt-32 pb-20 w-full">
+      <div className="flex-1 max-w-7xl mx-auto px-6 pt-[calc(8rem+var(--banner-height,0px))] pb-20 w-full">
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-brand-foreground mb-6">
           About Us
         </h1>

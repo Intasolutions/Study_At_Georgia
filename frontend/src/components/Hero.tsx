@@ -26,7 +26,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-32 pb-20 overflow-hidden bg-brand-background font-sans">
+    <section className="relative min-h-[90vh] flex items-center pt-[calc(8rem+var(--banner-height,0px))] pb-20 overflow-hidden bg-brand-background font-sans">
       {/* Subtle background grid pattern for modern tech-enabled feel */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40"></div>
 

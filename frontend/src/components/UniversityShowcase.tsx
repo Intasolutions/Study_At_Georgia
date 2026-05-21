@@ -85,7 +85,7 @@ export default function UniversityShowcase() {
     <div className="w-full bg-[#fafafa]">
       
       {/* 1. LIGHT MODE HERO SECTION WITH IMAGE */}
-      <section className="relative w-full pt-32 pb-20 lg:pt-40 lg:pb-24 bg-white overflow-hidden border-b border-slate-200">
+      <section className="relative w-full pt-[calc(8rem+var(--banner-height,0px))] pb-20 lg:pt-[calc(10rem+var(--banner-height,0px))] lg:pb-24 bg-white overflow-hidden border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
           {/* Text Content */}

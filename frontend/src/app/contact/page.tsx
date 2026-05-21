@@ -90,7 +90,7 @@ export default function ContactPage() {
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-[50vh] bg-gradient-to-b from-[#1a237e]/5 to-transparent pointer-events-none" />
 
-      <div className="flex-1 max-w-7xl mx-auto px-6 pt-32 pb-20 w-full relative z-10">
+      <div className="flex-1 max-w-7xl mx-auto px-6 pt-[calc(8rem+var(--banner-height,0px))] pb-20 w-full relative z-10">
         
         {/* Page Header */}
         <motion.div 

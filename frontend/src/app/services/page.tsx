@@ -19,7 +19,7 @@ export default function ServicesPage() {
     <main className="min-h-screen relative selection:bg-brand-primary/30 selection:text-brand-primary flex flex-col">
       <Navbar />
       
-      <div className="flex-1 w-full pt-32 pb-20">
+      <div className="flex-1 w-full pt-[calc(8rem+var(--banner-height,0px))] pb-20">
         <div className="max-w-7xl mx-auto px-6 mb-12">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-brand-foreground mb-4">
             Our Services
