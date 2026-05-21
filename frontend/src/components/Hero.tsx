@@ -91,7 +91,7 @@ export default function Hero() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-                className="relative w-[60%] aspect-square z-20 rounded-full border-[8px] border-white shadow-[0_0_40px_rgba(0,0,0,0.05)] overflow-hidden bg-slate-100"
+                className="relative w-[80%] aspect-square z-20 rounded-full border-[8px] border-white shadow-[0_0_40px_rgba(0,0,0,0.05)] overflow-hidden bg-slate-100"
               >
                 {content.home_hero_image_img ? (
                   <Image 
