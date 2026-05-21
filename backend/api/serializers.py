@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     University, UniversityImage, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
-    ServicePackage, StatCounter
+    ServicePackage, StatCounter, Announcement
 )
 
 class SiteContentSerializer(serializers.ModelSerializer):
@@ -52,3 +52,8 @@ class ContactLeadSerializer(serializers.ModelSerializer):
         model = ContactLead
         fields = ['id', 'name', 'email', 'message', 'status', 'created_at']
         read_only_fields = ['status', 'created_at']
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Announcement
+        fields = '__all__'

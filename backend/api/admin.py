@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     University, UniversityImage, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
-    ServicePackage, StatCounter
+    ServicePackage, StatCounter, Announcement
 )
 
 @admin.register(SiteContent)
@@ -52,3 +52,10 @@ class ContactLeadAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('name', 'email', 'message')
     readonly_fields = ('created_at',)
+
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('message', 'is_active', 'order', 'created_at')
+    list_editable = ('is_active', 'order')
+    list_filter = ('is_active',)
+    search_fields = ('message',)

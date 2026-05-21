@@ -150,6 +150,16 @@ Program Highlights: 2 Years (4 Semesters). Medium of Instruction: 100% English. 
         for i in range(3):
             UniversityImage.objects.create(university=grigol_uni, caption=f"Campus View {i+1}", order=i)
 
+    # Announcement Banner
+    from api.models import Announcement
+    Announcement.objects.all().delete()
+    Announcement.objects.create(
+        message="🚀 Fall 2024 Admissions are now OPEN for Grigol Robakidze University! Secure your seat today.",
+        link="/contact",
+        is_active=True,
+        order=0
+    )
+
     print("Successfully populated the database with Grigol Robakidze University content!")
 
 if __name__ == '__main__':

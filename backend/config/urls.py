@@ -6,7 +6,7 @@ from rest_framework.routers import DefaultRouter
 from api.views import (
     UniversityViewSet, ContactLeadViewSet, SiteContentViewSet,
     TestimonialViewSet, FaqItemViewSet, JourneyStepViewSet,
-    ServicePackageViewSet, StatCounterViewSet
+    ServicePackageViewSet, StatCounterViewSet, AnnouncementViewSet
 )
 
 router = DefaultRouter()
@@ -18,6 +18,7 @@ router.register(r'journey-steps', JourneyStepViewSet, basename='journeystep')
 router.register(r'service-packages', ServicePackageViewSet, basename='servicepackage')
 router.register(r'stats', StatCounterViewSet, basename='statcounter')
 router.register(r'contact', ContactLeadViewSet, basename='contact')
+router.register(r'announcements', AnnouncementViewSet, basename='announcement')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

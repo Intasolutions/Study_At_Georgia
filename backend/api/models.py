@@ -113,3 +113,16 @@ class ContactLead(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.email} ({self.status})"
+
+class Announcement(models.Model):
+    message = models.TextField(help_text="The announcement text to display in the carousel")
+    link = models.CharField(max_length=255, blank=True, null=True, help_text="Optional link to redirect when clicked")
+    is_active = models.BooleanField(default=True, help_text="Toggle to show/hide this announcement")
+    order = models.IntegerField(default=0, help_text="Order in the carousel (lower numbers first)")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+
+    def __str__(self):
+        return f"Announcement {self.id} (Active: {self.is_active})"

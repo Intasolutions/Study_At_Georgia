@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import AnnouncementBanner from "./AnnouncementBanner";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,14 +39,15 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-white/95 backdrop-blur-md border-b border-slate-200 py-3 md:py-4 shadow-sm" : "bg-transparent py-4 md:py-6"
-      }`}
-    >
+    <div className="fixed top-0 w-full z-50 flex flex-col">
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className={`w-full transition-all duration-300 ${
+          scrolled ? "bg-white/95 backdrop-blur-md border-b border-slate-200 py-3 md:py-4 shadow-sm" : "bg-transparent py-4 md:py-6"
+        }`}
+      >
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between">
         <Link href="/" onClick={closeMenu} className="flex items-center gap-2 z-50">
           {content.nav_logo_img ? (
@@ -93,9 +95,9 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "100vh" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden absolute top-0 left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl overflow-hidden pt-20"
+            className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl overflow-hidden"
           >
-            <div className="flex flex-col items-center justify-center h-full pb-32 gap-8 text-lg font-semibold text-brand-foreground">
+            <div className="flex flex-col items-center justify-start h-full pt-10 pb-32 gap-8 text-lg font-semibold text-brand-foreground">
               <Link href="/" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Home</Link>
               <Link href="/about" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">About</Link>
               <Link href="/services" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Services</Link>
@@ -117,5 +119,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </motion.nav>
+    <AnnouncementBanner />
+  </div>
   );
 }
