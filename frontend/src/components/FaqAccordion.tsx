@@ -33,7 +33,7 @@ export default function FaqAccordion() {
   if (faqs.length === 0) return null;
 
   return (
-    <div className="w-full max-w-3xl mx-auto mt-16">
+    <div className="w-full max-w-3xl mx-auto mt-16 px-4">
       <h2 className="text-3xl font-heading font-bold text-brand-foreground mb-8 text-center">{content.faq_section_title || "Frequently Asked Questions"}</h2>
       <div className="space-y-4">
         {faqs.map((faq, index) => {
