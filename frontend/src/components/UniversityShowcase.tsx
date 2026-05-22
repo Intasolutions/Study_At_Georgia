@@ -193,9 +193,9 @@ export default function UniversityShowcase() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     unoptimized
                   />
-                  {/* Subtle overlay for caption on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <p className="text-white font-medium text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                  {/* Subtle overlay for caption: Always visible on mobile, hover on desktop */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5 sm:p-6">
+                    <p className="text-white font-medium text-base sm:text-lg lg:translate-y-4 lg:group-hover:translate-y-0 transition-transform duration-300">
                       {img.caption || "Campus View"}
                     </p>
                   </div>
