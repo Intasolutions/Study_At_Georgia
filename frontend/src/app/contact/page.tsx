@@ -97,7 +97,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-10 md:mb-16"
         >
           <p className="text-[#cfb53b] text-sm font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
             <span className="w-8 h-[2px] bg-[#cfb53b]"></span>
@@ -120,14 +120,14 @@ export default function ContactPage() {
         >
           
           {/* Left Panel: Contact Information (Navy Branding) */}
-          <div className="lg:w-5/12 bg-[#1a237e] p-10 lg:p-14 relative overflow-hidden flex flex-col justify-between">
+          <div className="lg:w-5/12 bg-[#1a237e] p-6 sm:p-10 lg:p-14 relative overflow-hidden flex flex-col justify-between">
             {/* Ambient Background Elements */}
             <div className="absolute top-[-20%] right-[-20%] w-64 h-64 bg-[#cfb53b]/20 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-[-10%] left-[-10%] w-48 h-48 bg-[#9b1c31]/30 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10">
-              <h2 className="text-3xl font-serif text-white mb-2">Direct Access</h2>
-              <p className="text-slate-300 font-light mb-12">Our team operates with complete confidentiality and precision.</p>
+              <h2 className="text-2xl md:text-3xl font-serif text-white mb-2">Direct Access</h2>
+              <p className="text-slate-300 font-light mb-8 md:mb-12">Our team operates with complete confidentiality and precision.</p>
 
               <div className="space-y-8">
                 <div className="flex items-start gap-5 group">
@@ -170,7 +170,7 @@ export default function ContactPage() {
           </div>
           
           {/* Right Panel: Interactive Form */}
-          <div className="lg:w-7/12 p-10 lg:p-14 bg-white">
+          <div className="lg:w-7/12 p-6 sm:p-10 lg:p-14 bg-white">
             <h3 className="text-2xl font-bold text-[#0f172a] mb-8">Send a Message</h3>
             
             <form className="space-y-6" onSubmit={handleSubmit}>

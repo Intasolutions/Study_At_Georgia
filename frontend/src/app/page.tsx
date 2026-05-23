@@ -9,6 +9,7 @@ import StatsCounters from "@/components/StatsCounters";
 import JourneyTimeline from "@/components/JourneyTimeline";
 import FaqAccordion from "@/components/FaqAccordion";
 import UniversityShowcase from "@/components/UniversityShowcase";
+import WhyGruni from "@/components/WhyGruni";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <StatsCounters/>
+      <WhyGruni/>
       <ServicesBento />
       <JourneyTimeline/>
       <Testimonials />

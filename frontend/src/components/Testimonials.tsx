@@ -32,6 +32,17 @@ export default function Testimonials() {
       .catch(console.error);
   }, []);
 
+  // Autoplay functionality
+  useEffect(() => {
+    if (testimonials.length <= 1) return;
+    
+    const intervalId = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [testimonials.length, activeIndex]);
+
   if (testimonials.length === 0) return null;
 
   return (
