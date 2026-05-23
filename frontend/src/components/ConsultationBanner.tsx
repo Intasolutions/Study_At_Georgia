@@ -206,7 +206,7 @@ export default function ConsultationBanner() {
                       <option value="" disabled>Current Qualification</option>
                       <option value="High School / 12th Grade">High School / 12th Grade</option>
                       <option value="Bachelor's Degree">Bachelor&apos;s Degree</option>
-                      <option value="Master's Degree">Master's Degree</option>
+                      <option value="Master's Degree">Master&apos;s Degree</option>
                       <option value="Other">Other</option>
                     </select>
                     {fieldErrors.qualification && <p className="text-red-500 text-xs mt-1">{fieldErrors.qualification}</p>}

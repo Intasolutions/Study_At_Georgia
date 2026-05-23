@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`, { next: { revalidate: 60 } });
     const data = await res.json();
-    const faviconItem = data.find((item: any) => item.identifier === 'global_favicon_image');
+    const faviconItem = data.find((item: { identifier: string; image_value: string }) => item.identifier === 'global_favicon_image');
     if (faviconItem && faviconItem.image_value) {
       faviconUrl = faviconItem.image_value.startsWith('http') 
         ? faviconItem.image_value 

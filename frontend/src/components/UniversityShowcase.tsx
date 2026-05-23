@@ -30,7 +30,6 @@ export default function UniversityShowcase({ initialUniversity = null }: { initi
 
   useEffect(() => {
     if (initialUniversity) {
-      setLoading(false);
       return;
     }
 
