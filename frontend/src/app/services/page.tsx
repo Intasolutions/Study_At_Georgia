@@ -1,23 +1,38 @@
-"use client";
-
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicesBento from "@/components/ServicesBento";
 import JourneyTimeline from "@/components/JourneyTimeline";
-import { useEffect, useState } from "react";
 
-type Package = {
-  id: number;
-  name: string;
-  description: string;
-  is_popular: boolean;
-};
+export default async function ServicesPage() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  
+  const fetchWithCache = async (endpoint: string) => {
+    try {
+      const res = await fetch(`${apiUrl}${endpoint}`, { next: { revalidate: 60 } });
+      if (!res.ok) return null;
+      return res.json();
+    } catch (e) {
+      console.error(e);
+      return null;
+    }
+  };
 
-export default function ServicesPage() {
+  const [siteContentData, servicesData, journeyData] = await Promise.all([
+    fetchWithCache('/api/site-content/'),
+    fetchWithCache('/api/service-packages/'),
+    fetchWithCache('/api/journey-steps/')
+  ]);
+
+  const contentDict: Record<string, string> = {};
+  if (siteContentData && Array.isArray(siteContentData)) {
+    siteContentData.forEach(item => {
+      contentDict[item.identifier] = item.text_value || "";
+    });
+  }
 
   return (
     <main className="min-h-screen relative selection:bg-brand-primary/30 selection:text-brand-primary flex flex-col">
-      <Navbar />
+      <Navbar initialContent={contentDict} />
       
       <div className="flex-1 w-full pt-[calc(8rem+var(--banner-height,0px))] pb-20">
         <div className="max-w-7xl mx-auto px-6 mb-12">
@@ -30,14 +45,12 @@ export default function ServicesPage() {
         </div>
         
         {/* Reusing the ServicesBento component for the blueprint */}
-        <ServicesBento />
+        <ServicesBento initialContent={contentDict} initialServices={servicesData || []} />
         
-       
-
-        <JourneyTimeline />
+        <JourneyTimeline initialContent={contentDict} initialSteps={journeyData || []} />
       </div>
 
-      <Footer />
+      <Footer initialContent={contentDict} />
     </main>
   );
 }

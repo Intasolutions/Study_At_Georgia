@@ -27,15 +27,23 @@ function Counter({ from, to, duration = 2 }: { from: number; to: number; duratio
   return <span ref={nodeRef}>{from}</span>;
 }
 
-export default function StatsCounters() {
-  const [stats, setStats] = useState<{ id: number; number_value: number; suffix: string; label: string }[]>([]);
+export default function StatsCounters({ 
+  initialContent = {}, 
+  initialStats = [] 
+}: { 
+  initialContent?: Record<string, string>,
+  initialStats?: { id: number; number_value: number; suffix: string; label: string }[]
+}) {
+  const [stats, setStats] = useState<{ id: number; number_value: number; suffix: string; label: string }[]>(initialStats);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/stats/`)
-      .then(res => res.json())
-      .then(data => setStats(data))
-      .catch(console.error);
-  }, []);
+    if (initialStats.length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/stats/`)
+        .then(res => res.json())
+        .then(data => setStats(data))
+        .catch(console.error);
+    }
+  }, [initialStats]);
 
   if (stats.length === 0) return null;
 

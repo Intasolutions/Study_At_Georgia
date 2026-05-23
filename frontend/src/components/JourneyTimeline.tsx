@@ -10,26 +10,36 @@ type Step = {
   icon_text: string;
 };
 
-export default function JourneyTimeline() {
+export default function JourneyTimeline({ 
+  initialContent = {}, 
+  initialSteps = [] 
+}: { 
+  initialContent?: Record<string, string>,
+  initialSteps?: { id: number; title: string; description: string; icon_text: string }[]
+}) {
   const [activeStep, setActiveStep] = useState(0);
-  const [steps, setSteps] = useState<{ id: number; title: string; description: string; icon_text: string }[]>([]);
-  const [content, setContent] = useState<Record<string, string>>({});
+  const [steps, setSteps] = useState<{ id: number; title: string; description: string; icon_text: string }[]>(initialSteps);
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/journey-steps/`)
-      .then(res => res.json())
-      .then(data => setSteps(data))
-      .catch(console.error);
+    if (initialSteps.length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/journey-steps/`)
+        .then(res => res.json())
+        .then(data => setSteps(data))
+        .catch(console.error);
+    }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
-      .then(res => res.json())
-      .then((data: { identifier: string; text_value: string }[]) => {
-        const dict: Record<string, string> = {};
-        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
-        setContent(dict);
-      })
-      .catch(console.error);
-  }, []);
+    if (Object.keys(initialContent).length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+        .then(res => res.json())
+        .then((data: { identifier: string; text_value: string }[]) => {
+          const dict: Record<string, string> = {};
+          data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+          setContent(dict);
+        })
+        .catch(console.error);
+    }
+  }, [initialSteps, initialContent]);
 
   if (steps.length === 0) return null;
 

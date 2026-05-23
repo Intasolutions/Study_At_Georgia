@@ -4,10 +4,12 @@ import { motion } from "framer-motion";
 import { Globe, Building2, Briefcase, Users, ArrowRight, ShieldCheck, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function WhyGruni() {
-  const [content, setContent] = useState<Record<string, string>>({});
+export default function WhyGruni({ initialContent = {} }: { initialContent?: Record<string, string> }) {
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
+    if (Object.keys(initialContent).length > 0) return;
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
       .then(res => res.json())
       .then((data: { identifier: string; text_value: string }[]) => {
@@ -16,7 +18,7 @@ export default function WhyGruni() {
         setContent(dict);
       })
       .catch(console.error);
-  }, []);
+  }, [initialContent]);
 
   const dynamicPoints = [
     {

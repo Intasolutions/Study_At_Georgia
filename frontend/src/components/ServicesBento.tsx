@@ -4,26 +4,36 @@ import { motion } from "framer-motion";
 import { FileCheck, GraduationCap, Home, Plane, ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function Services() {
+export default function Services({ 
+  initialContent = {}, 
+  initialServices = [] 
+}: { 
+  initialContent?: Record<string, string>,
+  initialServices?: { id: number; name: string; description: string }[]
+}) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [services, setServices] = useState<{ id: number; name: string; description: string }[]>([]);
-  const [content, setContent] = useState<Record<string, string>>({});
+  const [services, setServices] = useState<{ id: number; name: string; description: string }[]>(initialServices);
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/service-packages/`)
-      .then(res => res.json())
-      .then(data => setServices(data))
-      .catch(console.error);
+    if (initialServices.length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/service-packages/`)
+        .then(res => res.json())
+        .then(data => setServices(data))
+        .catch(console.error);
+    }
       
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
-      .then(res => res.json())
-      .then((data: { identifier: string; text_value: string }[]) => {
-        const dict: Record<string, string> = {};
-        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
-        setContent(dict);
-      })
-      .catch(console.error);
-  }, []);
+    if (Object.keys(initialContent).length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+        .then(res => res.json())
+        .then((data: { identifier: string; text_value: string }[]) => {
+          const dict: Record<string, string> = {};
+          data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+          setContent(dict);
+        })
+        .catch(console.error);
+    }
+  }, [initialServices, initialContent]);
 
   const icons = [
     <FileCheck key="1" className="w-6 h-6" />,

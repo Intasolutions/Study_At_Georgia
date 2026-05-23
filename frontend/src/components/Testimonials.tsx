@@ -11,26 +11,36 @@ type Testimonial = {
   quote: string;
 };
 
-export default function Testimonials() {
+export default function Testimonials({ 
+  initialContent = {}, 
+  initialTestimonials = [] 
+}: { 
+  initialContent?: Record<string, string>,
+  initialTestimonials?: Testimonial[]
+}) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [testimonials, setTestimonials] = useState<{ student_name: string; university_name: string; quote: string }[]>([]);
-  const [content, setContent] = useState<Record<string, string>>({});
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(initialTestimonials);
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/testimonials/`)
-      .then(res => res.json())
-      .then(data => setTestimonials(data))
-      .catch(console.error);
+    if (initialTestimonials.length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/testimonials/`)
+        .then(res => res.json())
+        .then(data => setTestimonials(data))
+        .catch(console.error);
+    }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
-      .then(res => res.json())
-      .then((data: { identifier: string; text_value: string }[]) => {
-        const dict: Record<string, string> = {};
-        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
-        setContent(dict);
-      })
-      .catch(console.error);
-  }, []);
+    if (Object.keys(initialContent).length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+        .then(res => res.json())
+        .then((data: { identifier: string; text_value: string }[]) => {
+          const dict: Record<string, string> = {};
+          data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+          setContent(dict);
+        })
+        .catch(console.error);
+    }
+  }, [initialTestimonials, initialContent]);
 
   // Autoplay functionality
   useEffect(() => {

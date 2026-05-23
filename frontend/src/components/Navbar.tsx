@@ -6,12 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
 
-export default function Navbar() {
+export default function Navbar({ initialContent = {} }: { initialContent?: Record<string, string> }) {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState<Record<string, string>>({});
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
+    if (Object.keys(initialContent).length > 0) return;
+    
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
       .then(res => res.json())
       .then((data: { identifier: string; text_value: string; image_value: string }[]) => {
@@ -25,7 +27,7 @@ export default function Navbar() {
         setContent(dict);
       })
       .catch(console.error);
-  }, []);
+  }, [initialContent]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,7 +75,7 @@ export default function Navbar() {
           <Link href="/" className="hover:text-brand-primary transition-colors">Home</Link>
           <Link href="/about" className="hover:text-brand-primary transition-colors">About</Link>
           <Link href="/services" className="hover:text-brand-primary transition-colors">Services</Link>
-          <Link href="/universities" className="hover:text-brand-primary transition-colors">Universitie</Link>
+          <Link href="/universities" className="hover:text-brand-primary transition-colors">University</Link>
           <Link href="/contact" className="hover:text-brand-primary transition-colors">Contact Us</Link>
         </div>
 
@@ -101,7 +103,7 @@ export default function Navbar() {
               <Link href="/" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Home</Link>
               <Link href="/about" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">About</Link>
               <Link href="/services" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Services</Link>
-              <Link href="/universities" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Universities</Link>
+              <Link href="/universities" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">University</Link>
               <Link href="/contact" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Contact Us</Link>
               
               <button 

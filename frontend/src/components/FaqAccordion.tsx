@@ -9,26 +9,36 @@ type Faq = {
   answer: string;
 };
 
-export default function FaqAccordion() {
+export default function FaqAccordion({ 
+  initialContent = {}, 
+  initialFaqs = [] 
+}: { 
+  initialContent?: Record<string, string>,
+  initialFaqs?: Faq[]
+}) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [faqs, setFaqs] = useState<Faq[]>([]);
-  const [content, setContent] = useState<Record<string, string>>({});
+  const [faqs, setFaqs] = useState<Faq[]>(initialFaqs);
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/faqs/`)
-      .then(res => res.json())
-      .then(data => setFaqs(data))
-      .catch(console.error);
+    if (initialFaqs.length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/faqs/`)
+        .then(res => res.json())
+        .then(data => setFaqs(data))
+        .catch(console.error);
+    }
 
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
-      .then(res => res.json())
-      .then((data: { identifier: string; text_value: string }[]) => {
-        const dict: Record<string, string> = {};
-        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
-        setContent(dict);
-      })
-      .catch(console.error);
-  }, []);
+    if (Object.keys(initialContent).length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+        .then(res => res.json())
+        .then((data: { identifier: string; text_value: string }[]) => {
+          const dict: Record<string, string> = {};
+          data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+          setContent(dict);
+        })
+        .catch(console.error);
+    }
+  }, [initialFaqs, initialContent]);
 
   if (faqs.length === 0) return null;
 

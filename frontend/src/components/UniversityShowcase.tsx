@@ -24,11 +24,16 @@ interface University {
   gallery_images: UniversityImage[];
 }
 
-export default function UniversityShowcase() {
-  const [university, setUniversity] = useState<University | null>(null);
-  const [loading, setLoading] = useState(true);
+export default function UniversityShowcase({ initialUniversity = null }: { initialUniversity?: University | null }) {
+  const [university, setUniversity] = useState<University | null>(initialUniversity);
+  const [loading, setLoading] = useState(!initialUniversity);
 
   useEffect(() => {
+    if (initialUniversity) {
+      setLoading(false);
+      return;
+    }
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/universities/`)
       .then((res) => res.json())
       .then((data: University[]) => {
@@ -42,7 +47,7 @@ export default function UniversityShowcase() {
         console.error("Failed to fetch university data:", error);
         setLoading(false);
       });
-  }, []);
+  }, [initialUniversity]);
 
   if (loading || !university) {
     return <div className="min-h-screen bg-white" />; // Placeholder while loading

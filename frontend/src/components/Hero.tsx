@@ -6,10 +6,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export default function Hero() {
-  const [content, setContent] = useState<Record<string, string>>({});
+export default function Hero({ initialContent = {} }: { initialContent?: Record<string, string> }) {
+  const [content, setContent] = useState<Record<string, string>>(initialContent);
 
   useEffect(() => {
+    if (Object.keys(initialContent).length > 0) return;
+
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
       .then(res => res.json())
       .then((data: { identifier: string; text_value: string; image_value: string }[]) => {
@@ -23,7 +25,7 @@ export default function Hero() {
         setContent(dict);
       })
       .catch(console.error);
-  }, []);
+  }, [initialContent]);
 
   return (
     <section className="relative min-h-[85vh] flex flex-col justify-between pt-[calc(7rem+var(--banner-height,0px))] pb-12 lg:pb-0 overflow-hidden bg-[#fafafa] font-sans">
