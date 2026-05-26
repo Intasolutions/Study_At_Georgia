@@ -1,7 +1,12 @@
+import { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServicesBento from "@/components/ServicesBento";
 import JourneyTimeline from "@/components/JourneyTimeline";
+
+export const metadata: Metadata = {
+  title: "Our Services",
+};
 
 export default async function ServicesPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";

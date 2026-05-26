@@ -1,6 +1,24 @@
+import { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import UniversityShowcase from "@/components/UniversityShowcase";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+  try {
+    const res = await fetch(`${apiUrl}/api/universities/`, { next: { revalidate: 60 } });
+    if (res.ok) {
+      const data = await res.json();
+      const targetUni = data.find((u: { name: string; is_active: boolean }) => u.name.includes("Grigol Robakidze")) || data.find((u: { name: string; is_active: boolean }) => u.is_active);
+      if (targetUni) {
+        return { title: targetUni.name };
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return { title: "Universities" };
+}
 
 export default async function UniversitiesPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";

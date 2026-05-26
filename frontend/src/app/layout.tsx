@@ -16,22 +16,41 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   let faviconUrl = "/favicon.ico"; // Default fallback if fetch fails
+  let defaultTitle = "Premium Study Abroad Agency | Gateway to Georgia";
+  let defaultDesc = "Your trusted partner for studying abroad in Georgia. We handle visa processing, university selection, and accommodation.";
+
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`, { next: { revalidate: 60 } });
-    const data = await res.json();
-    const faviconItem = data.find((item: { identifier: string; image_value: string }) => item.identifier === 'global_favicon_image');
-    if (faviconItem && faviconItem.image_value) {
-      faviconUrl = faviconItem.image_value.startsWith('http') 
-        ? faviconItem.image_value 
-        : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${faviconItem.image_value}`;
+    if (res.ok) {
+      const data = await res.json();
+      
+      const faviconItem = data.find((item: { identifier: string; image_value: string }) => item.identifier === 'global_favicon_image');
+      if (faviconItem && faviconItem.image_value) {
+        faviconUrl = faviconItem.image_value.startsWith('http') 
+          ? faviconItem.image_value 
+          : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${faviconItem.image_value}`;
+      }
+
+      const titleItem = data.find((item: { identifier: string; text_value: string }) => item.identifier === 'seo_default_title');
+      if (titleItem && titleItem.text_value) {
+        defaultTitle = titleItem.text_value;
+      }
+
+      const descItem = data.find((item: { identifier: string; text_value: string }) => item.identifier === 'seo_default_description');
+      if (descItem && descItem.text_value) {
+        defaultDesc = descItem.text_value;
+      }
     }
   } catch (error) {
-    console.error("Failed to fetch favicon:", error);
+    console.error("Failed to fetch global metadata:", error);
   }
 
   return {
-    title: "Premium Study Abroad Agency | Gateway to Georgia",
-    description: "Your trusted partner for studying abroad in Georgia. We handle visa processing, university selection, and accommodation.",
+    title: {
+      template: `%s | ${defaultTitle}`,
+      default: defaultTitle,
+    },
+    description: defaultDesc,
     icons: {
       icon: faviconUrl,
     }

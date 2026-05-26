@@ -1,7 +1,12 @@
+import { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FaqAccordion from "@/components/FaqAccordion";
 import ContactForm from "@/components/ContactForm";
+
+export const metadata: Metadata = {
+  title: "Contact Us",
+};
 
 export default async function ContactPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";

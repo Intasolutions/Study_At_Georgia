@@ -1,6 +1,11 @@
+import { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StatsCounters from "@/components/StatsCounters";
+
+export const metadata: Metadata = {
+  title: "About Us",
+};
 
 export default async function AboutPage() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
