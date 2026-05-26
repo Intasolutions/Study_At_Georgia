@@ -130,8 +130,6 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
             <ul className="space-y-3">
               {[
                 { name: 'Contact Us', href: '/contact' },
-                { name: 'Privacy Policy', href: '#' },
-                { name: 'Terms of Service', href: '#' },
                 { name: 'FAQ', href: '/contact' },
               ].map((link) => (
                 <li key={link.name}>
