@@ -57,16 +57,26 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
           
           {/* Brand Column */}
           <div className="lg:col-span-4 flex flex-col items-start">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center shadow-lg shadow-brand-gold/20">
-                <span className="text-brand-primary font-bold text-xl">
-                  {(content.footer_brand_name || "G")[0]}
-                </span>
-              </div>
-              <span className="font-heading font-bold text-2xl text-white tracking-tight">
-                {content.footer_brand_name || "Gateway to Georgia"}
-              </span>
-            </div>
+            <Link href="/" className="flex items-center gap-3 mb-6 hover:opacity-90 transition-opacity">
+              {content.footer_logo_img || content.nav_logo_img ? (
+                <img 
+                  src={(content.footer_logo_img || content.nav_logo_img).startsWith('http') ? (content.footer_logo_img || content.nav_logo_img) : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${content.footer_logo_img || content.nav_logo_img}`} 
+                  alt="Brand Logo" 
+                  className="h-14 w-auto object-contain bg-white p-2 rounded-xl shadow-lg shadow-black/10"
+                />
+              ) : (
+                <>
+                  <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center shadow-lg shadow-brand-gold/20">
+                    <span className="text-brand-primary font-bold text-xl">
+                      {(content.footer_brand_name || "G")[0]}
+                    </span>
+                  </div>
+                  <span className="font-heading font-bold text-2xl text-white tracking-tight">
+                    {content.footer_brand_name || "Gateway to Georgia"}
+                  </span>
+                </>
+              )}
+            </Link>
             <p className="text-white/70 text-sm leading-relaxed mb-8 max-w-sm">
               Your premium partner for international education. We provide end-to-end consulting, university admissions, and visa processing for studying in Georgia.
             </p>
