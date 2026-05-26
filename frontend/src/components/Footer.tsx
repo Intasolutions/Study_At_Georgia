@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
 
 const FacebookIcon = () => (
   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -45,51 +47,131 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
   }, [initialContent]);
 
   return (
-    <footer className="border-t border-brand-primary/10 py-12 text-center text-brand-muted text-sm mt-20 bg-brand-surface">
-      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-        
-        {/* Brand */}
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-full bg-brand-primary/10 flex items-center justify-center border border-brand-primary/20">
-            <span className="text-brand-primary font-bold text-xs">
-              {(content.footer_brand_name || "G")[0]}
-            </span>
+    <footer className="bg-brand-primary text-white pt-20 pb-10 mt-20 relative overflow-hidden">
+      {/* Decorative Gold Elements */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-primary/50 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
+          
+          {/* Brand Column */}
+          <div className="lg:col-span-4 flex flex-col items-start">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-brand-gold flex items-center justify-center shadow-lg shadow-brand-gold/20">
+                <span className="text-brand-primary font-bold text-xl">
+                  {(content.footer_brand_name || "G")[0]}
+                </span>
+              </div>
+              <span className="font-heading font-bold text-2xl text-white tracking-tight">
+                {content.footer_brand_name || "Gateway to Georgia"}
+              </span>
+            </div>
+            <p className="text-white/70 text-sm leading-relaxed mb-8 max-w-sm">
+              Your premium partner for international education. We provide end-to-end consulting, university admissions, and visa processing for studying in Georgia.
+            </p>
+            
+            {/* Social Links */}
+            <div className="flex items-center gap-4">
+              {content.social_facebook && (
+                <a href={content.social_facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/70 hover:bg-brand-gold hover:text-brand-primary transition-all duration-300" aria-label="Facebook">
+                  <FacebookIcon />
+                </a>
+              )}
+              {content.social_instagram && (
+                <a href={content.social_instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/70 hover:bg-brand-gold hover:text-brand-primary transition-all duration-300" aria-label="Instagram">
+                  <InstagramIcon />
+                </a>
+              )}
+              {content.social_youtube && (
+                <a href={content.social_youtube} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/70 hover:bg-brand-gold hover:text-brand-primary transition-all duration-300" aria-label="YouTube">
+                  <YoutubeIcon />
+                </a>
+              )}
+              {content.social_linkedin && (
+                <a href={content.social_linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white/70 hover:bg-brand-gold hover:text-brand-primary transition-all duration-300" aria-label="LinkedIn">
+                  <LinkedinIcon />
+                </a>
+              )}
+            </div>
           </div>
-          <span className="font-heading font-medium text-brand-foreground">
-            {content.footer_brand_name || "Gateway to Georgia"}
-          </span>
+
+          {/* Quick Links Column */}
+          <div className="lg:col-span-2 lg:col-start-6">
+            <h4 className="font-heading font-bold text-white mb-6 tracking-wide">Quick Links</h4>
+            <ul className="space-y-3">
+              {[
+                { name: 'Home', href: '/' },
+                { name: 'About Us', href: '/about' },
+                { name: 'Our Services', href: '/services' },
+                { name: 'Universities', href: '/universities' },
+              ].map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-white/70 text-sm hover:text-brand-gold transition-colors flex items-center gap-2 group">
+                    <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    <span>{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Legal Links Column */}
+          <div className="lg:col-span-2">
+            <h4 className="font-heading font-bold text-white mb-6 tracking-wide">Support</h4>
+            <ul className="space-y-3">
+              {[
+                { name: 'Contact Us', href: '/contact' },
+                { name: 'Privacy Policy', href: '#' },
+                { name: 'Terms of Service', href: '#' },
+                { name: 'FAQ', href: '/contact' },
+              ].map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-white/70 text-sm hover:text-brand-gold transition-colors flex items-center gap-2 group">
+                    <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    <span>{link.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Column */}
+          <div className="lg:col-span-3">
+            <h4 className="font-heading font-bold text-white mb-6 tracking-wide">Get in Touch</h4>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-white/70 text-sm">
+                <Mail className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
+                <span className="leading-relaxed">
+                  {content.contact_email || "admissions@studyatgeorgia.com"}
+                </span>
+              </li>
+              <li className="flex items-start gap-3 text-white/70 text-sm">
+                <Phone className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
+                <span className="leading-relaxed">
+                  {content.contact_phone || "+1 (555) 123-4567"}
+                </span>
+              </li>
+              <li className="flex items-start gap-3 text-white/70 text-sm">
+                <MapPin className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
+                <span className="leading-relaxed">
+                  {content.contact_address || "123 Education Boulevard, Tbilisi, Georgia"}
+                </span>
+              </li>
+            </ul>
+          </div>
+
         </div>
 
-        {/* Social Links */}
-        <div className="flex items-center gap-4">
-          {content.social_facebook && (
-            <a href={content.social_facebook} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-primary transition-colors" aria-label="Facebook">
-              <FacebookIcon />
-            </a>
-          )}
-          {content.social_instagram && (
-            <a href={content.social_instagram} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-primary transition-colors" aria-label="Instagram">
-              <InstagramIcon />
-            </a>
-          )}
-          {content.social_youtube && (
-            <a href={content.social_youtube} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-primary transition-colors" aria-label="YouTube">
-              <YoutubeIcon />
-            </a>
-          )}
-          {content.social_linkedin && (
-            <a href={content.social_linkedin} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-brand-primary transition-colors" aria-label="LinkedIn">
-              <LinkedinIcon />
-            </a>
-          )}
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/50 text-sm">
+            © {new Date().getFullYear()} {content.footer_copyright || "Gateway to Georgia Consulting. All rights reserved."}
+          </p>
+          <p className="text-white/30 text-xs font-light tracking-wide">
+            {content.footer_developer_tagline || "Designed & Developed by IN-TA Solutions Pvt Ltd"}
+          </p>
         </div>
-
-        {/* Copyright */}
-        <div className="flex flex-col items-center md:items-end gap-1">
-          <p>© {new Date().getFullYear()} {content.footer_copyright || "Gateway Consulting. All rights reserved."}</p>
-          <p className="text-xs opacity-60 font-light">{content.footer_developer_tagline || "Developed and maintained by IN-TA Solutions Pvt Ltd."}</p>
-        </div>
-
       </div>
     </footer>
   );
