@@ -52,7 +52,7 @@ export default function UniversityList() {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-20 text-brand-muted">Loading Universities...</div>;
+    return <div className="text-center py-20 text-brand-muted">Loading University...</div>;
   }
 
   return (

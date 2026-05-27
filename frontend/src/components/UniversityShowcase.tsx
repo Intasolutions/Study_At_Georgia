@@ -49,7 +49,7 @@ export default function UniversityShowcase({ initialUniversity = null }: { initi
   }, [initialUniversity]);
 
   if (loading || !university) {
-    return <div className="min-h-screen bg-white" />; // Placeholder while loading
+    return <div className="min-h-screen bg-white" />;
   }
 
   const images = university.gallery_images?.filter(img => img.image) || [];
@@ -99,7 +99,7 @@ export default function UniversityShowcase({ initialUniversity = null }: { initi
               {university.name}
             </h1>
             
-            <div className="text-slate-600 text-lg md:text-xl max-w-2xl space-y-4">
+            <div className="text-slate-600 text-lg md:text-xl max-w-2xl space-y-4 text-justify">
               {introParagraphs.map((p, idx) => (
                 <p key={idx}>{p.replace(/\*\*(.*?)\*\*/g, '$1')}</p>
               ))}
@@ -162,7 +162,7 @@ export default function UniversityShowcase({ initialUniversity = null }: { initi
                   <h3 className="text-2xl font-bold text-slate-900">{title}</h3>
                 </div>
                 
-                <p className="text-slate-600 leading-relaxed mb-8 flex-grow">{mainDescription}</p>
+                <p className="text-slate-600 leading-relaxed mb-8 flex-grow text-justify">{mainDescription}</p>
                 
                 {highlights && (
                   <div className="mt-auto bg-slate-50 p-5 rounded-lg">

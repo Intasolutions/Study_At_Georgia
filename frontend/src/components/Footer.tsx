@@ -76,7 +76,7 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
               </span>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed mb-8 max-w-sm">
-              Your premium partner for international education. We provide end-to-end consulting, university admissions, and visa processing for studying in Georgia.
+            Authorised marketing and student support team in India for Grigol Robakidze university
             </p>
             
             {/* Social Links */}
@@ -112,7 +112,7 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
                 { name: 'Home', href: '/' },
                 { name: 'About Us', href: '/about' },
                 { name: 'Our Services', href: '/services' },
-                { name: 'Universities', href: '/universities' },
+                { name: 'University', href: '/universities' },
               ].map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-white/70 text-sm hover:text-brand-gold transition-colors flex items-center gap-2 group">
@@ -180,5 +180,5 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
         </div>
       </div>
     </footer>
-  );
+  );  
 }

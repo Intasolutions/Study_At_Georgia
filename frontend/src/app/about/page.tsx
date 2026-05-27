@@ -46,8 +46,7 @@ export default async function AboutPage() {
         </h1>
         <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-8 backdrop-blur-sm">
           <p className="text-slate-600 text-lg leading-relaxed">
-            Welcome to Gateway to Georgia. We are a premium agency dedicated to guiding students toward a successful academic future.
-            Our team of expert consultants provides tailored advice and end-to-end support for studying abroad.
+          Study at Georgia is the authorized marketing and student support team in India for Grigol Robakidze University, committed to helping Indian students achieve quality international education in Georgia. We provide complete guidance throughout the admission journey — from university selection and application support to visa assistance, accommodation guidance, and pre-departure support. Our mission is to connect aspiring students with European-standard education opportunities and help them build a successful global career with confidence.
           </p>
           <div className="mt-12">
             <StatsCounters initialContent={contentDict} initialStats={statsData || []} />

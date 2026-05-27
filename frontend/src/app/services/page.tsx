@@ -45,7 +45,7 @@ export default async function ServicesPage() {
             Our Services
           </h1>
           <p className="text-slate-600 text-lg max-w-2xl">
-            Comprehensive support designed to help you transition seamlessly to studying and living in Georgia.
+            Authorized representatives of GRUNI University, dedicated to supporting Indian students in pursuing quality education and a comfortable living experience in Georgia.
           </p>
         </div>
         
