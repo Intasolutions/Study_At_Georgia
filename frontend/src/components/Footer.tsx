@@ -131,6 +131,7 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
               {[
                 { name: 'Contact Us', href: '/contact' },
                 { name: 'FAQ', href: '/contact' },
+                { name: 'Privacy Policy', href: '/privacy-policy' },
               ].map((link) => (
                 <li key={link.name}>
                   <Link href={link.href} className="text-white/70 text-sm hover:text-brand-gold transition-colors flex items-center gap-2 group">
@@ -166,7 +167,6 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
               </li>
             </ul>
           </div>
-
         </div>
 
         {/* Bottom Bar */}
