@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StatsCounters from "@/components/StatsCounters";
@@ -44,10 +45,71 @@ export default async function AboutPage() {
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-brand-foreground mb-6">
           About Us
         </h1>
-        <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-8 backdrop-blur-sm">
-          <p className="text-slate-600 text-lg leading-relaxed">
-          Study at Georgia is the authorized marketing and student support team in India for Grigol Robakidze University, committed to helping Indian students achieve quality international education in Georgia. We provide complete guidance throughout the admission journey — from university selection and application support to visa assistance, accommodation guidance, and pre-departure support. Our mission is to connect aspiring students with European-standard education opportunities and help them build a successful global career with confidence.
-          </p>
+        <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-8 md:p-12 backdrop-blur-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-7">
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Study at Georgia is the authorized marketing and student support team in India for Grigol Robakidze University, committed to helping Indian students achieve quality international education in Georgia. We provide complete guidance throughout the admission journey — from university selection and application support to visa assistance, accommodation guidance, and pre-departure support. Our mission is to connect aspiring students with European-standard education opportunities and help them build a successful global career with confidence.
+              </p>
+              
+              <div className="mt-8 space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-heading font-semibold text-slate-800">Authorized Channel Partner</h4>
+                    <p className="text-sm text-slate-500">Official representative for admissions and student support for Grigol Robakidze University (GRUNI).</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                    <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-heading font-semibold text-slate-800">End-to-End Support</h4>
+                    <p className="text-sm text-slate-500">Complete assistance with applications, document verification, translation, visa processing, and pre-departure guidance.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="w-full max-w-sm rounded-2xl overflow-hidden border border-slate-200/80 bg-white p-4 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-5">
+                  <Image 
+                    src="/amal-mohan.jpg" 
+                    alt="Amal Mohan - Authorized Representative" 
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover object-[center_15%] group-hover:scale-102 transition-transform duration-500" 
+                    priority
+                  />
+                  <div className="absolute top-3 right-3 bg-brand-primary/95 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
+                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                    Authorized Representative
+                  </div>
+                </div>
+                <div className="text-center px-2 pb-2">
+                  <h3 className="text-2xl font-heading font-bold text-brand-foreground">
+                    Amal Mohan
+                  </h3>
+                  <p className="text-brand-primary font-medium text-sm mt-1">
+                    Official Representative of Grigol Robakidze University
+                  </p>
+                  <p className="text-slate-500 text-xs mt-3 leading-relaxed border-t border-slate-100 pt-3">
+                    Authorized to represent and assist students from India seeking admission to Grigol Robakidze University (GRUNI), Georgia.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
           <div className="mt-12">
             <StatsCounters initialContent={contentDict} initialStats={statsData || []} />
           </div>
@@ -66,7 +128,13 @@ export default async function AboutPage() {
               </p>
               {contentDict.about_vision_img && (
                 <div className="relative w-full h-48 rounded-lg overflow-hidden border border-slate-200 mt-2">
-                  <img src={contentDict.about_vision_img} alt="Our Vision" className="object-cover w-full h-full" />
+                  <Image 
+                    src={contentDict.about_vision_img} 
+                    alt="Our Vision" 
+                    fill 
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover" 
+                  />
                 </div>
               )}
             </div>
