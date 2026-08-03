@@ -32,6 +32,9 @@ export default async function ServicesPage() {
   if (siteContentData && Array.isArray(siteContentData)) {
     siteContentData.forEach(item => {
       contentDict[item.identifier] = item.text_value || "";
+      if (item.image_value) {
+        contentDict[`${item.identifier}_img`] = item.image_value;
+      }
     });
   }
 

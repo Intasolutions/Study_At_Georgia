@@ -174,10 +174,21 @@ export default function ContactForm({ content }: { content: Record<string, strin
         </div>
       </div>
       
-      <div className="lg:w-7/12 p-6 sm:p-10 lg:p-14 bg-white">
-        <h3 className="text-2xl font-bold text-[#0f172a] mb-8">Send a Message</h3>
+      <div className="lg:w-7/12 p-6 sm:p-10 lg:p-14 bg-white relative">
+        {(content.nav_logo_img || content.footer_logo_img) && (
+          <div className="absolute inset-0 z-0 flex items-center justify-center opacity-10 pointer-events-none overflow-hidden">
+            <img 
+              src={(content.nav_logo_img || content.footer_logo_img).startsWith('http') ? (content.nav_logo_img || content.footer_logo_img) : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${content.nav_logo_img || content.footer_logo_img}`} 
+              alt="University Logo Background" 
+              className="w-3/4 h-3/4 object-contain"
+            />
+          </div>
+        )}
         
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <div className="relative z-10">
+          <h3 className="text-2xl font-bold text-[#0f172a] mb-8">Send a Message</h3>
+          
+          <form className="space-y-6" onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
@@ -321,6 +332,7 @@ export default function ContactForm({ content }: { content: Record<string, strin
             </motion.div>
           )}
         </form>
+        </div>
       </div>
     </motion.div>
   );
