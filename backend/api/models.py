@@ -108,6 +108,8 @@ class ContactLead(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField()
     message = models.TextField()
+    course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True, blank=True, related_name='leads')
+    answers = models.JSONField(blank=True, null=True, help_text="Dynamic question answers")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='NEW')
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -126,3 +128,32 @@ class Announcement(models.Model):
 
     def __str__(self):
         return f"Announcement {self.id} (Active: {self.is_active})"
+
+class Course(models.Model):
+    name = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
+class CourseQuestion(models.Model):
+    QUESTION_TYPES = [
+        ('TEXT', 'Text Input'),
+        ('CHOICE', 'Multiple Choice (Dropdown)'),
+    ]
+    course = models.ForeignKey(Course, related_name='questions', on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=500)
+    question_type = models.CharField(max_length=20, choices=QUESTION_TYPES, default='TEXT')
+    choices = models.TextField(blank=True, null=True, help_text="Comma-separated options if QUESTION_TYPE is CHOICE. e.g. 'Yes, No' or 'Biology, Commerce'")
+    is_required = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return f"{self.course.name} - {self.question_text}"

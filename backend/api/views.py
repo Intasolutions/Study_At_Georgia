@@ -3,12 +3,14 @@ from rest_framework.permissions import AllowAny
 from .models import (
     University, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
-    ServicePackage, StatCounter, Announcement
+    ServicePackage, StatCounter, Announcement,
+    Course
 )
 from .serializers import (
     UniversitySerializer, ContactLeadSerializer, SiteContentSerializer,
     TestimonialSerializer, FaqItemSerializer, JourneyStepSerializer,
-    ServicePackageSerializer, StatCounterSerializer, AnnouncementSerializer
+    ServicePackageSerializer, StatCounterSerializer, AnnouncementSerializer,
+    CourseSerializer
 )
 
 class SiteContentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -55,4 +57,9 @@ class ContactLeadViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 class AnnouncementViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Announcement.objects.filter(is_active=True)
     serializer_class = AnnouncementSerializer
+    permission_classes = [AllowAny]
+
+class CourseViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Course.objects.filter(is_active=True).prefetch_related('questions')
+    serializer_class = CourseSerializer
     permission_classes = [AllowAny]

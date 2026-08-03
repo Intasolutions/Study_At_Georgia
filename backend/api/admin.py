@@ -2,7 +2,8 @@ from django.contrib import admin
 from .models import (
     University, UniversityImage, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
-    ServicePackage, StatCounter, Announcement
+    ServicePackage, StatCounter, Announcement,
+    Course, CourseQuestion
 )
 
 @admin.register(SiteContent)
@@ -48,8 +49,8 @@ class StatCounterAdmin(admin.ModelAdmin):
 
 @admin.register(ContactLead)
 class ContactLeadAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'status', 'created_at')
-    list_filter = ('status', 'created_at')
+    list_display = ('name', 'email', 'course', 'status', 'created_at')
+    list_filter = ('status', 'course', 'created_at')
     search_fields = ('name', 'email', 'message')
     readonly_fields = ('created_at',)
 
@@ -59,3 +60,13 @@ class AnnouncementAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'order')
     list_filter = ('is_active',)
     search_fields = ('message',)
+
+class CourseQuestionInline(admin.TabularInline):
+    model = CourseQuestion
+    extra = 1
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'is_active', 'order')
+    list_editable = ('is_active', 'order')
+    inlines = [CourseQuestionInline]

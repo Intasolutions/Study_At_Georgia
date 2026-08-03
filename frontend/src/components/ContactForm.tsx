@@ -1,19 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, ArrowRight, CheckCircle2, AlertCircle } from "lucide-react";
 
+interface CourseQuestion {
+  id: number;
+  question_text: string;
+  question_type: "TEXT" | "CHOICE";
+  choices: string | null;
+  is_required: boolean;
+}
+
+interface Course {
+  id: number;
+  name: string;
+  questions: CourseQuestion[];
+}
+
 export default function ContactForm({ content }: { content: Record<string, string> }) {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
-  const [fieldErrors, setFieldErrors] = useState({ name: "", email: "", phone: "", message: "" });
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [selectedCourseId, setSelectedCourseId] = useState<string>("");
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/courses/`);
+        if (res.ok) {
+          const data = await res.json();
+          setCourses(data);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchCourses();
+  }, []);
+
+  const selectedCourse = courses.find(c => c.id.toString() === selectedCourseId);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     let isValid = true;
-    const errors = { name: "", email: "", phone: "", message: "" };
+    const errors: Record<string, string> = {};
 
     if (!formData.name.trim()) {
       errors.name = "Name is required";
@@ -33,6 +67,20 @@ export default function ContactForm({ content }: { content: Record<string, strin
       isValid = false;
     }
 
+    if (!selectedCourseId) {
+      errors.course = "Please select a course";
+      isValid = false;
+    }
+
+    if (selectedCourse) {
+      selectedCourse.questions.forEach(q => {
+        if (q.is_required && !answers[q.id.toString()]) {
+          errors[`q_${q.id}`] = "This field is required";
+          isValid = false;
+        }
+      });
+    }
+
     if (!formData.message.trim()) {
       errors.message = "Please tell us about your inquiry";
       isValid = false;
@@ -50,14 +98,18 @@ export default function ContactForm({ content }: { content: Record<string, strin
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          message: `Phone: ${formData.phone}\n\n${formData.message}`
+          message: `Phone: ${formData.phone}\n\n${formData.message}`,
+          course: selectedCourseId,
+          answers: answers
         })
       });
 
       if (res.ok) {
         setStatus("success");
         setFormData({ name: "", email: "", phone: "", message: "" });
-        setFieldErrors({ name: "", email: "", phone: "", message: "" });
+        setSelectedCourseId("");
+        setAnswers({});
+        setFieldErrors({});
       } else {
         setStatus("error");
       }
@@ -114,7 +166,7 @@ export default function ContactForm({ content }: { content: Record<string, strin
               <div>
                 <span className="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-1">Address</span>
                 <span className="text-white text-lg font-medium leading-snug block whitespace-pre-line">
-                  {content.contact_address || "StudyAtGeorgia Agency Headquarters\nPulpally, Wayanad, Kerala, India"}
+                  {content.footer_location || content.contact_address || "StudyAtGeorgia Agency Headquarters\nPulpally, Wayanad, Kerala, India"}
                 </span>
               </div>
             </div>
@@ -172,6 +224,58 @@ export default function ContactForm({ content }: { content: Record<string, strin
             />
             {fieldErrors.phone && <p className="text-red-500 text-xs">{fieldErrors.phone}</p>}
           </div>
+
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Select Course</label>
+            <select
+              value={selectedCourseId}
+              onChange={e => {
+                setSelectedCourseId(e.target.value);
+                setAnswers({}); // reset answers when course changes
+                if (fieldErrors.course) setFieldErrors({...fieldErrors, course: ""});
+              }}
+              className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all appearance-none ${fieldErrors.course ? "border-red-400" : "border-slate-200"}`}
+            >
+              <option value="" disabled>Choose a course...</option>
+              {courses.map(course => (
+                <option key={course.id} value={course.id}>{course.name}</option>
+              ))}
+            </select>
+            {fieldErrors.course && <p className="text-red-500 text-xs">{fieldErrors.course}</p>}
+          </div>
+
+          {selectedCourse && selectedCourse.questions.map(q => (
+            <div key={q.id} className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">{q.question_text} {q.is_required && "*"}</label>
+              {q.question_type === "CHOICE" ? (
+                <select
+                  value={answers[q.id.toString()] || ""}
+                  onChange={e => {
+                    setAnswers({...answers, [q.id.toString()]: e.target.value});
+                    if (fieldErrors[`q_${q.id}`]) setFieldErrors({...fieldErrors, [`q_${q.id}`]: ""});
+                  }}
+                  className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all appearance-none ${fieldErrors[`q_${q.id}`] ? "border-red-400" : "border-slate-200"}`}
+                >
+                  <option value="" disabled>Select an option...</option>
+                  {(q.choices || "").split(/[,\n]+/).filter(c => c.trim() !== "").map((choice, i) => (
+                    <option key={i} value={choice.trim()}>{choice.trim()}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  value={answers[q.id.toString()] || ""}
+                  onChange={e => {
+                    setAnswers({...answers, [q.id.toString()]: e.target.value});
+                    if (fieldErrors[`q_${q.id}`]) setFieldErrors({...fieldErrors, [`q_${q.id}`]: ""});
+                  }}
+                  className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors[`q_${q.id}`] ? "border-red-400" : "border-slate-200"}`}
+                  placeholder="Your answer"
+                />
+              )}
+              {fieldErrors[`q_${q.id}`] && <p className="text-red-500 text-xs">{fieldErrors[`q_${q.id}`]}</p>}
+            </div>
+          ))}
 
           <div className="space-y-2">
             <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Your Message</label>

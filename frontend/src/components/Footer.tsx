@@ -161,8 +161,8 @@ export default function Footer({ initialContent = {} }: { initialContent?: Recor
               </li>
               <li className="flex items-start gap-3 text-white/70 text-sm">
                 <MapPin className="w-5 h-5 text-brand-gold shrink-0 mt-0.5" />
-                <span className="leading-relaxed">
-                  {content.contact_address || "123 Education Boulevard, Tbilisi, Georgia"}
+                <span className="leading-relaxed whitespace-pre-line">
+                  {content.footer_location || content.contact_address || "123 Education Boulevard, Tbilisi, Georgia"}
                 </span>
               </li>
             </ul>

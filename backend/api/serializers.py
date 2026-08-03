@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import (
     University, UniversityImage, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
-    ServicePackage, StatCounter, Announcement
+    ServicePackage, StatCounter, Announcement,
+    Course, CourseQuestion
 )
 
 class SiteContentSerializer(serializers.ModelSerializer):
@@ -47,10 +48,22 @@ class StatCounterSerializer(serializers.ModelSerializer):
         model = StatCounter
         fields = '__all__'
 
+class CourseQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseQuestion
+        fields = ['id', 'question_text', 'question_type', 'choices', 'is_required', 'order']
+
+class CourseSerializer(serializers.ModelSerializer):
+    questions = CourseQuestionSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Course
+        fields = ['id', 'name', 'is_active', 'order', 'questions']
+
 class ContactLeadSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactLead
-        fields = ['id', 'name', 'email', 'message', 'status', 'created_at']
+        fields = ['id', 'name', 'email', 'message', 'course', 'answers', 'status', 'created_at']
         read_only_fields = ['status', 'created_at']
 
 class AnnouncementSerializer(serializers.ModelSerializer):
