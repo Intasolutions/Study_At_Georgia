@@ -92,6 +92,17 @@ export default function ContactForm({ content }: { content: Record<string, strin
     setStatus("submitting");
 
     try {
+      // Map answer keys from ID to actual question text for better readability in the backend admin
+      const formattedAnswers: Record<string, string> = {};
+      if (selectedCourse) {
+        Object.entries(answers).forEach(([qId, answerText]) => {
+          const question = selectedCourse.questions.find(q => q.id.toString() === qId);
+          if (question) {
+            formattedAnswers[question.question_text] = answerText;
+          }
+        });
+      }
+
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/contact/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -100,7 +111,7 @@ export default function ContactForm({ content }: { content: Record<string, strin
           email: formData.email,
           message: `Phone: ${formData.phone}\n\n${formData.message}`,
           course: selectedCourseId,
-          answers: answers
+          answers: formattedAnswers
         })
       });
 
