@@ -26,26 +26,32 @@ export default function ConsultationBanner() {
     const handleOpenEvent = () => setIsVisible(true);
     window.addEventListener("open-consultation", handleOpenEvent);
 
-    // Check if the banner has been dismissed previously
-    const hasClosed = localStorage.getItem("consultation_banner_closed");
-    let timer: NodeJS.Timeout;
+    // Check if the banner has been submitted successfully previously
+    const hasSubmitted = localStorage.getItem("consultation_banner_submitted");
+    let initialTimer: NodeJS.Timeout;
+    let intervalTimer: NodeJS.Timeout;
 
-    if (!hasClosed) {
-      // 1 minute delay = 60,000 milliseconds
-      timer = setTimeout(() => {
+    if (!hasSubmitted) {
+      // Pop up in the first 10 seconds
+      initialTimer = setTimeout(() => {
+        setIsVisible(true);
+      }, 10000);
+
+      // Repeatedly pop up every 1 minute (60,000 milliseconds)
+      intervalTimer = setInterval(() => {
         setIsVisible(true);
       }, 60000);
     }
 
     return () => {
-      if (timer) clearTimeout(timer);
+      if (initialTimer) clearTimeout(initialTimer);
+      if (intervalTimer) clearInterval(intervalTimer);
       window.removeEventListener("open-consultation", handleOpenEvent);
     };
   }, []);
 
   const handleClose = () => {
     setIsVisible(false);
-    localStorage.setItem("consultation_banner_closed", "true");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -100,6 +106,7 @@ export default function ConsultationBanner() {
         setStatus("success");
         setFormData({ name: "", email: "", phone: "", qualification: "" });
         setFieldErrors({ name: "", email: "", phone: "", qualification: "" });
+        localStorage.setItem("consultation_banner_submitted", "true");
         // Automatically close after a short delay
         setTimeout(() => {
           handleClose();
