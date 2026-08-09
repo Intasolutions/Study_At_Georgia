@@ -93,7 +93,7 @@ export default async function ProgramPage({ params }: PageProps) {
       <main className="min-h-screen bg-[color:var(--paper)]">
         <ProgramShowcase program={program} />
       </main>
-      <Footer content={contentDict} />
+      <Footer initialContent={contentDict} />
     </>
   );
 }
