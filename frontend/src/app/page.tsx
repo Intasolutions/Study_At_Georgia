@@ -30,14 +30,16 @@ export default async function Home() {
     faqsData,
     statsData,
     journeyData,
-    servicesData
+    servicesData,
+    whyGruniBadgesData
   ] = await Promise.all([
     fetchWithCache('/api/site-content/'),
     fetchWithCache('/api/testimonials/'),
     fetchWithCache('/api/faqs/'),
     fetchWithCache('/api/stats/'),
     fetchWithCache('/api/journey-steps/'),
-    fetchWithCache('/api/service-packages/')
+    fetchWithCache('/api/service-packages/'),
+    fetchWithCache('/api/why-gruni-badges/')
   ]);
 
   const contentDict: Record<string, string> = {};
@@ -55,7 +57,7 @@ export default async function Home() {
       <Navbar initialContent={contentDict} />
       <Hero initialContent={contentDict} />
       <StatsCounters initialContent={contentDict} initialStats={statsData || []} />
-      <WhyGruni initialContent={contentDict} />
+      <WhyGruni initialContent={contentDict} initialBadges={whyGruniBadgesData || []} />
       <ServicesBento initialContent={contentDict} initialServices={servicesData || []} />
       <JourneyTimeline initialContent={contentDict} initialSteps={journeyData || []} />
       <Testimonials initialContent={contentDict} initialTestimonials={testimonialsData || []} />

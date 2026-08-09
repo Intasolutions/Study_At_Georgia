@@ -48,7 +48,7 @@ export default function StatsCounters({
   if (stats.length === 0) return null;
 
   return (
-    <section className="bg-white py-20 font-sans relative overflow-hidden border-t border-slate-100">
+    <section className="bg-white py-10 lg:py-16 font-sans relative overflow-hidden border-t border-slate-100">
       {/* Background Accent Lines */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px)] bg-[size:10rem_10rem] opacity-30 pointer-events-none" />
 

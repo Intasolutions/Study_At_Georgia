@@ -1,50 +1,61 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Globe, Building2, Briefcase, Users, ArrowRight, ShieldCheck, Award } from "lucide-react";
+import * as LucideIcons from "lucide-react";
+import { ShieldCheck, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function WhyGruni({ initialContent = {} }: { initialContent?: Record<string, string> }) {
+export default function WhyGruni({ initialContent = {}, initialBadges = [] }: { initialContent?: Record<string, string>, initialBadges?: any[] }) {
   const [content, setContent] = useState<Record<string, string>>(initialContent);
+  const [badges, setBadges] = useState<any[]>(initialBadges);
 
   useEffect(() => {
-    if (Object.keys(initialContent).length > 0) return;
-
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
-      .then(res => res.json())
-      .then((data: { identifier: string; text_value: string }[]) => {
-        const dict: Record<string, string> = {};
-        data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
-        setContent(dict);
-      })
-      .catch(console.error);
-  }, [initialContent]);
+    if (Object.keys(initialContent).length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`)
+        .then(res => res.json())
+        .then((data: { identifier: string; text_value: string }[]) => {
+          const dict: Record<string, string> = {};
+          data.forEach(item => { dict[item.identifier] = item.text_value || ""; });
+          setContent(dict);
+        })
+        .catch(console.error);
+    }
+    
+    if (initialBadges.length === 0) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/why-gruni-badges/`)
+        .then(res => res.json())
+        .then((data) => {
+          setBadges(data);
+        })
+        .catch(console.error);
+    }
+  }, [initialContent, initialBadges]);
 
   const dynamicPoints = [
     {
       title: content.why_gruni_pt1_title || "Global Recognition",
       description: content.why_gruni_pt1_desc || "Degrees recognized worldwide, opening doors to international career opportunities across Europe and beyond.",
-      icon: Globe,
+      icon: "Globe",
     },
     {
       title: content.why_gruni_pt2_title || "State-of-the-Art Campus",
       description: content.why_gruni_pt2_desc || "Modern laboratories, extensive libraries, and advanced research facilities designed for future leaders.",
-      icon: Building2,
+      icon: "Building2",
     },
     {
       title: content.why_gruni_pt3_title || "High Employment Rate",
       description: content.why_gruni_pt3_desc || "Exceptional track record of alumni success with top-tier corporate partnerships and global networking.",
-      icon: Briefcase,
+      icon: "Briefcase",
     },
     {
       title: content.why_gruni_pt4_title || "International Community",
       description: content.why_gruni_pt4_desc || "A diverse ecosystem of students and faculty from over 50 countries, fostering global perspectives.",
-      icon: Users,
+      icon: "Users",
     }
   ];
 
   return (
-    <section className="py-24 lg:py-32 relative bg-slate-50 overflow-hidden font-sans">
+    <section className="py-16 lg:py-24 relative bg-slate-50 overflow-hidden font-sans">
       {/* Decorative Background Elements */}
       <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
@@ -66,61 +77,78 @@ export default function WhyGruni({ initialContent = {} }: { initialContent?: Rec
               </span>
             </div>
             
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-foreground leading-tight mb-8">
+            <h2 className="text-4xl md:text-5xl lg:text-7xl font-extrabold text-slate-900 leading-[1.1] mb-8 tracking-tight">
               {content.why_gruni_title_1 || "Why Choose"} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-primary/80">
+              <span className="text-brand-primary">
                 {content.why_gruni_title_2 || "GRUNI?"}
               </span>
             </h2>
             
-            <p className="text-lg text-slate-600 leading-relaxed font-light mb-10 max-w-lg">
+            <p className="text-lg md:text-xl text-slate-500 leading-relaxed font-light mb-12 max-w-xl">
               {content.why_gruni_desc || "Grigol Robakidze University (GRUNI) represents the pinnacle of modern education in Georgia. We combine rigorous academic standards with cutting-edge facilities to shape the innovators and leaders of tomorrow."}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 mb-12">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center">
-                  <ShieldCheck className="w-6 h-6 text-brand-primary" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-brand-foreground">{content.why_gruni_badge1_title || "Fully Accredited"}</h4>
-                  <p className="text-sm text-slate-500">{content.why_gruni_badge1_desc || "Ministry of Education"}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-brand-gold/10 flex items-center justify-center">
-                  <Award className="w-6 h-6 text-brand-gold" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-brand-foreground">{content.why_gruni_badge2_title || "Top Ranked"}</h4>
-                  <p className="text-sm text-slate-500">{content.why_gruni_badge2_desc || "In Academic Excellence"}</p>
-                </div>
-              </div>
+              {(badges.length > 0 ? badges : [
+                {
+                  title: content.why_gruni_badge1_title || "Fully Accredited",
+                  description: content.why_gruni_badge1_desc || "Ministry of Education",
+                  icon: "ShieldCheck"
+                },
+                {
+                  title: content.why_gruni_badge2_title || "Top Ranked",
+                  description: content.why_gruni_badge2_desc || "In Academic Excellence",
+                  icon: "Award"
+                }
+              ]).map((badge, idx) => {
+                // @ts-ignore
+                const BadgeIcon = LucideIcons[badge.icon as string] || LucideIcons.ShieldCheck;
+                const isEven = idx % 2 === 0;
+                const bgClass = isEven ? "bg-slate-200" : "bg-[#fef3c7]";
+                const textClass = isEven ? "text-brand-primary" : "text-amber-600";
+                
+                return (
+                  <div key={idx} className="flex items-center gap-4">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center ${bgClass}`}>
+                      <BadgeIcon className={`w-6 h-6 ${textClass}`} strokeWidth={2.5} />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-lg leading-tight">{badge.title}</h4>
+                      <p className="text-sm text-slate-500 font-light mt-0.5">{badge.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
 
           {/* Right Column: Points Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 relative">
-            {dynamicPoints.map((point, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-                className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl border border-slate-100 transition-all duration-300 hover:-translate-y-1"
-              >
-                <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white text-brand-primary transition-colors duration-300">
-                  <point.icon className="w-7 h-7" />
-                </div>
-                <h3 className="text-xl font-bold text-brand-foreground mb-3">
-                  {point.title}
-                </h3>
-                <p className="text-slate-500 text-sm leading-relaxed font-light">
-                  {point.description}
-                </p>
-              </motion.div>
-            ))}
+            {dynamicPoints.map((point, index) => {
+              // @ts-ignore
+              const IconComponent = LucideIcons[point.icon as string] || LucideIcons.Globe;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.7, delay: index * 0.15, ease: [0.25, 1, 0.5, 1] }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-2xl border border-slate-100 transition-shadow duration-500"
+                >
+                  <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center mb-6 group-hover:bg-brand-primary group-hover:text-white text-brand-primary transition-colors duration-300">
+                    <IconComponent className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-xl font-bold text-brand-foreground mb-3">
+                    {point.title}
+                  </h3>
+                  <p className="text-slate-500 text-sm leading-relaxed font-light">
+                    {point.description}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
 
         </div>

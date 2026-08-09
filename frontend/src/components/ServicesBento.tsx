@@ -45,7 +45,7 @@ export default function Services({
   if (services.length === 0) return null;
 
   return (
-    <section id="services" className="py-32 bg-white relative font-sans border-t border-slate-100">
+    <section id="services" className="py-16 lg:py-24 bg-white relative font-sans border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           

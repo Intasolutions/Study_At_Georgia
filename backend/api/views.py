@@ -4,13 +4,13 @@ from .models import (
     University, ContactLead, SiteContent, 
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter, Announcement,
-    Course
+    Course, WhyGruniBadge
 )
 from .serializers import (
     UniversitySerializer, ContactLeadSerializer, SiteContentSerializer,
     TestimonialSerializer, FaqItemSerializer, JourneyStepSerializer,
     ServicePackageSerializer, StatCounterSerializer, AnnouncementSerializer,
-    CourseSerializer
+    CourseSerializer, WhyGruniBadgeSerializer
 )
 
 class SiteContentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -62,4 +62,9 @@ class AnnouncementViewSet(viewsets.ReadOnlyModelViewSet):
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Course.objects.filter(is_active=True).prefetch_related('questions')
     serializer_class = CourseSerializer
+    permission_classes = [AllowAny]
+
+class WhyGruniBadgeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = WhyGruniBadge.objects.filter(is_active=True)
+    serializer_class = WhyGruniBadgeSerializer
     permission_classes = [AllowAny]

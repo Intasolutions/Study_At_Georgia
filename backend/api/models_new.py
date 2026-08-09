@@ -19,7 +19,6 @@ class University(models.Model):
     
     # Georgia & Tbilisi Section
     georgia_heading = models.CharField(max_length=255, default="Georgia & Tbilisi")
-    georgia_photo = models.ImageField(upload_to='universities/georgia/', blank=True, null=True)
     georgia_paragraph = models.TextField(blank=True, null=True)
 
     # Founder Section
