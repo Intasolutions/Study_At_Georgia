@@ -4,7 +4,8 @@ from .models import (
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter, Announcement,
     Course, CourseQuestion, WhyGruniBadge,
-    GeorgiaKeyPoint
+    GeorgiaKeyPoint,
+    Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric
 )
 
 @admin.register(SiteContent)
@@ -108,4 +109,25 @@ class WhyGruniBadgeAdmin(admin.ModelAdmin):
     list_editable = ('is_active', 'order')
     list_filter = ('is_active', 'icon')
     search_fields = ('title', 'description')
+
+class ProgramBadgeInline(admin.TabularInline):
+    model = ProgramBadge
+    extra = 1
+
+class ProgramKeyPointInline(admin.TabularInline):
+    model = ProgramKeyPoint
+    extra = 1
+
+class ProgramComparisonMetricInline(admin.TabularInline):
+    model = ProgramComparisonMetric
+    extra = 1
+
+@admin.register(Program)
+class ProgramAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'is_active', 'order')
+    list_editable = ('is_active', 'order')
+    prepopulated_fields = {'slug': ('name',)}
+    inlines = [ProgramBadgeInline, ProgramKeyPointInline, ProgramComparisonMetricInline]
+    search_fields = ('name', 'heading')
+
 

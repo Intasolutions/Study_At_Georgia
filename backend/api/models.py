@@ -234,3 +234,82 @@ class WhyGruniBadge(models.Model):
 
     def __str__(self):
         return self.title
+
+class Program(models.Model):
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, help_text="URL friendly name. e.g. mbbs")
+    heading = models.CharField(max_length=255, default="Study Program")
+    image = models.ImageField(upload_to='programs/', blank=True, null=True)
+    paragraph = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
+class ProgramBadge(models.Model):
+    ICON_CHOICES = [
+        ('Globe', 'Globe'),
+        ('Building2', 'Building'),
+        ('Briefcase', 'Briefcase'),
+        ('ShieldCheck', 'Shield Check'),
+        ('Award', 'Award'),
+        ('Users', 'Users'),
+        ('HeartPulse', 'Heart Pulse'),
+        ('Microscope', 'Microscope'),
+        ('Stethoscope', 'Stethoscope'),
+        ('BookOpen', 'Book'),
+    ]
+    program = models.ForeignKey(Program, related_name='badges', on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    icon = models.CharField(max_length=50, choices=ICON_CHOICES, default='Globe')
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class ProgramKeyPoint(models.Model):
+    ICON_CHOICES = [
+        ('Globe', 'Globe'),
+        ('Building2', 'Building'),
+        ('Briefcase', 'Briefcase'),
+        ('ShieldCheck', 'Shield Check'),
+        ('Award', 'Award'),
+        ('Users', 'Users'),
+        ('MapPin', 'Map Pin'),
+        ('GraduationCap', 'Graduation Cap'),
+        ('BookOpen', 'Book'),
+        ('CheckCircle2', 'Check Circle'),
+    ]
+    program = models.ForeignKey(Program, related_name='key_points', on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    icon = models.CharField(max_length=50, choices=ICON_CHOICES, default='CheckCircle2')
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.title
+
+class ProgramComparisonMetric(models.Model):
+    program = models.ForeignKey(Program, related_name='comparison_metrics', on_delete=models.CASCADE)
+    metric_name = models.CharField(max_length=100, help_text="e.g., Duration, Total Cost")
+    india_value = models.CharField(max_length=100, help_text="e.g., 5.5 Years")
+    georgia_value = models.CharField(max_length=100, help_text="e.g., 6 Years")
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+
+    def __str__(self):
+        return self.metric_name

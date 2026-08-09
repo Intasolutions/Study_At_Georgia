@@ -4,7 +4,8 @@ from .models import (
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter, Announcement,
     Course, CourseQuestion, WhyGruniBadge,
-    GeorgiaKeyPoint
+    GeorgiaKeyPoint,
+    Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric
 )
 
 class SiteContentSerializer(serializers.ModelSerializer):
@@ -89,4 +90,28 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 class WhyGruniBadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = WhyGruniBadge
+        fields = '__all__'
+
+class ProgramBadgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramBadge
+        fields = '__all__'
+
+class ProgramKeyPointSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramKeyPoint
+        fields = '__all__'
+
+class ProgramComparisonMetricSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProgramComparisonMetric
+        fields = '__all__'
+
+class ProgramSerializer(serializers.ModelSerializer):
+    badges = ProgramBadgeSerializer(many=True, read_only=True)
+    key_points = ProgramKeyPointSerializer(many=True, read_only=True)
+    comparison_metrics = ProgramComparisonMetricSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Program
         fields = '__all__'

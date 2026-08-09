@@ -3,13 +3,15 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ChevronDown } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
 
 export default function Navbar({ initialContent = {} }: { initialContent?: Record<string, string> }) {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<Record<string, string>>(initialContent);
+  const [programs, setPrograms] = useState<{name: string, slug: string}[]>([]);
+  const [isProgramsOpen, setIsProgramsOpen] = useState(false); // Mobile toggle
 
   useEffect(() => {
     if (Object.keys(initialContent).length > 0) return;
@@ -30,6 +32,13 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
   }, [initialContent]);
 
   useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/programs/`)
+      .then(res => res.json())
+      .then(data => setPrograms(data))
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
@@ -46,7 +55,7 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className={`w-full transition-all duration-300 ${
+        className={`w-full transition-all duration-300 relative z-[60] ${
           scrolled ? "bg-white/95 backdrop-blur-md border-b border-slate-200 py-3 md:py-4 shadow-sm" : "bg-transparent py-4 md:py-6"
         }`}
       >
@@ -75,6 +84,30 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
           <Link href="/" className="hover:text-brand-primary transition-colors">Home</Link>
           <Link href="/about" className="hover:text-brand-primary transition-colors">About</Link>
           <Link href="/services" className="hover:text-brand-primary transition-colors">Services</Link>
+          
+          {/* Programs Dropdown */}
+          <div className="relative group">
+            <button className="flex items-center gap-1 hover:text-brand-primary transition-colors py-2">
+              Programs <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-200" />
+            </button>
+            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 min-w-[200px] z-50">
+              <div className="bg-white rounded-xl shadow-lg border border-slate-100 p-2 flex flex-col gap-1">
+                {programs.map(prog => (
+                  <Link 
+                    key={prog.slug} 
+                    href={`/programs/${prog.slug}`} 
+                    className="px-4 py-2 hover:bg-slate-50 hover:text-brand-primary rounded-lg transition-colors whitespace-nowrap"
+                  >
+                    {prog.name}
+                  </Link>
+                ))}
+                {programs.length === 0 && (
+                  <span className="px-4 py-2 text-slate-400 text-sm">No programs yet</span>
+                )}
+              </div>
+            </div>
+          </div>
+
           <Link href="/universities" className="hover:text-brand-primary transition-colors">University</Link>
           <Link href="/contact" className="hover:text-brand-primary transition-colors">Contact Us</Link>
         </div>
@@ -99,10 +132,42 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
             transition={{ duration: 0.3 }}
             className="md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-200 shadow-xl overflow-hidden"
           >
-            <div className="flex flex-col items-center justify-start h-full pt-10 pb-32 gap-8 text-lg font-semibold text-brand-foreground">
+            <div className="flex flex-col items-center justify-start h-full pt-10 pb-32 gap-6 text-lg font-semibold text-brand-foreground overflow-y-auto">
               <Link href="/" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Home</Link>
               <Link href="/about" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">About</Link>
               <Link href="/services" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Services</Link>
+              
+              {/* Mobile Programs Toggle */}
+              <div className="w-full flex flex-col items-center">
+                <button 
+                  onClick={() => setIsProgramsOpen(!isProgramsOpen)}
+                  className="hover:text-brand-primary transition-colors w-full flex items-center justify-center gap-2 py-2"
+                >
+                  Programs <ChevronDown className={`w-5 h-5 transition-transform duration-200 ${isProgramsOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {isProgramsOpen && (
+                    <motion.div 
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden flex flex-col items-center gap-3 pt-3 pb-2 w-full bg-slate-50"
+                    >
+                      {programs.map(prog => (
+                        <Link 
+                          key={prog.slug} 
+                          href={`/programs/${prog.slug}`} 
+                          onClick={closeMenu} 
+                          className="text-base text-brand-muted hover:text-brand-primary transition-colors w-full text-center"
+                        >
+                          {prog.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <Link href="/universities" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">University</Link>
               <Link href="/contact" onClick={closeMenu} className="hover:text-brand-primary transition-colors w-full text-center py-2">Contact Us</Link>
               
