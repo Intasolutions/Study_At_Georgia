@@ -170,7 +170,7 @@ export default function ProgramShowcase({ program }: { program: Program }) {
                     <span className="text-xl">🇮🇳</span>
                     <span>India</span>
                   </div>
-                  <div className="col-span-1 text-center flex flex-col items-center gap-1 text-brand-primary">
+                  <div className="col-span-1 text-center flex flex-col items-center gap-1 text-brand-gold">
                     <span className="text-xl">🇬🇪</span>
                     <span>Georgia</span>
                   </div>
@@ -209,7 +209,7 @@ export default function ProgramShowcase({ program }: { program: Program }) {
           {program.key_points && program.key_points.length > 0 && (
             <motion.div {...fadeUp} className="bg-brand-foreground text-white p-8 sm:p-10 rounded-[2rem] h-full flex flex-col">
               <h3 
-                className="text-2xl sm:text-3xl font-semibold mb-8 text-brand-primary"
+                className="text-2xl sm:text-3xl font-semibold mb-8 text-brand-gold"
                 style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
               >
                 Key Highlights
