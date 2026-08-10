@@ -114,4 +114,5 @@ class ProgramSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Program
-        fields = '__all__'
+        fields = ['id', 'name', 'slug', 'heading', 'image', 'paragraph', 'is_active', 'order', 'badges', 'key_points', 'comparison_metrics']
+

@@ -23,7 +23,6 @@ router.register(r'announcements', AnnouncementViewSet, basename='announcement')
 router.register(r'courses', CourseViewSet, basename='course')
 router.register(r'why-gruni-badges', WhyGruniBadgeViewSet, basename='whygrunibadge')
 router.register(r'programs', ProgramViewSet, basename='program')
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),

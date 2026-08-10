@@ -106,8 +106,15 @@ class CourseAdmin(admin.ModelAdmin):
 @admin.register(WhyGruniBadge)
 class WhyGruniBadgeAdmin(admin.ModelAdmin):
     list_display = ('title', 'icon', 'is_active', 'order')
-    list_editable = ('is_active', 'order')
+    list_editable = ('icon', 'is_active', 'order')
     list_filter = ('is_active', 'icon')
+    search_fields = ('title', 'description')
+
+@admin.register(GeorgiaKeyPoint)
+class GeorgiaKeyPointAdmin(admin.ModelAdmin):
+    list_display = ('title', 'university', 'icon', 'order')
+    list_editable = ('icon', 'order')
+    list_filter = ('university',)
     search_fields = ('title', 'description')
 
 class ProgramBadgeInline(admin.TabularInline):
