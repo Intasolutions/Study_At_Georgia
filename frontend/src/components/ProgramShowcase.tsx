@@ -88,7 +88,7 @@ export default function ProgramShowcase({ program }: { program: Program }) {
             <img
               src={getImageUrl(program.image)}
               alt={program.heading}
-              className="w-full h-auto object-contain"
+              className="w-full h-auto object-cover"
             />
           </motion.div>
         )}

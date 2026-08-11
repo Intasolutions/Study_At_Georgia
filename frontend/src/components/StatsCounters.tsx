@@ -53,7 +53,7 @@ export default function StatsCounters({
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px)] bg-[size:10rem_10rem] opacity-30 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 border border-slate-200 rounded-2xl bg-brand-background/50 backdrop-blur-sm shadow-sm divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-wrap">
+        <div className="grid grid-cols-1 md:grid-cols-3 border border-slate-200 rounded-2xl bg-brand-background/50 backdrop-blur-sm shadow-sm divide-y md:divide-y-0 md:divide-x divide-slate-200">
           {stats.map((stat, index) => (
             <motion.div 
               key={stat.id}

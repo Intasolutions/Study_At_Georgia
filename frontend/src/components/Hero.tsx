@@ -76,19 +76,16 @@ export default function Hero({ initialContent = {} }: { initialContent?: Record<
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
                 whileHover={{ scale: 1.015 }}
-                className="relative w-[100vw] -ml-5 sm:ml-0 sm:w-full aspect-[5/4] sm:aspect-[4/5] z-20 rounded-none sm:rounded-t-[5rem] sm:rounded-b-[1.75rem] shadow-none sm:shadow-[0_30px_60px_-15px_rgba(22,35,43,0.3)] overflow-hidden bg-white border-0 sm:border-[6px] border-white transition-transform duration-500"
+                className="relative w-[100vw] -ml-5 sm:ml-0 sm:w-full z-20 rounded-none sm:rounded-t-[5rem] sm:rounded-b-[1.75rem] shadow-none sm:shadow-[0_30px_60px_-15px_rgba(22,35,43,0.3)] overflow-hidden bg-white border-0 sm:border-[6px] border-white transition-transform duration-500 flex"
               >
                 {content.home_hero_image_img ? (
-                  <Image
+                  <img
                     src={content.home_hero_image_img.startsWith('http') ? content.home_hero_image_img : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${content.home_hero_image_img}`}
                     alt="Hero Image"
-                    fill
-                    sizes="(min-width: 1024px) 45vw, (min-width: 640px) 480px, 100vw"
-                    className="object-contain"
-                    priority
+                    className="w-full h-auto object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center text-[color:var(--ink-soft)] bg-[color:var(--line)]/40 p-4">
+                  <div className="w-full aspect-[4/5] flex flex-col items-center justify-center text-[color:var(--ink-soft)] bg-[color:var(--line)]/40 p-4">
                     <MapPin className="w-10 h-10 sm:w-12 sm:h-12 mb-3 text-[color:var(--accent-deep)]" strokeWidth={1.5} />
                     <span className="text-xs uppercase tracking-widest font-medium text-center">Hero Image<br />Coming Soon</span>
                   </div>

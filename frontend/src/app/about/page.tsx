@@ -41,12 +41,12 @@ export default async function AboutPage() {
     <main className="min-h-screen relative selection:bg-brand-primary/30 selection:text-brand-primary flex flex-col">
       <Navbar initialContent={contentDict} />
       
-      <div className="flex-1 max-w-7xl mx-auto px-6 pt-[calc(8rem+var(--banner-height,0px))] pb-20 w-full">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 pt-[calc(6rem+var(--banner-height,0px))] md:pt-[calc(8rem+var(--banner-height,0px))] pb-12 md:pb-20 w-full">
         <h1 className="text-4xl md:text-5xl font-heading font-bold text-brand-foreground mb-6">
           About Us
         </h1>
-        <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-8 md:p-12 backdrop-blur-sm">
-          <div className="mb-16 bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200 shadow-sm rounded-3xl p-8 md:p-12">
+        <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-5 sm:p-8 md:p-12 backdrop-blur-sm">
+          <div className="mb-10 sm:mb-16 bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200 shadow-sm rounded-3xl p-5 sm:p-8 md:p-12">
             <div className="text-center mb-10">
               <span className="text-brand-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Official Verification</span>
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-brand-foreground mb-4">University Authorization</h2>
@@ -61,7 +61,7 @@ export default async function AboutPage() {
                 alt="GRUNI Official Authorization Certificate"
                 width={1200}
                 height={850}
-                className="w-full h-auto object-contain bg-white group-hover:scale-102 transition-transform duration-700"
+                className="w-full h-auto object-cover bg-white group-hover:scale-102 transition-transform duration-700"
               />
             </div>
           </div>
@@ -73,7 +73,7 @@ export default async function AboutPage() {
             </p>
             
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
-              <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 flex items-start gap-4">
+              <div className="bg-slate-50 rounded-xl p-5 sm:p-6 border border-slate-100 flex items-start gap-3 sm:gap-4 flex-col sm:flex-row">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mt-1">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -85,7 +85,7 @@ export default async function AboutPage() {
                 </div>
               </div>
               
-              <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 flex items-start gap-4">
+              <div className="bg-slate-50 rounded-xl p-5 sm:p-6 border border-slate-100 flex items-start gap-3 sm:gap-4 flex-col sm:flex-row">
                 <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary mt-1">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -171,13 +171,13 @@ export default async function AboutPage() {
           </div>
           
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-brand-background border border-slate-200 rounded-xl p-8 flex flex-col justify-center">
+            <div className="bg-brand-background border border-slate-200 rounded-xl p-6 sm:p-8 flex flex-col justify-center">
               <h3 className="text-xl font-heading font-bold text-brand-foreground mb-3">Our Mission</h3>
               <p className="text-slate-600 leading-relaxed">
                 {contentDict.about_mission || "Loading..."}
               </p>
             </div>
-            <div className="bg-brand-background border border-slate-200 rounded-xl p-8 flex flex-col justify-center">
+            <div className="bg-brand-background border border-slate-200 rounded-xl p-6 sm:p-8 flex flex-col justify-center">
               <h3 className="text-xl font-heading font-bold text-brand-foreground mb-3">Our Vision</h3>
               <p className="text-slate-600 leading-relaxed mb-4">
                 {contentDict.about_vision || "Loading..."}

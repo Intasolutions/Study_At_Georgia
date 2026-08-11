@@ -71,7 +71,7 @@ export default function UniversityList() {
         >
           <div className="h-48 bg-slate-100 relative overflow-hidden">
             {uni.image ? (
-              <Image src={uni.image.startsWith('http') ? uni.image : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${uni.image}`} alt={uni.name} fill className="object-contain group-hover:scale-105 transition-transform duration-500" />
+              <Image src={uni.image.startsWith('http') ? uni.image : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${uni.image}`} alt={uni.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-slate-400 font-medium bg-gradient-to-br from-slate-100 to-slate-200 group-hover:scale-105 transition-transform duration-500">
                 Campus Image

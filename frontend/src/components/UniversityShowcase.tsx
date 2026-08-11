@@ -136,7 +136,7 @@ const AsymmetricGallery = ({
           alt={img.caption || "University photo"}
           fill
           sizes="(min-width: 1024px) 45vw, (min-width: 640px) 50vw, 100vw"
-          className="object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           unoptimized
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -267,7 +267,7 @@ export default function UniversityShowcase({
                     alt="Georgia & Tbilisi"
                     fill
                     sizes="(min-width: 1024px) 45vw, 100vw"
-                    className="object-contain"
+                    className="object-cover"
                     unoptimized
                   />
                 ) : (
@@ -366,7 +366,7 @@ export default function UniversityShowcase({
                       alt={university.founder_name || "Founder"}
                       fill
                       sizes="128px"
-                      className="object-contain"
+                      className="object-cover"
                       unoptimized
                     />
                   </div>
@@ -495,7 +495,7 @@ export default function UniversityShowcase({
                     alt={img.caption || `Gallery photo ${idx + 1}`}
                     width={800}
                     height={600}
-                    className="w-full h-auto object-contain transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     unoptimized
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300" />
