@@ -145,35 +145,36 @@ export default async function AboutPage() {
               )}
             </div>
           </div>
-
-          <div className="mt-16 pt-12 border-t border-slate-100">
-            <StatsCounters initialContent={contentDict} initialStats={statsData || []} />
           </div>
-          
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-brand-background border border-slate-200 rounded-xl p-6 sm:p-8 flex flex-col justify-center">
-              <h3 className="text-xl font-heading font-bold text-brand-foreground mb-3">Our Mission</h3>
-              <p className="text-slate-600 leading-relaxed">
-                {contentDict.about_mission || "Loading..."}
-              </p>
-            </div>
-            <div className="bg-brand-background border border-slate-200 rounded-xl p-6 sm:p-8 flex flex-col justify-center">
-              <h3 className="text-xl font-heading font-bold text-brand-foreground mb-3">Our Vision</h3>
-              <p className="text-slate-600 leading-relaxed mb-4">
-                {contentDict.about_vision || "Loading..."}
-              </p>
-              {contentDict.about_vision_img && (
-                <div className="relative w-full h-48 rounded-lg overflow-hidden border border-slate-200 mt-2">
-                  <Image 
-                    src={contentDict.about_vision_img} 
-                    alt="Our Vision" 
-                    fill 
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover" 
-                  />
-                </div>
-              )}
-            </div>
+        </div>
+      </div>
+
+      <StatsCounters initialContent={contentDict} initialStats={statsData || []} />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-12 md:pb-20 w-full">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col justify-center backdrop-blur-sm">
+            <h3 className="text-2xl font-heading font-bold text-brand-foreground mb-4">Our Mission</h3>
+            <p className="text-slate-600 leading-relaxed text-lg">
+              {contentDict.about_mission || "Loading..."}
+            </p>
+          </div>
+          <div className="bg-brand-surface border border-slate-200 shadow-sm rounded-2xl p-6 sm:p-8 md:p-10 flex flex-col justify-center backdrop-blur-sm">
+            <h3 className="text-2xl font-heading font-bold text-brand-foreground mb-4">Our Vision</h3>
+            <p className="text-slate-600 leading-relaxed text-lg mb-4">
+              {contentDict.about_vision || "Loading..."}
+            </p>
+            {contentDict.about_vision_img && (
+              <div className="relative w-full h-56 rounded-xl overflow-hidden border border-slate-200 mt-2 shadow-inner">
+                <Image 
+                  src={contentDict.about_vision_img} 
+                  alt="Our Vision" 
+                  fill 
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover" 
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
