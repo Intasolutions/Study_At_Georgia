@@ -22,9 +22,10 @@ export default async function AboutPage() {
     }
   };
 
-  const [siteContentData, statsData] = await Promise.all([
+  const [siteContentData, statsData, teamData] = await Promise.all([
     fetchWithCache('/api/site-content/'),
-    fetchWithCache('/api/stats/')
+    fetchWithCache('/api/stats/'),
+    fetchWithCache('/api/team-members/')
   ]);
 
   const contentDict: Record<string, string> = {};
@@ -107,62 +108,41 @@ export default async function AboutPage() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              {/* Prasad Pulachiparambil Kuttan */}
-              <div className="w-full max-w-sm mx-auto rounded-2xl overflow-hidden border border-amber-200/80 bg-gradient-to-b from-white to-amber-50/30 p-4 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-5">
-                  <Image 
-                    src="/prasad-representative.jpeg" 
-                    alt="Prasad Pulachiparambil Kuttan - Official Representative" 
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-[center_15%] group-hover:scale-102 transition-transform duration-500" 
-                    priority
-                  />
-                  <div className="absolute top-3 right-3 bg-amber-500/95 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
-                    <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
-                    Official Representative
+              {teamData && Array.isArray(teamData) ? teamData.map((member: any) => (
+                <div key={member.id} className={`w-full max-w-sm mx-auto rounded-2xl overflow-hidden border ${member.is_primary ? 'border-amber-200/80 bg-gradient-to-b from-white to-amber-50/30 shadow-xl' : 'border-slate-200/80 bg-white shadow-lg'} p-4 hover:shadow-2xl transition-all duration-300 group`}>
+                  <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-5">
+                    {member.image ? (
+                      <Image 
+                        src={member.image.startsWith('http') ? member.image : `${apiUrl}${member.image}`} 
+                        alt={`${member.name} - ${member.badge_text}`} 
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover object-[center_15%] group-hover:scale-102 transition-transform duration-500" 
+                        priority={member.is_primary}
+                      />
+                    ) : (
+                       <div className="w-full h-full flex items-center justify-center bg-slate-200 text-slate-400">No Image</div>
+                    )}
+                    <div className={`absolute top-3 right-3 ${member.is_primary ? 'bg-amber-500/95' : 'bg-brand-primary/95'} backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md`}>
+                      <span className={`w-1.5 h-1.5 ${member.is_primary ? 'bg-white animate-pulse' : 'bg-green-400'} rounded-full`}></span>
+                      {member.badge_text}
+                    </div>
+                  </div>
+                  <div className="text-center px-2 pb-2">
+                    <h3 className="text-2xl font-heading font-bold text-brand-foreground">
+                      {member.name}
+                    </h3>
+                    <p className={`${member.is_primary ? 'text-amber-600' : 'text-brand-primary'} font-medium text-sm mt-1`}>
+                      {member.subtitle}
+                    </p>
+                    <p className={`text-slate-500 text-xs mt-3 leading-relaxed border-t ${member.is_primary ? 'border-amber-100' : 'border-slate-100'} pt-3`}>
+                      {member.description}
+                    </p>
                   </div>
                 </div>
-                <div className="text-center px-2 pb-2">
-                  <h3 className="text-2xl font-heading font-bold text-brand-foreground">
-                    Prasad Pulachiparambil Kuttan
-                  </h3>
-                  <p className="text-amber-600 font-medium text-sm mt-1">
-                    Official Representative of Grigol Robakidze University
-                  </p>
-                  <p className="text-slate-500 text-xs mt-3 leading-relaxed border-t border-amber-100 pt-3">
-                    Exclusive Recruitment Partner for Grigol Robakidze University (GRUNI), Georgia.
-                  </p>
-                </div>
-              </div>
-
-              {/* Amal Mohan */}
-              <div className="w-full max-w-sm mx-auto rounded-2xl overflow-hidden border border-slate-200/80 bg-white p-4 shadow-lg hover:shadow-xl transition-all duration-300 group">
-                <div className="relative aspect-[3/4] rounded-xl overflow-hidden bg-slate-100 mb-5">
-                  <Image 
-                    src="/amal-mohan.jpg" 
-                    alt="Amal Mohan - Deputy Representative" 
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="object-cover object-[center_15%] group-hover:scale-102 transition-transform duration-500" 
-                  />
-                  <div className="absolute top-3 right-3 bg-brand-primary/95 backdrop-blur-sm text-white text-xs font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
-                    <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
-                    Deputy Representative
-                  </div>
-                </div>
-                <div className="text-center px-2 pb-2">
-                  <h3 className="text-2xl font-heading font-bold text-brand-foreground">
-                    Amal Mohan
-                  </h3>
-                  <p className="text-brand-primary font-medium text-sm mt-1">
-                    Deputy Representative of Grigol Robakidze University
-                  </p>
-                  <p className="text-slate-500 text-xs mt-3 leading-relaxed border-t border-slate-100 pt-3">
-                    Authorized to represent and assist students from India seeking admission to Grigol Robakidze University (GRUNI), Georgia.
-                  </p>
-                </div>
-              </div>
+              )) : (
+                 <p className="col-span-full text-center text-slate-500">No team members available.</p>
+              )}
             </div>
           </div>
 

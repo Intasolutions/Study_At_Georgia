@@ -235,6 +235,22 @@ class WhyGruniBadge(models.Model):
     def __str__(self):
         return self.title
 
+class TeamMember(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='team/', blank=True, null=True)
+    badge_text = models.CharField(max_length=100, default="Official Representative")
+    subtitle = models.CharField(max_length=255)
+    description = models.TextField()
+    is_primary = models.BooleanField(default=False, help_text="Set true for the primary representative to use the gold theme.")
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order', 'name']
+
+    def __str__(self):
+        return self.name
+
 class Program(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(unique=True, help_text="URL friendly name. e.g. mbbs")

@@ -5,7 +5,8 @@ from .models import (
     ServicePackage, StatCounter, Announcement,
     Course, CourseQuestion, WhyGruniBadge,
     GeorgiaKeyPoint,
-    Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric
+    Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric,
+    TeamMember
 )
 
 class SiteContentSerializer(serializers.ModelSerializer):
@@ -116,3 +117,7 @@ class ProgramSerializer(serializers.ModelSerializer):
         model = Program
         fields = ['id', 'name', 'slug', 'heading', 'image', 'paragraph', 'is_active', 'order', 'badges', 'key_points', 'comparison_metrics']
 
+class TeamMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TeamMember
+        fields = '__all__'

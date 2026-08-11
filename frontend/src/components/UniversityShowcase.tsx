@@ -256,10 +256,10 @@ export default function UniversityShowcase({
         <section className="py-16 sm:py-20 md:py-28 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
           <motion.div
             {...fadeUp}
-            className="flex flex-col lg:flex-row gap-10 md:gap-14 lg:gap-16 items-start lg:items-center"
+            className="block"
           >
-            {/* Left: Georgia Photo with a passport-stamp badge */}
-            <div className="w-full lg:w-1/2 relative">
+            {/* Floated Image on the right (only on lg+ screens, stacked on small) */}
+            <div className="w-full lg:w-5/12 lg:float-right lg:ml-12 mb-10 relative">
               <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(22,35,43,0.35)] bg-[color:var(--line)]">
                 {university.georgia_photo ? (
                   <Image
@@ -275,8 +275,8 @@ export default function UniversityShowcase({
                 )}
               </div>
 
-              {/* Signature: visa-stamp badge, tied to the "journey abroad" theme */}
-              <div className="absolute -bottom-5 -right-3 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 -rotate-6 bg-[#FBFAF5] text-[color:var(--ink)] rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 border-dashed border-[color:var(--accent-deep)]/60 shadow-xl flex flex-col items-center justify-center text-center p-3">
+              {/* Signature: visa-stamp badge */}
+              <div className="absolute -bottom-5 -left-3 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8 -rotate-6 bg-[#FBFAF5] text-[color:var(--ink)] rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 border-dashed border-[color:var(--accent-deep)]/60 shadow-xl flex flex-col items-center justify-center text-center p-3 z-10">
                 <LucideIcons.Plane className="w-4 h-4 sm:w-5 sm:h-5 text-[color:var(--accent-deep)] mb-1" strokeWidth={1.75} />
                 <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.15em] uppercase leading-tight text-[color:var(--ink-soft)]">
                   Arrivals
@@ -287,8 +287,8 @@ export default function UniversityShowcase({
               </div>
             </div>
 
-            {/* Right: Text & Key Points */}
-            <div className="w-full lg:w-1/2 mt-6 lg:mt-0">
+            {/* Content (Text & Key Points) */}
+            <div className="w-full">
               <Eyebrow label="Destination" icon={<LucideIcons.Compass className="w-4 h-4" />} />
               <h2
                 className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[color:var(--ink)] mb-6 md:mb-8 leading-[1.05] tracking-tight"
@@ -301,7 +301,7 @@ export default function UniversityShowcase({
               </div>
 
               {university.georgia_key_points && university.georgia_key_points.length > 0 && (
-                <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 clear-both pt-4 lg:pt-0">
                   {university.georgia_key_points.map((point, idx) => (
                     <motion.div
                       key={point.id ?? idx}
@@ -327,6 +327,7 @@ export default function UniversityShowcase({
                 </div>
               )}
             </div>
+            <div className="clear-both"></div>
           </motion.div>
         </section>
       )}

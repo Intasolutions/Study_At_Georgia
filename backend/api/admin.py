@@ -5,7 +5,8 @@ from .models import (
     ServicePackage, StatCounter, Announcement,
     Course, CourseQuestion, WhyGruniBadge,
     GeorgiaKeyPoint,
-    Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric
+    Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric,
+    TeamMember
 )
 
 @admin.register(SiteContent)
@@ -137,4 +138,9 @@ class ProgramAdmin(admin.ModelAdmin):
     inlines = [ProgramBadgeInline, ProgramKeyPointInline, ProgramComparisonMetricInline]
     search_fields = ('name', 'heading')
 
-
+@admin.register(TeamMember)
+class TeamMemberAdmin(admin.ModelAdmin):
+    list_display = ('name', 'badge_text', 'is_primary', 'is_active', 'order')
+    list_editable = ('is_primary', 'is_active', 'order')
+    list_filter = ('is_primary', 'is_active')
+    search_fields = ('name', 'subtitle')

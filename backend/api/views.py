@@ -5,14 +5,14 @@ from .models import (
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter, Announcement,
     Course, WhyGruniBadge,
-    Program
+    Program, TeamMember
 )
 from .serializers import (
     UniversitySerializer, ContactLeadSerializer, SiteContentSerializer,
     TestimonialSerializer, FaqItemSerializer, JourneyStepSerializer,
     ServicePackageSerializer, StatCounterSerializer, AnnouncementSerializer,
     CourseSerializer, WhyGruniBadgeSerializer,
-    ProgramSerializer
+    ProgramSerializer, TeamMemberSerializer
 )
 
 class SiteContentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -77,3 +77,7 @@ class ProgramViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
     lookup_field = 'slug'
 
+class TeamMemberViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = TeamMember.objects.filter(is_active=True)
+    serializer_class = TeamMemberSerializer
+    permission_classes = [AllowAny]
