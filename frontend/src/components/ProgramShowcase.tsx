@@ -63,35 +63,37 @@ export default function ProgramShowcase({ program }: { program: Program }) {
       
       {/* HERO SECTION */}
       <section className="px-5 sm:px-6 lg:px-8 max-w-7xl mx-auto mb-16 sm:mb-24">
-        <motion.div {...fadeUp} className="text-center mb-10 md:mb-16">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-xs sm:text-sm font-bold tracking-widest uppercase mb-6">
-            Study {program.name}
-          </div>
-          <h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-brand-foreground tracking-tight leading-[1.02] mb-6 max-w-4xl mx-auto"
-            style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-          >
-            {program.heading}
-          </h1>
-          {program.paragraph && (
-            <p className="text-lg sm:text-xl text-brand-muted max-w-3xl mx-auto leading-relaxed text-justify">
-              {program.paragraph}
-            </p>
+        <motion.div {...fadeUp} className="block">
+          
+          {program.image && (
+            <div className="w-full lg:w-5/12 lg:float-right lg:ml-10 mb-8 relative rounded-[2rem] overflow-hidden shadow-2xl flex justify-center bg-white/50">
+              <img
+                src={getImageUrl(program.image)}
+                alt={program.heading}
+                className="w-full h-auto object-cover"
+              />
+            </div>
           )}
-        </motion.div>
 
-        {program.image && (
-          <motion.div 
-            {...fadeUp}
-            className="relative w-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden shadow-2xl flex justify-center bg-white/50"
-          >
-            <img
-              src={getImageUrl(program.image)}
-              alt={program.heading}
-              className="w-full h-auto object-cover"
-            />
-          </motion.div>
-        )}
+          <div className="text-left mb-10 md:mb-16">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-xs sm:text-sm font-bold tracking-widest uppercase mb-6">
+              Study {program.name}
+            </div>
+            <h1 
+              className="text-4xl sm:text-5xl md:text-6xl font-semibold text-brand-foreground tracking-tight leading-[1.02] mb-6"
+              style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+            >
+              {program.heading}
+            </h1>
+            {program.paragraph && (
+              <p className="text-lg sm:text-xl text-brand-muted leading-relaxed text-justify">
+                {program.paragraph}
+              </p>
+            )}
+          </div>
+          
+          <div className="clear-both"></div>
+        </motion.div>
       </section>
 
       {/* BADGES SECTION */}
