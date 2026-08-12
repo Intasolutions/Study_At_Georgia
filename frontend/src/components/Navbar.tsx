@@ -87,34 +87,49 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
           <Link href="/services" className="hover:text-brand-primary transition-colors">Services</Link>
           
           {/* Programs Dropdown */}
-          <div 
-            className="relative group"
-            onMouseEnter={() => setIsDesktopProgramsOpen(true)}
-            onMouseLeave={() => setIsDesktopProgramsOpen(false)}
-          >
+          <div className="relative">
             <button 
-              className="flex items-center gap-1 hover:text-brand-primary transition-colors py-2"
+              className="flex items-center gap-1 hover:text-brand-primary transition-colors py-2 relative z-50"
               onClick={() => setIsDesktopProgramsOpen(!isDesktopProgramsOpen)}
             >
-              Programs <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDesktopProgramsOpen ? 'rotate-180' : 'group-hover:rotate-180'}`} />
+              Programs <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDesktopProgramsOpen ? 'rotate-180' : ''}`} />
             </button>
-            <div className={`absolute top-full left-0 pt-2 transition-all duration-200 min-w-[200px] z-50 ${isDesktopProgramsOpen ? 'opacity-100 visible' : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'}`}>
-              <div className="bg-white rounded-xl shadow-lg border border-slate-100 p-2 flex flex-col gap-1">
-                {programs.map(prog => (
-                  <Link 
-                    key={prog.slug} 
-                    href={`/programs/${prog.slug}`} 
-                    onClick={() => setIsDesktopProgramsOpen(false)}
-                    className="px-4 py-2 hover:bg-slate-50 hover:text-brand-primary rounded-lg transition-colors whitespace-nowrap"
-                  >
-                    {prog.name}
-                  </Link>
-                ))}
-                {programs.length === 0 && (
-                  <span className="px-4 py-2 text-slate-400 text-sm">No programs yet</span>
-                )}
-              </div>
-            </div>
+
+            {/* Invisible overlay to close dropdown when clicking outside */}
+            {isDesktopProgramsOpen && (
+              <div 
+                className="fixed inset-0 z-40"
+                onClick={() => setIsDesktopProgramsOpen(false)}
+              />
+            )}
+
+            <AnimatePresence>
+              {isDesktopProgramsOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: -5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full left-0 pt-2 min-w-[200px] z-50"
+                >
+                  <div className="bg-white rounded-xl shadow-lg border border-slate-100 p-2 flex flex-col gap-1 relative z-50">
+                    {programs.map(prog => (
+                      <Link 
+                        key={prog.slug} 
+                        href={`/programs/${prog.slug}`} 
+                        onClick={() => setIsDesktopProgramsOpen(false)}
+                        className="px-4 py-2 hover:bg-slate-50 hover:text-brand-primary rounded-lg transition-colors whitespace-nowrap"
+                      >
+                        {prog.name}
+                      </Link>
+                    ))}
+                    {programs.length === 0 && (
+                      <span className="px-4 py-2 text-slate-400 text-sm">No programs yet</span>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <Link href="/universities" className="hover:text-brand-primary transition-colors">University</Link>
