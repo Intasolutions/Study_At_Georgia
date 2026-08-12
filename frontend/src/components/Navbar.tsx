@@ -12,6 +12,7 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
   const [content, setContent] = useState<Record<string, string>>(initialContent);
   const [programs, setPrograms] = useState<{name: string, slug: string}[]>([]);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false); // Mobile toggle
+  const [isDesktopProgramsOpen, setIsDesktopProgramsOpen] = useState(false); // Desktop toggle for touch
 
   useEffect(() => {
     if (Object.keys(initialContent).length > 0) return;
@@ -86,16 +87,24 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
           <Link href="/services" className="hover:text-brand-primary transition-colors">Services</Link>
           
           {/* Programs Dropdown */}
-          <div className="relative group">
-            <button className="flex items-center gap-1 hover:text-brand-primary transition-colors py-2">
-              Programs <ChevronDown className="w-4 h-4 group-hover:rotate-180 transition-transform duration-200" />
+          <div 
+            className="relative group"
+            onMouseEnter={() => setIsDesktopProgramsOpen(true)}
+            onMouseLeave={() => setIsDesktopProgramsOpen(false)}
+          >
+            <button 
+              className="flex items-center gap-1 hover:text-brand-primary transition-colors py-2"
+              onClick={() => setIsDesktopProgramsOpen(!isDesktopProgramsOpen)}
+            >
+              Programs <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${isDesktopProgramsOpen ? 'rotate-180' : 'group-hover:rotate-180'}`} />
             </button>
-            <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 min-w-[200px] z-50">
+            <div className={`absolute top-full left-0 pt-2 transition-all duration-200 min-w-[200px] z-50 ${isDesktopProgramsOpen ? 'opacity-100 visible' : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'}`}>
               <div className="bg-white rounded-xl shadow-lg border border-slate-100 p-2 flex flex-col gap-1">
                 {programs.map(prog => (
                   <Link 
                     key={prog.slug} 
                     href={`/programs/${prog.slug}`} 
+                    onClick={() => setIsDesktopProgramsOpen(false)}
                     className="px-4 py-2 hover:bg-slate-50 hover:text-brand-primary rounded-lg transition-colors whitespace-nowrap"
                   >
                     {prog.name}

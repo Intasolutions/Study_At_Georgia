@@ -56,7 +56,7 @@ export default async function ContactPage() {
             Contact <span className="text-[#1a237e] font-serif italic font-light">Us.</span>
           </h1>
           <p className="text-slate-500 mt-6 max-w-2xl text-lg font-light leading-relaxed">
-            Have questions? Our consultants are here to help you chart the perfect academic journey to Georgia.
+            Have questions? Our counselors are here to help you chart the perfect academic journey to GRUNI.
           </p>
         </div>
 
