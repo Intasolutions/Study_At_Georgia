@@ -169,12 +169,10 @@ export default function ProgramShowcase({ program }: { program: Program }) {
                 <div className="grid grid-cols-3 bg-brand-foreground text-white text-sm sm:text-base font-bold p-4 sm:p-6 uppercase tracking-wider items-center border-b-[3px] border-brand-primary">
                   <div className="col-span-1">Comparison</div>
                   <div className="col-span-1 text-center flex flex-col items-center gap-1 opacity-80">
-                    <span className="text-xl">🇮🇳</span>
                     <span>India</span>
                   </div>
                   <div className="col-span-1 text-center flex flex-col items-center gap-1 text-brand-gold">
-                    <span className="text-xl">🇬🇪</span>
-                    <span>Georgia</span>
+                    <span>Georgia (GRUNI)</span>
                   </div>
                 </div>
                 
@@ -238,15 +236,12 @@ export default function ProgramShowcase({ program }: { program: Program }) {
               </div>
 
               <div className="mt-auto pt-10">
-                <button
-                  onClick={(e: React.MouseEvent) => {
-                    e.preventDefault();
-                    window.dispatchEvent(new Event("open-consultation"));
-                  }}
-                  className="w-full bg-brand-primary hover:bg-brand-primary text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-brand-primary/20"
+                <Link
+                  href="/contact"
+                  className="w-full flex items-center justify-center bg-brand-primary hover:bg-brand-primary text-white font-bold py-4 rounded-xl transition-colors shadow-lg shadow-brand-primary/20"
                 >
                   Apply Now
-                </button>
+                </Link>
               </div>
             </motion.div>
           )}
