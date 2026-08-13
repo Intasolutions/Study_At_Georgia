@@ -156,7 +156,7 @@ export default function ProgramShowcase({ program }: { program: Program }) {
                 className="text-3xl sm:text-4xl font-semibold text-brand-foreground mb-8 tracking-tight"
                 style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
               >
-                Why Georgia(GRUNI) Over India?
+                Why <span className="text-brand-gold">GRUNI</span> - Georgia Over India?
               </motion.h2>
               
               <motion.div 
