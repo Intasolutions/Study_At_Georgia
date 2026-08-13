@@ -172,7 +172,8 @@ export default function ProgramShowcase({ program }: { program: Program }) {
                     <span>India</span>
                   </div>
                   <div className="col-span-1 text-center flex flex-col items-center gap-1 text-brand-gold">
-                    <span>Georgia (GRUNI)</span>
+                    <span>Georgia</span>
+                    <span>(GRUNI)</span>
                   </div>
                 </div>
                 
