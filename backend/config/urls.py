@@ -7,7 +7,8 @@ from api.views import (
     UniversityViewSet, ContactLeadViewSet, SiteContentViewSet,
     TestimonialViewSet, FaqItemViewSet, JourneyStepViewSet,
     ServicePackageViewSet, StatCounterViewSet, AnnouncementViewSet,
-    CourseViewSet, WhyGruniBadgeViewSet, ProgramViewSet, TeamMemberViewSet
+    CourseViewSet, WhyGruniBadgeViewSet, ProgramViewSet, TeamMemberViewSet,
+    VirtualTourViewSet
 )
 
 router = DefaultRouter()
@@ -24,6 +25,7 @@ router.register(r'courses', CourseViewSet, basename='course')
 router.register(r'why-gruni-badges', WhyGruniBadgeViewSet, basename='whygrunibadge')
 router.register(r'programs', ProgramViewSet, basename='program')
 router.register(r'team-members', TeamMemberViewSet, basename='teammember')
+router.register(r'virtual-tours', VirtualTourViewSet, basename='virtualtour')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),

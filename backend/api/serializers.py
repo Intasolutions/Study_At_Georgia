@@ -6,7 +6,7 @@ from .models import (
     Course, CourseQuestion, WhyGruniBadge,
     GeorgiaKeyPoint,
     Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric,
-    TeamMember
+    TeamMember, VirtualTour
 )
 
 class SiteContentSerializer(serializers.ModelSerializer):
@@ -120,4 +120,9 @@ class ProgramSerializer(serializers.ModelSerializer):
 class TeamMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamMember
+        fields = '__all__'
+
+class VirtualTourSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VirtualTour
         fields = '__all__'

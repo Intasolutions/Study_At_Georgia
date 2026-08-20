@@ -9,6 +9,7 @@ import StatsCounters from "@/components/StatsCounters";
 import JourneyTimeline from "@/components/JourneyTimeline";
 import FaqAccordion from "@/components/FaqAccordion";
 import WhyGruni from "@/components/WhyGruni";
+import VirtualTours from "@/components/VirtualTours";
 
 export default async function Home() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
@@ -31,7 +32,8 @@ export default async function Home() {
     statsData,
     journeyData,
     servicesData,
-    whyGruniBadgesData
+    whyGruniBadgesData,
+    virtualToursData
   ] = await Promise.all([
     fetchWithCache('/api/site-content/'),
     fetchWithCache('/api/testimonials/'),
@@ -39,7 +41,8 @@ export default async function Home() {
     fetchWithCache('/api/stats/'),
     fetchWithCache('/api/journey-steps/'),
     fetchWithCache('/api/service-packages/'),
-    fetchWithCache('/api/why-gruni-badges/')
+    fetchWithCache('/api/why-gruni-badges/'),
+    fetchWithCache('/api/virtual-tours/')
   ]);
 
   const contentDict: Record<string, string> = {};
@@ -58,6 +61,7 @@ export default async function Home() {
       <Hero initialContent={contentDict} />
       <StatsCounters initialContent={contentDict} initialStats={statsData || []} />
       <WhyGruni initialContent={contentDict} initialBadges={whyGruniBadgesData || []} />
+      <VirtualTours initialContent={contentDict} initialTours={virtualToursData || []} />
       <ServicesBento initialContent={contentDict} initialServices={servicesData || []} />
       <JourneyTimeline initialContent={contentDict} initialSteps={journeyData || []} />
       <Testimonials initialContent={contentDict} initialTestimonials={testimonialsData || []} />

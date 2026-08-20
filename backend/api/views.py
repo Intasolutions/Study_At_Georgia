@@ -5,14 +5,14 @@ from .models import (
     Testimonial, FaqItem, JourneyStep, 
     ServicePackage, StatCounter, Announcement,
     Course, WhyGruniBadge,
-    Program, TeamMember
+    Program, TeamMember, VirtualTour
 )
 from .serializers import (
     UniversitySerializer, ContactLeadSerializer, SiteContentSerializer,
     TestimonialSerializer, FaqItemSerializer, JourneyStepSerializer,
     ServicePackageSerializer, StatCounterSerializer, AnnouncementSerializer,
     CourseSerializer, WhyGruniBadgeSerializer,
-    ProgramSerializer, TeamMemberSerializer
+    ProgramSerializer, TeamMemberSerializer, VirtualTourSerializer
 )
 
 class SiteContentViewSet(viewsets.ReadOnlyModelViewSet):
@@ -80,4 +80,9 @@ class ProgramViewSet(viewsets.ReadOnlyModelViewSet):
 class TeamMemberViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TeamMember.objects.filter(is_active=True)
     serializer_class = TeamMemberSerializer
+    permission_classes = [AllowAny]
+
+class VirtualTourViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = VirtualTour.objects.filter(is_active=True).order_by('order')
+    serializer_class = VirtualTourSerializer
     permission_classes = [AllowAny]

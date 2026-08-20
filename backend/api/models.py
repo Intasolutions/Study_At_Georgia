@@ -329,3 +329,18 @@ class ProgramComparisonMetric(models.Model):
 
     def __str__(self):
         return self.metric_name
+
+class VirtualTour(models.Model):
+    title_en = models.CharField(max_length=255)
+    title_ge = models.CharField(max_length=255)
+    url = models.URLField(max_length=500)
+    image = models.ImageField(upload_to='virtual_tours/', blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Virtual Tour"
+
+    def __str__(self):
+        return self.title_en

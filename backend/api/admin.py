@@ -6,7 +6,7 @@ from .models import (
     Course, CourseQuestion, WhyGruniBadge,
     GeorgiaKeyPoint,
     Program, ProgramBadge, ProgramKeyPoint, ProgramComparisonMetric,
-    TeamMember
+    TeamMember, VirtualTour
 )
 
 @admin.register(SiteContent)
@@ -144,3 +144,10 @@ class TeamMemberAdmin(admin.ModelAdmin):
     list_editable = ('is_primary', 'is_active', 'order')
     list_filter = ('is_primary', 'is_active')
     search_fields = ('name', 'subtitle')
+
+@admin.register(VirtualTour)
+class VirtualTourAdmin(admin.ModelAdmin):
+    list_display = ('title_en', 'title_ge', 'is_active', 'order')
+    list_editable = ('is_active', 'order')
+    search_fields = ('title_en', 'title_ge')
+    ordering = ('order',)
