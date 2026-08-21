@@ -161,7 +161,7 @@ class ContactLead(models.Model):
     ]
 
     name = models.CharField(max_length=255)
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null=True)
     message = models.TextField()
     course = models.ForeignKey('Course', on_delete=models.SET_NULL, null=True, blank=True, related_name='leads')
     answers = models.JSONField(blank=True, null=True, help_text="Dynamic question answers")

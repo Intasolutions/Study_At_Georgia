@@ -54,10 +54,7 @@ export default function ApplyForm({ content }: { content: Record<string, string>
       isValid = false;
     }
 
-    if (!formData.email.trim()) {
-      errors.email = "Email is required";
-      isValid = false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       errors.email = "Please enter a valid email address";
       isValid = false;
     }
@@ -172,7 +169,7 @@ export default function ApplyForm({ content }: { content: Record<string, string>
             </div>
             
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Address <span className="text-red-500">*</span></label>
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
               <input 
                 type="email" 
                 value={formData.email} 

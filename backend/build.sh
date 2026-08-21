@@ -10,3 +10,6 @@ python manage.py collectstatic --no-input
 python manage.py migrate api 0007_teammember_virtualtour --fake
 
 python manage.py migrate
+
+# Explicitly create the VirtualTour table if it doesn't exist due to faking the migration
+python fix_db.py
