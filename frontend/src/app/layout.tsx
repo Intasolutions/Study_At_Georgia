@@ -16,18 +16,18 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export async function generateMetadata(): Promise<Metadata> {
   let faviconUrl = "/favicon.ico"; // Default fallback if fetch fails
-  let defaultTitle = "Premium Study Abroad Agency | Gateway to Georgia";
+  let defaultTitle = "Premium Study Abroad Authorized Representative of Georgia Universities | Gateway to Gruni University";
   let defaultDesc = "Your trusted partner for studying abroad in Georgia. We handle visa processing, university selection, and accommodation.";
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/site-content/`, { next: { revalidate: 60 } });
     if (res.ok) {
       const data = await res.json();
-      
+
       const faviconItem = data.find((item: { identifier: string; image_value: string }) => item.identifier === 'global_favicon_image');
       if (faviconItem && faviconItem.image_value) {
-        faviconUrl = faviconItem.image_value.startsWith('http') 
-          ? faviconItem.image_value 
+        faviconUrl = faviconItem.image_value.startsWith('http')
+          ? faviconItem.image_value
           : `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}${faviconItem.image_value}`;
       }
 
