@@ -6,7 +6,7 @@ import ConsultationBanner from "@/components/ConsultationBanner";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
+  subsets: ["latin"],  
 });
 
 const plusJakartaSans = Plus_Jakarta_Sans({

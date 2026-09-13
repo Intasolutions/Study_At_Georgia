@@ -19,7 +19,7 @@ interface Course {
 }
 
 export default function ContactForm({ content }: { content: Record<string, string> }) {
-  const [formData, setFormData] = useState({ name: "", email: "", phone: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [courses, setCourses] = useState<Course[]>([]);
@@ -51,11 +51,6 @@ export default function ContactForm({ content }: { content: Record<string, strin
 
     if (!formData.name.trim()) {
       errors.name = "Name is required";
-      isValid = false;
-    }
-
-    if (formData.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = "Please enter a valid email address";
       isValid = false;
     }
 
@@ -105,7 +100,6 @@ export default function ContactForm({ content }: { content: Record<string, strin
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: formData.name,
-          email: formData.email,
           message: `Phone: ${formData.phone}\n\n${formData.message}`,
           course: selectedCourseId,
           answers: formattedAnswers
@@ -114,7 +108,7 @@ export default function ContactForm({ content }: { content: Record<string, strin
 
       if (res.ok) {
         setStatus("success");
-        setFormData({ name: "", email: "", phone: "", message: "" });
+        setFormData({ name: "", phone: "", message: "" });
         setSelectedCourseId("");
         setAnswers({});
         setFieldErrors({});
@@ -197,36 +191,19 @@ export default function ContactForm({ content }: { content: Record<string, strin
           <h3 className="text-2xl font-bold text-[#0f172a] mb-8">Send a Message</h3>
           
           <form className="space-y-6" onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
-              <input 
-                type="text" 
-                value={formData.name} 
-                onChange={e => {
-                  setFormData({...formData, name: e.target.value});
-                  if (fieldErrors.name) setFieldErrors({...fieldErrors, name: ""});
-                }}
-                className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors.name ? "border-red-400" : "border-slate-200"}`}
-                placeholder="Your full name" 
-              />
-              {fieldErrors.name && <p className="text-red-500 text-xs">{fieldErrors.name}</p>}
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Email Address</label>
-              <input 
-                type="email" 
-                value={formData.email} 
-                onChange={e => {
-                  setFormData({...formData, email: e.target.value});
-                  if (fieldErrors.email) setFieldErrors({...fieldErrors, email: ""});
-                }}
-                className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors.email ? "border-red-400" : "border-slate-200"}`}
-                placeholder="your@email.com" 
-              />
-              {fieldErrors.email && <p className="text-red-500 text-xs">{fieldErrors.email}</p>}
-            </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-widest">Full Name</label>
+            <input 
+              type="text" 
+              value={formData.name} 
+              onChange={e => {
+                setFormData({...formData, name: e.target.value});
+                if (fieldErrors.name) setFieldErrors({...fieldErrors, name: ""});
+              }}
+              className={`w-full bg-slate-50 border rounded-lg px-4 py-3.5 text-[#0f172a] focus:outline-none focus:ring-2 focus:ring-[#1a237e]/20 focus:border-[#1a237e] transition-all ${fieldErrors.name ? "border-red-400" : "border-slate-200"}`}
+              placeholder="Your full name" 
+            />
+            {fieldErrors.name && <p className="text-red-500 text-xs">{fieldErrors.name}</p>}
           </div>
 
           <div className="space-y-2">
