@@ -82,11 +82,10 @@ const Eyebrow = ({
   tone?: "light" | "dark";
 }) => (
   <div
-    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm tracking-widest uppercase mb-6 ${
-      tone === "dark"
+    className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-bold text-sm tracking-widest uppercase mb-6 ${tone === "dark"
         ? "bg-white/10 border border-white/15 text-white/90"
         : "bg-[color:var(--accent)]/10 border border-[color:var(--accent)]/20 text-[color:var(--accent-deep)]"
-    }`}
+      }`}
   >
     {icon}
     {label}
@@ -127,9 +126,8 @@ const AsymmetricGallery = ({
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, margin: "-60px" }}
         transition={{ duration: 0.6, delay, ease: "easeOut" }}
-        className={`relative w-full ${
-          tall ? "aspect-[4/3] lg:aspect-auto lg:h-full" : "aspect-[4/3] lg:aspect-auto lg:h-full"
-        } rounded-2xl sm:rounded-[1.75rem] overflow-hidden group bg-[color:var(--line)] shadow-[0_1px_2px_rgba(22,35,43,0.06)] hover:shadow-[0_20px_40px_-12px_rgba(22,35,43,0.25)] transition-shadow duration-500`}
+        className={`relative w-full ${tall ? "aspect-[4/3] lg:aspect-auto lg:h-full" : "aspect-[4/3] lg:aspect-auto lg:h-full"
+          } rounded-2xl sm:rounded-[1.75rem] overflow-hidden group bg-[color:var(--line)] shadow-[0_1px_2px_rgba(22,35,43,0.06)] hover:shadow-[0_20px_40px_-12px_rgba(22,35,43,0.25)] transition-shadow duration-500`}
       >
         <Image
           src={getImageUrl(img.image)}
@@ -243,275 +241,275 @@ export default function UniversityShowcase({
 
   return (
     <MotionConfig reducedMotion="user">
-    <div
-      className="w-full font-sans selection:bg-[#E0A544]/30 [--ink:#16232B] [--ink-soft:#5B6A72] [--paper:#EFF0EA] [--accent:#E0A544] [--accent-deep:#9C7326] [--line:#DBD9CC] pt-[calc(6rem+var(--banner-height,0px))] sm:pt-[calc(7rem+var(--banner-height,0px))] bg-[color:var(--paper)]"
-      style={{ fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif" }}
-    >
-      <style jsx global>{`
+      <div
+        className="w-full font-sans selection:bg-[#E0A544]/30 [--ink:#16232B] [--ink-soft:#5B6A72] [--paper:#EFF0EA] [--accent:#E0A544] [--accent-deep:#9C7326] [--line:#DBD9CC] pt-[calc(6rem+var(--banner-height,0px))] sm:pt-[calc(7rem+var(--banner-height,0px))] bg-[color:var(--paper)]"
+        style={{ fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif" }}
+      >
+        <style jsx global>{`
         @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
       `}</style>
 
-      {/* --- GEORGIA & TBILISI SECTION --- */}
-      {university.georgia_heading && (
-        <section className="py-16 sm:py-20 md:py-28 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-          <motion.div
-            {...fadeUp}
-            className="block"
-          >
-            {/* Floated Image on the right (only on lg+ screens, stacked on small) */}
-            <div className="w-full lg:w-5/12 lg:float-right lg:ml-12 mb-10 relative">
-              <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(22,35,43,0.35)] bg-[color:var(--line)]">
-                {university.georgia_photo ? (
-                  <Image
-                    src={getImageUrl(university.georgia_photo)}
-                    alt="Georgia & Tbilisi"
-                    fill
-                    sizes="(min-width: 1024px) 45vw, 100vw"
-                    className="object-cover"
-                    unoptimized
-                  />
-                ) : (
-                  <div className="w-full h-full bg-[color:var(--line)] animate-pulse" />
-                )}
-              </div>
-
-              {/* Signature: visa-stamp badge */}
-              <div className="absolute -bottom-5 -left-3 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8 -rotate-6 bg-[#FBFAF5] text-[color:var(--ink)] rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 border-dashed border-[color:var(--accent-deep)]/60 shadow-xl flex flex-col items-center justify-center text-center p-3 z-10">
-                <LucideIcons.Plane className="w-4 h-4 sm:w-5 sm:h-5 text-[color:var(--accent-deep)] mb-1" strokeWidth={1.75} />
-                <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.15em] uppercase leading-tight text-[color:var(--ink-soft)]">
-                  Arrivals
-                </span>
-                <span className="font-mono text-[11px] sm:text-xs font-semibold tracking-[0.1em]">
-                  TBILISI, GE
-                </span>
-              </div>
-            </div>
-
-            {/* Content (Text & Key Points) */}
-            <div className="w-full">
-              <Eyebrow label="Destination" icon={<LucideIcons.Compass className="w-4 h-4" />} />
-              <h2
-                className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[color:var(--ink)] mb-6 md:mb-8 leading-[1.05] tracking-tight"
-                style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-              >
-                {university.georgia_heading}
-              </h2>
-              <div className="mb-8 md:mb-10 text-lg sm:text-xl text-[color:var(--ink-soft)] leading-relaxed">
-                {renderParagraphs(university.georgia_paragraph)}
-              </div>
-
-              {university.georgia_key_points && university.georgia_key_points.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 clear-both pt-4 lg:pt-0">
-                  {university.georgia_key_points.map((point, idx) => (
-                    <motion.div
-                      key={point.id ?? idx}
-                      initial={{ opacity: 0, y: 12 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.08, duration: 0.5 }}
-                      className="group bg-white/70 hover:bg-white p-5 sm:p-6 rounded-2xl border border-[color:var(--line)] hover:border-[color:var(--accent)]/50 transition-colors duration-300"
-                    >
-                      <div className="mb-3 sm:mb-4 text-[color:var(--accent-deep)] group-hover:translate-x-0.5 transition-transform duration-300">
-                        {renderIcon(point.icon, "w-6 h-6 sm:w-7 sm:h-7")}
-                      </div>
-                      <h4 className="font-semibold text-[color:var(--ink)] text-base sm:text-lg mb-1.5">
-                        {point.title}
-                      </h4>
-                      {point.description && (
-                        <p className="text-[color:var(--ink-soft)] text-sm leading-relaxed">
-                          {point.description}
-                        </p>
-                      )}
-                    </motion.div>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="clear-both"></div>
-          </motion.div>
-        </section>
-      )}
-
-      {/* --- MAIN UNIVERSITY SECTION --- */}
-      <section className="py-16 sm:py-20 md:py-28 bg-white rounded-t-[2.5rem] sm:rounded-t-[3.5rem] shadow-[0_-10px_40px_rgba(22,35,43,0.04)] border-t border-[color:var(--line)]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-          <motion.div
-            {...fadeUp}
-            className="mb-10 md:mb-14"
-          >
-            {/* Top row: Heading */}
-            <div className="mb-8 md:mb-10">
-              <div className="max-w-3xl">
-                <Eyebrow label="University Overview" icon={<LucideIcons.GraduationCap className="w-4 h-4" />} />
-                <h1
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-[color:var(--ink)] tracking-tight leading-[1.02]"
-                  style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-                >
-                  {university.name}
-                </h1>
-              </div>
-            </div>
-            
-            {/* Description Text - Single column, full width to fill the space naturally */}
-            <div className="text-lg sm:text-xl text-[color:var(--ink-soft)] font-normal leading-relaxed max-w-6xl mb-12 md:mb-16 text-justify">
-              {renderParagraphs(university.description)}
-            </div>
-
-            {/* Unified Founder Card (Full Description) */}
-            {(university.founder_name || university.founder_paragraph) && (
-              <div className="bg-[#FBFAF5] p-6 sm:p-8 md:p-10 rounded-[2rem] border border-[color:var(--accent)]/30 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 text-center md:text-left max-w-5xl shadow-[0_10px_30px_-10px_rgba(224,165,68,0.15)] mb-8">
-                {university.founder_pic && (
-                  <div className="relative w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-full overflow-hidden ring-4 ring-white shadow-md">
+        {/* --- GEORGIA & TBILISI SECTION --- */}
+        {university.georgia_heading && (
+          <section className="py-16 sm:py-20 md:py-28 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+            <motion.div
+              {...fadeUp}
+              className="block"
+            >
+              {/* Floated Image on the right (only on lg+ screens, stacked on small) */}
+              <div className="w-full lg:w-5/12 lg:float-right lg:ml-12 mb-10 relative">
+                <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden shadow-[0_30px_60px_-15px_rgba(22,35,43,0.35)] bg-[color:var(--line)]">
+                  {university.georgia_photo ? (
                     <Image
-                      src={getImageUrl(university.founder_pic)}
-                      alt={university.founder_name || "Founder"}
+                      src={getImageUrl(university.georgia_photo)}
+                      alt="Georgia & Tbilisi"
                       fill
-                      sizes="128px"
+                      sizes="(min-width: 1024px) 45vw, 100vw"
                       className="object-cover"
                       unoptimized
                     />
-                  </div>
-                )}
-                <div>
-                  <div className="inline-block px-3 py-1 bg-[color:var(--accent)]/10 text-[color:var(--accent-deep)] rounded-full text-xs font-bold tracking-widest uppercase mb-3">
-                    Founder
-                  </div>
-                  <h4 className="font-semibold text-xl md:text-2xl text-[color:var(--ink)] mb-3">
-                    {university.founder_name}
-                  </h4>
-                  <p className="text-[color:var(--ink-soft)] leading-relaxed italic md:text-lg text-justify">
-                    "{university.founder_paragraph}"
-                  </p>
+                  ) : (
+                    <div className="w-full h-full bg-[color:var(--line)] animate-pulse" />
+                  )}
+                </div>
+
+                {/* Signature: visa-stamp badge */}
+                <div className="absolute -bottom-5 -left-3 sm:bottom-6 sm:left-6 md:bottom-8 md:left-8 -rotate-6 bg-[#FBFAF5] text-[color:var(--ink)] rounded-full w-28 h-28 sm:w-32 sm:h-32 md:w-36 md:h-36 border-2 border-dashed border-[color:var(--accent-deep)]/60 shadow-xl flex flex-col items-center justify-center text-center p-3 z-10">
+                  <LucideIcons.Plane className="w-4 h-4 sm:w-5 sm:h-5 text-[color:var(--accent-deep)] mb-1" strokeWidth={1.75} />
+                  <span className="font-mono text-[9px] sm:text-[10px] tracking-[0.15em] uppercase leading-tight text-[color:var(--ink-soft)]">
+                    Arrivals
+                  </span>
+                  <span className="font-mono text-[11px] sm:text-xs font-semibold tracking-[0.1em]">
+                    TBILISI, GE
+                  </span>
                 </div>
               </div>
-            )}
-          </motion.div>
 
-          <AsymmetricGallery images={imagesByCategory("MAIN")} reverse={false} />
-        </div>
-      </section>
-
-      {/* --- PINO HOSPITAL SECTION --- */}
-      {university.hospital_heading && (
-        <section className="py-16 sm:py-20 md:py-28 bg-[color:var(--paper)]">
-          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div {...fadeUp} className="mb-10 md:mb-14">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[color:var(--ink)] text-[color:var(--accent)] mb-6 sm:mb-8">
-                <LucideIcons.HeartPulse className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
-              </div>
-              <h2
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[color:var(--ink)] mb-5 md:mb-6 leading-[1.05] tracking-tight"
-                style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-              >
-                {university.hospital_heading}
-              </h2>
-              <div className="text-lg sm:text-xl text-[color:var(--ink-soft)] leading-relaxed max-w-6xl">
-                {renderParagraphs(university.hospital_paragraph)}
-              </div>
-            </motion.div>
-
-            <AsymmetricGallery images={imagesByCategory("HOSPITAL")} reverse={true} />
-          </div>
-        </section>
-      )}
-
-      {/* --- CAMPUS LIFE SECTION --- */}
-      {university.campus_heading && (
-        <section className="py-16 sm:py-20 md:py-28 bg-[color:var(--ink)] text-white rounded-[2rem] sm:rounded-[3rem] mx-3 sm:mx-4 md:mx-6 my-8 sm:my-10 md:my-12 overflow-hidden relative">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[400px] sm:h-[500px] bg-[color:var(--accent)]/10 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
-
-          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
-            <motion.div {...fadeUp} className="text-center max-w-6xl mx-auto mb-12 sm:mb-16">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/10 text-[color:var(--accent)] mb-6 sm:mb-8 border border-white/10">
-                <LucideIcons.Library className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
-              </div>
-              <h2
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-5 md:mb-6 leading-[1.05] tracking-tight"
-                style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-              >
-                {university.campus_heading}
-              </h2>
-              <div className="text-lg sm:text-xl text-white/65 leading-relaxed font-normal">
-                {renderParagraphs(university.campus_paragraph)}
-              </div>
-            </motion.div>
-
-            <AsymmetricGallery images={imagesByCategory("CAMPUS")} reverse={false} />
-          </div>
-        </section>
-      )}
-
-      {/* --- HOSTEL SECTION --- */}
-      {university.hostel_heading && (
-        <section className="py-16 sm:py-20 md:py-28 bg-[color:var(--paper)]">
-          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <motion.div {...fadeUp} className="mb-10 md:mb-14">
-              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[color:var(--ink)] text-[color:var(--accent)] mb-6 sm:mb-8">
-                <LucideIcons.Home className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
-              </div>
-              <h2
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[color:var(--ink)] mb-5 md:mb-6 leading-[1.05] tracking-tight"
-                style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-              >
-                {university.hostel_heading}
-              </h2>
-              <div className="text-lg sm:text-xl text-[color:var(--ink-soft)] leading-relaxed max-w-6xl">
-                {renderParagraphs(university.hostel_paragraph)}
-              </div>
-            </motion.div>
-
-            <AsymmetricGallery images={imagesByCategory("HOSTEL")} reverse={true} />
-          </div>
-        </section>
-      )}
-
-      {/* --- COMMON GALLERY (END OF PAGE) --- */}
-      {allImages.length > 0 && (
-        <section className="py-16 sm:py-20 md:py-28 bg-white border-t border-[color:var(--line)]">
-          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <div className="text-center mb-10 sm:mb-14 md:mb-16">
-              <h2
-                className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[color:var(--ink)] mb-3 tracking-tight"
-                style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
-              >
-                Complete Gallery
-              </h2>
-              <p className="text-base sm:text-lg text-[color:var(--ink-soft)]">
-                Explore all aspects of university life in Georgia.
-              </p>
-            </div>
-
-            <div className="columns-1 xs:columns-2 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 sm:gap-5 md:gap-6">
-              {allImages.map((img, idx) => (
-                <motion.div
-                  key={img.id ?? idx}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: (idx % 4) * 0.08, duration: 0.5 }}
-                  className="relative group break-inside-avoid mb-4 sm:mb-5 md:mb-6 rounded-2xl overflow-hidden bg-[color:var(--line)]"
+              {/* Content (Text & Key Points) */}
+              <div className="w-full">
+                <Eyebrow label="Destination" icon={<LucideIcons.Compass className="w-4 h-4" />} />
+                <h2
+                  className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[color:var(--ink)] mb-6 md:mb-8 leading-[1.05] tracking-tight"
+                  style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
                 >
-                  <Image
-                    src={getImageUrl(img.image)}
-                    alt={img.caption || `Gallery photo ${idx + 1}`}
-                    width={800}
-                    height={600}
-                    className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    unoptimized
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300" />
-                  {img.caption && (
-                    <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <p className="text-white text-xs sm:text-sm font-medium drop-shadow">{img.caption}</p>
+                  {university.georgia_heading}
+                </h2>
+                <div className="mb-8 md:mb-10 text-lg sm:text-xl text-[color:var(--ink-soft)] leading-relaxed">
+                  {renderParagraphs(university.georgia_paragraph)}
+                </div>
+
+                {university.georgia_key_points && university.georgia_key_points.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 sm:gap-4 clear-both pt-4 lg:pt-0">
+                    {university.georgia_key_points.map((point, idx) => (
+                      <motion.div
+                        key={point.id ?? idx}
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.08, duration: 0.5 }}
+                        className="group bg-white/70 hover:bg-white p-5 sm:p-6 rounded-2xl border border-[color:var(--line)] hover:border-[color:var(--accent)]/50 transition-colors duration-300"
+                      >
+                        <div className="mb-3 sm:mb-4 text-[color:var(--accent-deep)] group-hover:translate-x-0.5 transition-transform duration-300">
+                          {renderIcon(point.icon, "w-6 h-6 sm:w-7 sm:h-7")}
+                        </div>
+                        <h4 className="font-semibold text-[color:var(--ink)] text-base sm:text-lg mb-1.5">
+                          {point.title}
+                        </h4>
+                        {point.description && (
+                          <p className="text-[color:var(--ink-soft)] text-sm leading-relaxed">
+                            {point.description}
+                          </p>
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div className="clear-both"></div>
+            </motion.div>
+          </section>
+        )}
+
+        {/* --- MAIN UNIVERSITY SECTION --- */}
+        <section className="py-16 sm:py-20 md:py-28 bg-white rounded-t-[2.5rem] sm:rounded-t-[3.5rem] shadow-[0_-10px_40px_rgba(22,35,43,0.04)] border-t border-[color:var(--line)]">
+          <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+            <motion.div
+              {...fadeUp}
+              className="mb-10 md:mb-14"
+            >
+              {/* Top row: Heading */}
+              <div className="mb-8 md:mb-10">
+                <div className="max-w-3xl">
+                  <Eyebrow label="University Overview" icon={<LucideIcons.GraduationCap className="w-4 h-4" />} />
+                  <h1
+                    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-[color:var(--ink)] tracking-tight leading-[1.02]"
+                    style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+                  >
+                    {university.name}
+                  </h1>
+                </div>
+              </div>
+
+              {/* Description Text - Single column, full width to fill the space naturally */}
+              <div className="text-lg sm:text-xl text-[color:var(--ink-soft)] font-normal leading-relaxed max-w-6xl mb-12 md:mb-16 text-justify">
+                {renderParagraphs(university.description)}
+              </div>
+
+              {/* Unified Founder Card (Full Description) */}
+              {(university.founder_name || university.founder_paragraph) && (
+                <div className="bg-[#FBFAF5] p-6 sm:p-8 md:p-10 rounded-[2rem] border border-[color:var(--accent)]/30 flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 text-center md:text-left max-w-5xl shadow-[0_10px_30px_-10px_rgba(224,165,68,0.15)] mb-8">
+                  {university.founder_pic && (
+                    <div className="relative w-24 h-24 md:w-32 md:h-32 shrink-0 rounded-full overflow-hidden ring-4 ring-white shadow-md">
+                      <Image
+                        src={getImageUrl(university.founder_pic)}
+                        alt={university.founder_name || "Founder"}
+                        fill
+                        sizes="128px"
+                        className="object-cover"
+                        unoptimized
+                      />
                     </div>
                   )}
-                </motion.div>
-              ))}
-            </div>
+                  <div>
+                    <div className="inline-block px-3 py-1 bg-[color:var(--accent)]/10 text-[color:var(--accent-deep)] rounded-full text-xs font-bold tracking-widest uppercase mb-3">
+                      Founder
+                    </div>
+                    <h4 className="font-semibold text-xl md:text-2xl text-[color:var(--ink)] mb-3">
+                      {university.founder_name}
+                    </h4>
+                    <p className="text-[color:var(--ink-soft)] leading-relaxed italic md:text-lg text-justify">
+                      "{university.founder_paragraph}"
+                    </p>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
+            <AsymmetricGallery images={imagesByCategory("MAIN")} reverse={false} />
           </div>
         </section>
-      )}
-    </div>
+
+        {/* --- PINO HOSPITAL SECTION --- */}
+        {university.hospital_heading && (
+          <section className="py-16 sm:py-20 md:py-28 bg-[color:var(--paper)]">
+            <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+              <motion.div {...fadeUp} className="mb-10 md:mb-14">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[color:var(--ink)] text-[color:var(--accent)] mb-6 sm:mb-8">
+                  <LucideIcons.HeartPulse className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
+                </div>
+                <h2
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[color:var(--ink)] mb-5 md:mb-6 leading-[1.05] tracking-tight"
+                  style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+                >
+                  {university.hospital_heading.replace("Pino", "Pineo")}
+                </h2>
+                <div className="text-lg sm:text-xl text-[color:var(--ink-soft)] leading-relaxed max-w-6xl">
+                  {renderParagraphs(university.hospital_paragraph)}
+                </div>
+              </motion.div>
+
+              <AsymmetricGallery images={imagesByCategory("HOSPITAL")} reverse={true} />
+            </div>
+          </section>
+        )}
+
+        {/* --- CAMPUS LIFE SECTION --- */}
+        {university.campus_heading && (
+          <section className="py-16 sm:py-20 md:py-28 bg-[color:var(--ink)] text-white rounded-[2rem] sm:rounded-[3rem] mx-3 sm:mx-4 md:mx-6 my-8 sm:my-10 md:my-12 overflow-hidden relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[400px] sm:h-[500px] bg-[color:var(--accent)]/10 blur-[100px] sm:blur-[120px] rounded-full pointer-events-none" />
+
+            <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 relative z-10">
+              <motion.div {...fadeUp} className="text-center max-w-6xl mx-auto mb-12 sm:mb-16">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-white/10 text-[color:var(--accent)] mb-6 sm:mb-8 border border-white/10">
+                  <LucideIcons.Library className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
+                </div>
+                <h2
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white mb-5 md:mb-6 leading-[1.05] tracking-tight"
+                  style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+                >
+                  {university.campus_heading}
+                </h2>
+                <div className="text-lg sm:text-xl text-white/65 leading-relaxed font-normal">
+                  {renderParagraphs(university.campus_paragraph)}
+                </div>
+              </motion.div>
+
+              <AsymmetricGallery images={imagesByCategory("CAMPUS")} reverse={false} />
+            </div>
+          </section>
+        )}
+
+        {/* --- HOSTEL SECTION --- */}
+        {university.hostel_heading && (
+          <section className="py-16 sm:py-20 md:py-28 bg-[color:var(--paper)]">
+            <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+              <motion.div {...fadeUp} className="mb-10 md:mb-14">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[color:var(--ink)] text-[color:var(--accent)] mb-6 sm:mb-8">
+                  <LucideIcons.Home className="w-6 h-6 sm:w-7 sm:h-7" strokeWidth={1.75} />
+                </div>
+                <h2
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-[color:var(--ink)] mb-5 md:mb-6 leading-[1.05] tracking-tight"
+                  style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+                >
+                  {university.hostel_heading}
+                </h2>
+                <div className="text-lg sm:text-xl text-[color:var(--ink-soft)] leading-relaxed max-w-6xl">
+                  {renderParagraphs(university.hostel_paragraph)}
+                </div>
+              </motion.div>
+
+              <AsymmetricGallery images={imagesByCategory("HOSTEL")} reverse={true} />
+            </div>
+          </section>
+        )}
+
+        {/* --- COMMON GALLERY (END OF PAGE) --- */}
+        {allImages.length > 0 && (
+          <section className="py-16 sm:py-20 md:py-28 bg-white border-t border-[color:var(--line)]">
+            <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+              <div className="text-center mb-10 sm:mb-14 md:mb-16">
+                <h2
+                  className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[color:var(--ink)] mb-3 tracking-tight"
+                  style={{ fontFamily: "'Fraunces', ui-serif, Georgia, serif" }}
+                >
+                  Complete Gallery
+                </h2>
+                <p className="text-base sm:text-lg text-[color:var(--ink-soft)]">
+                  Explore all aspects of university life in Georgia.
+                </p>
+              </div>
+
+              <div className="columns-1 xs:columns-2 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 sm:gap-5 md:gap-6">
+                {allImages.map((img, idx) => (
+                  <motion.div
+                    key={img.id ?? idx}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (idx % 4) * 0.08, duration: 0.5 }}
+                    className="relative group break-inside-avoid mb-4 sm:mb-5 md:mb-6 rounded-2xl overflow-hidden bg-[color:var(--line)]"
+                  >
+                    <Image
+                      src={getImageUrl(img.image)}
+                      alt={img.caption || `Gallery photo ${idx + 1}`}
+                      width={800}
+                      height={600}
+                      className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors duration-300" />
+                    {img.caption && (
+                      <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <p className="text-white text-xs sm:text-sm font-medium drop-shadow">{img.caption}</p>
+                      </div>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+      </div>
     </MotionConfig>
   );
 }
