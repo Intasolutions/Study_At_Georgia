@@ -22,7 +22,7 @@ class SiteContentViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'identifier'
 
 class UniversityViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = University.objects.filter(is_active=True).order_by('-created_at')
+    queryset = University.objects.filter(is_active=True).prefetch_related('gallery_images', 'georgia_key_points').order_by('-created_at')
     serializer_class = UniversitySerializer
     permission_classes = [AllowAny]
 
