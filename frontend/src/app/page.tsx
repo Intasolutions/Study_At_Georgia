@@ -1,6 +1,6 @@
 
 
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavbarWrapper";
 import Hero from "@/components/Hero";
 import ServicesBento from "@/components/ServicesBento";
 import Testimonials from "@/components/Testimonials";

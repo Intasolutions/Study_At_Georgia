@@ -14,18 +14,23 @@ from .serializers import (
     CourseSerializer, WhyGruniBadgeSerializer,
     ProgramSerializer, TeamMemberSerializer, VirtualTourSerializer
 )
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class SiteContentViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = SiteContent.objects.all()
     serializer_class = SiteContentSerializer
     permission_classes = [AllowAny]
     lookup_field = 'identifier'
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class UniversityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = University.objects.filter(is_active=True).prefetch_related('gallery_images', 'georgia_key_points').order_by('-created_at')
     serializer_class = UniversitySerializer
     permission_classes = [AllowAny]
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class TestimonialViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Testimonial.objects.filter(is_active=True)
     serializer_class = TestimonialSerializer
@@ -61,6 +66,7 @@ class AnnouncementViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AnnouncementSerializer
     permission_classes = [AllowAny]
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Course.objects.filter(is_active=True).prefetch_related('questions')
     serializer_class = CourseSerializer
@@ -71,6 +77,7 @@ class WhyGruniBadgeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = WhyGruniBadgeSerializer
     permission_classes = [AllowAny]
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProgramViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Program.objects.filter(is_active=True).prefetch_related('badges', 'key_points', 'comparison_metrics')
     serializer_class = ProgramSerializer

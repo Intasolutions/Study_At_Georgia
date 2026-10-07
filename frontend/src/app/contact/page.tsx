@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 import FaqAccordion from "@/components/FaqAccordion";
 import ContactForm from "@/components/ContactForm";

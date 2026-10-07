@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import ProgramShowcase from '@/components/ProgramShowcase';
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 
 interface PageProps {
@@ -29,7 +29,7 @@ export async function generateStaticParams() {
 async function getProgramData(slug: string) {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/programs/${slug}/`, {
-      next: { revalidate: 0 } // Revalidate every 0 seconds (disable cache)
+      next: { revalidate: 60 } // Revalidate every 60 seconds
     });
     
     if (!res.ok) {

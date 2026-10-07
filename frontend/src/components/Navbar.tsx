@@ -6,11 +6,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
 
-export default function Navbar({ initialContent = {} }: { initialContent?: Record<string, string> }) {
+export default function Navbar({ 
+  initialContent = {},
+  initialPrograms = [],
+  initialAnnouncements = []
+}: { 
+  initialContent?: Record<string, string>;
+  initialPrograms?: {name: string, slug: string}[];
+  initialAnnouncements?: any[];
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<Record<string, string>>(initialContent);
-  const [programs, setPrograms] = useState<{name: string, slug: string}[]>([]);
+  const [programs, setPrograms] = useState<{name: string, slug: string}[]>(initialPrograms);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false); // Mobile toggle
   const [isDesktopProgramsOpen, setIsDesktopProgramsOpen] = useState(false); // Desktop toggle for touch
 
@@ -33,11 +41,12 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
   }, [initialContent]);
 
   useEffect(() => {
+    if (initialPrograms.length > 0) return;
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/programs/`)
       .then(res => res.json())
       .then(data => setPrograms(data))
       .catch(console.error);
-  }, []);
+  }, [initialPrograms]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -210,7 +219,7 @@ export default function Navbar({ initialContent = {} }: { initialContent?: Recor
         )}
       </AnimatePresence>
     </motion.nav>
-    <AnnouncementBanner />
+    <AnnouncementBanner initialAnnouncements={initialAnnouncements} />
   </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavbarWrapper";
 import Footer from "@/components/Footer";
 import StatsCounters from "@/components/StatsCounters";
 

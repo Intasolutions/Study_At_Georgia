@@ -13,12 +13,13 @@ interface Announcement {
   order: number;
 }
 
-export default function AnnouncementBanner() {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+export default function AnnouncementBanner({ initialAnnouncements = [] }: { initialAnnouncements?: Announcement[] }) {
+  const [announcements, setAnnouncements] = useState<Announcement[]>(initialAnnouncements);
   const [currentIndex, setCurrentIndex] = useState(0);
   const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (initialAnnouncements.length > 0) return;
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api/announcements/`)
       .then(res => res.json())
       .then(data => {
@@ -27,7 +28,7 @@ export default function AnnouncementBanner() {
         }
       })
       .catch(console.error);
-  }, []);
+  }, [initialAnnouncements]);
 
   // Cycle through announcements for mobile fading
   useEffect(() => {
